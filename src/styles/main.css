@@ -10,7 +10,8 @@ html {
 }
 
 body {
-  width: 100dvw;
+  width: 100%;
+  overflow-y: scroll;
   font-size: 1.6rem;
   color: #000000;
 
@@ -57,8 +58,9 @@ input {
 }
 
 .container {
-  max-width: 1280px;
+  max-width: calc(1280px + 48px);
   margin: 0 auto;
+  padding: 0 24px;
 }
 
 /* 버튼 사이즈 : btn + btn-lg / btn-m / btn-ms / btn-s */
@@ -158,11 +160,11 @@ header {
   align-items: center;
 }
 
-.header-logo a {
+.header-h1 a {
   display: inline-block;
 }
 
-.header-logo img {
+.header-logo {
   width: 124px;
   height: auto;
   display: block;
@@ -178,16 +180,20 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 
   overflow: hidden;
   padding: 0 22px;
 }
 
+.form-search .search-logo-wrap {
+  display: none;
+}
+
 .form-search input {
   width: 100%;
   height: 100%;
-  font-size: 16px;
+  font-size: var(--fs-md);
   line-height: 1;
 }
 
@@ -205,7 +211,7 @@ header {
 
 .actions-list {
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   gap: 0 26px;
 }
@@ -223,13 +229,12 @@ header {
 .actions-list img {
   display: block;
   width: 32px;
-  height: 32px;
   aspect-ratio: 1;
 }
 
 .actions-list p {
   color: var(--gray-dark);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   width: 56px;
 }
 
@@ -250,7 +255,7 @@ footer {
   align-items: start;
   flex-direction: column;
   gap: 22px;
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 footer .divider {
@@ -265,6 +270,15 @@ footer .divider {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 0;
 }
 
 .footer-links li {
@@ -313,4 +327,57 @@ footer .divider {
 .footer-info {
   color: var(--gray-dark);
   line-height: 24px;
+}
+
+/* responsive */
+
+@media (max-width: 1280px) {
+  .container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    height: 72px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .header-h1 {
+    display: none;
+  }
+
+  .form-search {
+    padding: 0 22px 0 14px;
+  }
+
+  .form-search .search-logo-wrap {
+    display: inline-block;
+  }
+
+  .form-search .search-logo {
+    width: 28px;
+    aspect-ratio: 1;
+  }
+
+  .actions-list {
+    gap: 0 8px;
+  }
+
+  .actions-list img {
+    width: 24px;
+  }
+
+  .actions-list p {
+    color: var(--gray-dark);
+    font-size: var(--fs-xs);
+    width: 48px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 14px;
+  }
 }
