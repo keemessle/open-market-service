@@ -4,4 +4,14 @@
   --color-red: #eb5757;
   --gray-dark: #767676;
   --gray-light: #c4c4c4;
+
+  /* font-size */
+  --fs-xs: 12px;
+  --fs-sm: 14px;
+  --fs-md: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 20px;
+  --fs-2xl: 24px;
+  --fs-3xl: 30px;
+  --fs-4xl: 36px;
 }
