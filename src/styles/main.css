@@ -119,7 +119,7 @@ header {
 .form-search input {
   width: 100%;
   height: 100%;
-  font-size: 16px;
+  font-size: var(--fs-md);
   line-height: 1;
 }
 
@@ -160,7 +160,7 @@ header {
 
 .actions-list p {
   color: var(--gray-dark);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   width: 56px;
 }
 
@@ -181,7 +181,7 @@ footer {
   align-items: start;
   flex-direction: column;
   gap: 22px;
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 footer .divider {
@@ -297,7 +297,7 @@ footer .divider {
 
   .actions-list p {
     color: var(--gray-dark);
-    font-size: 12px;
+    font-size: var(--fs-xs);
     width: 48px;
   }
 }
