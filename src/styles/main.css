@@ -196,6 +196,15 @@ footer .divider {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 0;
 }
 
 .footer-links li {
