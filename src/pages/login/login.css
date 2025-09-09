@@ -1,0 +1,209 @@
+@font-face {
+  font-family: "SpokaHanSansNeo";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Thin.woff")
+    format("woff");
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpokaHanSansNeo";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Light.woff")
+    format("woff");
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpokaHanSansNeo";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpokaHanSansNeo";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff")
+    format("woff");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpokaHanSansNeo";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff")
+    format("woff");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  /* color */
+  --color-main: #21bf48;
+  --color-gray: #f2f2f2;
+  --color-gray-1: #333333;
+  --color-border: #c4c4c4;
+  --color-font: #767676;
+}
+
+/* =========================
+   util
+   ========================= */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0); /* 구형 브라우저를 위해 사용 */
+  clip-path: polygon(0 0, 0 0, 0 0); /* inset(50%) 와 동일한 표현 */
+  border: 0;
+}
+
+/* =========================
+   base
+   ========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 10px;
+}
+
+body {
+  font-size: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10rem auto;
+  font-family: "SpokaHanSansNeo";
+}
+
+button {
+  font-size: 1.8rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+/* =========================
+   layout
+   ========================= */
+
+h1 > img {
+  width: 23.8rem;
+  aspect-ratio: 238/74;
+  object-fit: contain;
+  margin-bottom: 7rem;
+}
+
+.login-container {
+  width: 55rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.menu-wrap {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+
+.menu-item {
+  position: relative;
+  display: table-cell;
+  vertical-align: top;
+  padding: 2rem;
+  text-align: center;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background-color: var(--color-gray);
+}
+
+/* 탭 활성화시 */
+.on {
+  border-bottom: none;
+  background-color: #fff;
+  z-index: 5;
+}
+
+.form-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3.6rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background-color: #fff;
+  position: relative;
+  z-index: 3;
+  margin-top: -1rem;
+}
+
+input,
+.login-btn {
+  width: 48rem;
+  height: 6rem;
+  border: none;
+}
+
+input {
+  border-bottom: 1px solid var(--color-border);
+}
+
+input:focus {
+  border-bottom: 1px solid var(--color-main);
+}
+
+input:first-of-type {
+  margin-bottom: 0.6rem;
+}
+
+input:last-of-type {
+  margin-bottom: 3.6rem;
+}
+
+/* 에러 메세지 */
+#login-error {
+  width: 48rem;
+  font-size: 1.6rem;
+  margin-bottom: 2.6rem;
+}
+
+.login-btn {
+  font-weight: 700;
+  color: #fff;
+  background-color: var(--color-main);
+  border-radius: 0.5rem;
+}
+
+.others-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 3rem auto;
+}
+
+.signup,
+.find {
+  color: var(--color-gray-1);
+  padding: 1.4rem;
+}
+
+.others-wrap > li:nth-of-type(2)::before {
+  content: "|";
+}
