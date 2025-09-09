@@ -241,3 +241,11 @@ footer .divider {
   color: var(--gray-dark);
   line-height: 24px;
 }
+
+/* responsive */
+@media (max-width: 1280px) {
+  .container {
+    width: 100%;
+    padding: 0 24px;
+  }
+}
