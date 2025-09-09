@@ -10,7 +10,7 @@ html {
 }
 
 body {
-  width: 100vw;
+  width: 100%;
   overflow-y: scroll;
   font-size: 1.6rem;
   color: #000000;
