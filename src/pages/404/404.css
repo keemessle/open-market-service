@@ -1,0 +1,46 @@
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+.img-error {
+  width: 276px;
+  aspect-ratio: 276 / 236;
+  background: url("/assets/icons/icon-404.svg") no-repeat center / contain;
+}
+
+.error-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.error-desc {
+  line-height: normal;
+  color: var(--gray-dark);
+  margin-bottom: 40px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
