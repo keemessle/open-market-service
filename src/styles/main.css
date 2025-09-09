@@ -58,8 +58,9 @@ input {
 }
 
 .container {
-  max-width: 1280px;
+  max-width: calc(1280px + 48px);
   margin: 0 auto;
+  padding: 0 24px;
 }
 
 main {
@@ -246,6 +247,5 @@ footer .divider {
 @media (max-width: 1280px) {
   .container {
     width: 100%;
-    padding: 0 24px;
   }
 }
