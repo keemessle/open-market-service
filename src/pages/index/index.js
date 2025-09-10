@@ -25,17 +25,22 @@ fetch(`${BASE_URL}products`)
     return response.json();
   })
   .then((data) => {
+    console.log(data);
     data["results"]
       .slice()
-      .reverse()
+      .reverse() // 역순으로 추가
       .forEach((product) => {
         const $listItem = document.createElement("li");
         $listItem.className = "list-item";
         $listItem.innerHTML = `
         <a href="product-detail.html?id=${product.id}">
-            <img class="product-img" src="${product.image}" alt="${
-          product.name
-        }" />
+            <img 
+              class="product-img" 
+              src="${product.image}"
+              alt="${product.name}" 
+              loading="lazy"
+              onerror="this.src='/assets/images/product-default.png'"
+            />
             <div class="info-container">
             <p class="info-seller ellipsis">${product.seller.name}</p>
             <p class="info-info ellipsis">${product.name}</p>
