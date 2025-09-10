@@ -23,7 +23,8 @@ main {
 .img-error {
   width: 276px;
   aspect-ratio: 276 / 236;
-  background: url("/assets/icons/icon-404.svg") no-repeat center / contain;
+  background: url("/assets/images/icons/icon-404.svg") no-repeat center /
+    contain;
 }
 
 .error-title {
