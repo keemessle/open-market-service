@@ -126,28 +126,38 @@ h1 > img {
 .menu-item {
   position: relative;
   display: table-cell;
+  height: 8rem;
   vertical-align: top;
   padding: 2rem;
   text-align: center;
   font-weight: 500;
-  border: 1px solid var(--color-border);
-  border-radius: 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: 1rem 1rem 0 0;
   background-color: var(--color-gray);
 }
 
 /* 탭 활성화시 */
 .on {
-  border-bottom: none;
+  border-bottom: transparent;
+  color: #000;
   background-color: #fff;
   z-index: 5;
 }
 
-.form-wrap {
+.buyer-menu.on {
+  border-right: transparent;
+}
+
+.seller-menu.on {
+  border-left: transparent;
+}
+
+#login-form {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 3.6rem 0;
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   border-radius: 1rem;
   background-color: #fff;
   position: relative;
@@ -163,7 +173,9 @@ input,
 }
 
 input {
+  padding: 1rem;
   border-bottom: 1px solid var(--color-border);
+  font-size: 1.6rem;
 }
 
 input:focus {
@@ -182,6 +194,7 @@ input:last-of-type {
 #login-error {
   width: 48rem;
   font-size: 1.6rem;
+  color: red;
   margin-bottom: 2.6rem;
 }
 
