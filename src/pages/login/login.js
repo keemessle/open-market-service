@@ -1,3 +1,5 @@
+import { UserSession } from "../../services/UserSession.js";
+
 const BASE_URL = "https://api.wenivops.co.kr/services/open-market";
 
 const menuItems = document.querySelectorAll(".menu-item");
@@ -8,8 +10,9 @@ const idInput = document.getElementById("user-id");
 const pwInput = document.getElementById("password");
 let currentRole = "BUYER"; // 기본값 -> 구매자
 
-// Event
+const session = new UserSession();
 
+// [ Event ] ================
 // ===== 회원 메뉴 선택 =====
 menuItems.forEach((menuItem) => {
   menuItem.addEventListener("click", (e) => {
@@ -30,7 +33,6 @@ loginForm.addEventListener("submit", async (e) => {
 
   const username = idInput.value.trim();
   const password = pwInput.value;
-  // console.log(username, password);
 
   // 유효성 검사
   if (!username) {
@@ -49,9 +51,6 @@ loginForm.addEventListener("submit", async (e) => {
 
   try {
     const { access, refresh, user } = await login(username, password);
-    console.log("access:", access);
-    console.log("refresh:", refresh);
-    console.log("user:", user);
 
     const serverRole = String(user?.user_type || "");
     if (!serverRole || serverRole !== currentRole) {
@@ -64,15 +63,9 @@ loginForm.addEventListener("submit", async (e) => {
       return;
     }
 
-    // 토큰 보관 (오늘 날짜 기준으로 access 5분, refresh 1일)
-    const now = Date.now();
-    localStorage.setItem("omkt_access", access);
-    localStorage.setItem("omkt_refresh", refresh);
-    localStorage.setItem("omkt_user", JSON.stringify(user));
-    localStorage.setItem("omkt_aexp", String(now + 5 * 60 * 1000));
-    localStorage.setItem("omkt_rexp", String(now + 24 * 60 * 60 * 1000));
+    // UserSession 클래스 활용
+    session.save({ access, refresh, user });
 
-    // 로그인 성공 후
     alert("로그인 성공!");
 
     // 이전 화면으로 돌아가기 (SessionStorage)
@@ -93,6 +86,8 @@ loginForm.addEventListener("submit", async (e) => {
   } catch (err) {
     console.error(err);
     showMessage(err.message || "로그인 실패");
+  } finally {
+    loginBtn?.removeAttribute("disabled");
   }
 });
 
