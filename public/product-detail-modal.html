@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../src/styles/reset.css" />
+    <link rel="stylesheet" href="../src/styles/variables.css" />
+    <link rel="stylesheet" href="../src/styles/main.css" />
+    <title>로그인 모달 임시 파일</title>
+    <style>
+      dialog {
+        all: unset;
+        display: none;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      dialog[open] {
+        display: block;
+      }
+
+      .modal-login {
+        width: auto;
+        height: auto;
+        border: 1px solid var(--gray-light);
+        background-color: #fff;
+        padding: 50px 78px 40px;
+      }
+
+      .modal-content {
+        width: 100%;
+        height: auto;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 30px;
+
+        text-align: center;
+        white-space: nowrap;
+        line-height: normal;
+      }
+
+      .btn-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .btn-container .btn {
+        flex: 1 0 auto;
+      }
+
+      .btn-close {
+        width: 22px;
+        aspect-ratio: 1;
+        position: absolute;
+        top: 18px;
+        right: 18px;
+      }
+
+      @media (max-width: 640px) {
+        .modal-login {
+          padding: 50px 40px 34px;
+        }
+
+        .modal-content {
+          font-size: var(--fs-sm);
+          gap: 24px;
+        }
+
+        .btn-close {
+          width: 20px;
+          top: 14px;
+          right: 14px;
+        }
+      }
+
+      .temp {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 비로그인 상태에서의 바로구매 / 장바구니 버튼 -->
+    <button class="temp btn btn-ms">임시 버튼</button>
+
+    <dialog id="login-modal" class="modal-login">
+      <h2 class="sr-only">로그인을 요청하는 모달 창</h2>
+      <div class="modal-content">
+        <p>로그인이 필요한 서비스입니다. <br />로그인 하시겠습니까?</p>
+        <div class="btn-container">
+          <button id="btn-no" class="btn btn-s btn-white">아니오</button>
+          <button id="btn-yes" class="btn btn-s">예</button>
+        </div>
+      </div>
+      <button id="btn-close" class="btn-close">
+        <img src="../assets/images/icons/icon-delete.svg" alt="모달창 닫기" />
+      </button>
+    </dialog>
+
+    <!-- 임시 script -->
+    <script>
+      const tempBtn = document.querySelector(".temp");
+      const loginModal = document.getElementById("login-modal");
+      const modalCloseBtn = document.getElementById("btn-close");
+      const btnContainer = document.querySelector(".btn-container");
+
+      tempBtn.addEventListener("click", (e) => {
+        if (!e.target.closest(".temp")) return;
+        loginModal.show();
+      });
+
+      modalCloseBtn.addEventListener("click", (e) => {
+        if (!e.target.closest("#btn-close")) return;
+        loginModal.close();
+      });
+
+      btnContainer.addEventListener("click", (e) => {
+        console.log(e.target);
+        if (e.target.closest("#btn-yes")) {
+          window.location.href = "../public/login.html";
+        }
+        if (e.target.closest("#btn-no")) {
+          loginModal.close();
+        }
+      });
+    </script>
+  </body>
+</html>
