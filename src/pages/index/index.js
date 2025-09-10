@@ -6,7 +6,7 @@ let isLoggedIn = false;
 const $header = createHeader(isLoggedIn);
 document.body.prepend($header);
 
-const $footer = createFooter(isLoggedIn);
+const $footer = createFooter();
 document.body.append($footer);
 
 // section-list > product-list
