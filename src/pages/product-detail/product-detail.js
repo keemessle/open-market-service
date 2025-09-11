@@ -47,9 +47,11 @@ const $tabArea               = document.getElementById("tab-area");
 // const $productTabRefund      = document.getElementById("product-tab-refund");
 
 const $productInfo           = document.getElementById("product-info");
+
 // const $productReview         = document.getElementById("product-review");
 // const $productQna            = document.getElementById("product-qna");
 // const $productRefund         = document.getElementById("product-refund");
+
 
 // API 호출
 async function getProductDetail() {
@@ -101,6 +103,7 @@ async function getProductDetail() {
 // API 호출
 window.addEventListener("DOMContentLoaded", getProductDetail);
 
+
 // 수량 감소 버튼 클릭
 $btnDec.addEventListener("click", function(e){
     let productQuantity = parseInt($productQuantity.value);
@@ -143,7 +146,9 @@ $btnAdd.addEventListener("click", function(e){
 // 바로 구매 버튼 클릭
 $btnBuy.addEventListener("click", function(e){
     if(!isLoggedIn){
+      
         showLoginModal(e);
+
         return;
     }
 
@@ -154,7 +159,9 @@ $btnBuy.addEventListener("click", function(e){
 // 장바구니 버튼 클릭
 $btnCart.addEventListener("click", function(e){
     if(!isLoggedIn){
+
         showLoginModal(e);
+
         return;
     }
 
