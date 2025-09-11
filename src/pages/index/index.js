@@ -56,12 +56,12 @@ const bannerDataList = [
   { href: "#", title: "배너제목4", desc: "배너설명4", img: "orange" },
   { href: "#", title: "배너제목5", desc: "배너설명5", img: "dodgerblue" },
 ];
-function loadBannerList() {
+function loadBanner(dataList) {
   const swiperWrap = document.querySelector(".swiper-wrap");
   const bannerBtns = document.querySelector(".btn-container");
   const paginationList = document.querySelector(".pagination-list");
 
-  bannerDataList.forEach((data) => {
+  dataList.forEach((data) => {
     // swiper
     const swiperItem = document.createElement("a");
     swiperItem.className = "swiper-item";
@@ -90,22 +90,22 @@ function loadBannerList() {
   let swiperIndex = 0;
   activePagination(swiperIndex);
 
-  function offsetSwiper(direction) {
+  const offsetSwiper = function offsetSwiper(direction = "none") {
     const wrapWidth = swiperWrap.clientWidth;
     const maxIdnex = bannerDataList.length;
     let offsetWidth;
     if (direction == "left") {
       swiperIndex = (swiperIndex - 1 + maxIdnex) % maxIdnex;
-    } else {
+    }
+    if (direction == "right") {
       swiperIndex = (swiperIndex + 1) % maxIdnex;
     }
     offsetWidth = wrapWidth * swiperIndex * -1;
     swiperWrap.style.transform = `translateX(${offsetWidth}px)`;
 
     activePagination(swiperIndex);
-  }
+  };
 
-  // pagination
   function activePagination(index) {
     const paginationItems = document.querySelectorAll(".pagination-item");
     paginationItems.forEach((item, index) => {
@@ -116,11 +116,29 @@ function loadBannerList() {
       }
     });
   }
+
+  return offsetSwiper;
+}
+
+let resizeTimer;
+function offBannerTransition() {
+  const $swiper = document.querySelector(".swiper-wrap");
+  $swiper.style.transition = "none";
+
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    $swiper.style.transition = "";
+  }, 200);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   createHeader();
   createFooter();
-  loadBannerList();
+  const offsetSwiper = loadBanner(bannerDataList);
   loadProductList();
+
+  window.addEventListener("resize", () => {
+    offBannerTransition();
+    offsetSwiper();
+  });
 });

@@ -46,7 +46,6 @@
   justify-content: start;
   align-items: start;
 
-  /* transform: translateX(-50%); */
   transition: transform 0.5s ease-in-out;
 }
 
