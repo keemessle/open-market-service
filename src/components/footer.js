@@ -1,5 +1,9 @@
 export function createFooter() {
+  let existFooter = document.querySelector("footer");
+  if (existFooter) return;
+
   const $footer = document.createElement("footer");
+  document.body.append($footer);
 
   $footer.innerHTML = `
     <div class="footer-container container">
