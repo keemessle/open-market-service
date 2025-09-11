@@ -91,10 +91,8 @@ export function createHeader() {
     });
 
     // 드롭다운 위치 설정
-    const btnWidth = $mypageBtn.clientWidth;
-    // $mypageDropdown.style.position = "absolute";
-    // $mypageDropdown.style.top = `${btnRect.bottom + 10}px`;
-    $mypageDropdown.style.right = `-${btnWidth / 2}px`;
+    const btnRect = $mypageBtn.getBoundingClientRect();
+    $mypageDropdown.style.right = `${btnRect.width / 2}px`;
   }
 
   // 다른 곳 클릭시 dropdown 사라짐

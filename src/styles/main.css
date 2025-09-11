@@ -224,6 +224,7 @@ header {
   justify-content: end;
   align-items: center;
   gap: 0 26px;
+
   position: relative;
 }
 
@@ -233,8 +234,6 @@ header {
   align-items: center;
   flex-direction: column;
   gap: 4px;
-
-  text-align: center;
 }
 
 .actions-list img {
@@ -248,13 +247,17 @@ header {
   font-size: var(--fs-xs);
   min-width: 56px;
   width: auto;
+
+  text-align: center;
   white-space: nowrap;
 }
 
-.actions-list .dropdown-mypage {
+/* 마이페이지 드롭다운 */
+.dropdown-mypage {
   position: absolute;
+  transform: translateX(50%);
   top: calc(100% + 24px);
-  /* right: -100%; */
+  z-index: 10;
 
   background-color: #fff;
   border-radius: 10px;
@@ -306,11 +309,11 @@ header {
   top: -10%;
   left: 50%;
   transform: translateX(-50%) rotate(45deg);
+  z-index: -2;
 
   background-color: #fff;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
   border-radius: 6px;
-  z-index: -1;
 }
 
 .dropdown-mypage::after {
@@ -424,6 +427,15 @@ footer .divider {
   .container {
     width: 100%;
   }
+
+  .dropdown-mypage {
+    transform: translateX(0) !important;
+    right: -8% !important;
+  }
+
+  .dropdown-mypage::before {
+    left: 71%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -445,6 +457,10 @@ footer .divider {
 
   .form-search .search-logo-wrap {
     display: inline-block;
+  }
+
+  .dropdown-mypage {
+    top: calc(100% + 20px);
   }
 
   /* section-list */
