@@ -1,6 +1,11 @@
 import { UserSession } from "../services/UserSession.js";
 
 export function createHeader() {
+  // Session
+  const loginSession = new UserSession(localStorage);
+  const isLoggedIn = loginSession.isAuthed();
+  const isBuyer = loginSession.isBuyer();
+
   // header 없으면 생성
   let existHeader = document.querySelector("header");
   if (existHeader) return;
@@ -33,13 +38,7 @@ export function createHeader() {
     </div>
   `;
 
-  // 로그인별 actions-list 수정
-  // Session
-  const loginSession = new UserSession(localStorage);
-  const isLoggedIn = loginSession.isAuthed();
-  const isBuyer = loginSession.isBuyer();
-
-  // actions-list
+  //로그인별 actions-list
   const $actionsList = $header.querySelector(".actions-list");
   const actions = [
     {
@@ -49,7 +48,6 @@ export function createHeader() {
       text: "장바구니",
       id: "action-cart",
     },
-    // 기본 > 로그인 / 로그인 되었을 때 > 마이페이지
     isLoggedIn
       ? {
           href: "#",
@@ -91,6 +89,12 @@ export function createHeader() {
     $mypageBtn.addEventListener("click", () => {
       $mypageDropdown.classList.add("active");
     });
+
+    // 드롭다운 위치 설정
+    const btnWidth = $mypageBtn.clientWidth;
+    // $mypageDropdown.style.position = "absolute";
+    // $mypageDropdown.style.top = `${btnRect.bottom + 10}px`;
+    $mypageDropdown.style.right = `-${btnWidth / 2}px`;
   }
 
   // 다른 곳 클릭시 dropdown 사라짐

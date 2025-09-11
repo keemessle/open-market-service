@@ -228,12 +228,12 @@ header {
 }
 
 .actions-list a {
-  display: inline-block;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 4px;
+
   text-align: center;
 }
 
@@ -246,17 +246,19 @@ header {
 .actions-list p {
   color: var(--gray-dark);
   font-size: var(--fs-xs);
-  width: 56px;
+  min-width: 56px;
+  width: auto;
+  white-space: nowrap;
 }
 
 .actions-list .dropdown-mypage {
   position: absolute;
   top: calc(100% + 24px);
-  right: 0;
-  padding: 10px;
+  /* right: -100%; */
 
   background-color: #fff;
   border-radius: 10px;
+  padding: 10px;
 
   display: flex;
   justify-content: center;
