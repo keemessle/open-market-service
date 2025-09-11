@@ -93,6 +93,7 @@ export function createHeader() {
     });
   }
 
+  // 다른 곳 클릭시 dropdown 사라짐
   document.addEventListener("click", (e) => {
     if (
       e.target.closest("#action-mypage") ||
@@ -102,6 +103,15 @@ export function createHeader() {
 
     $mypageDropdown.classList.remove("active");
   });
+
+  // 로그아웃 버튼 이벤트
+  const $logoutBtn = document.getElementById("btn-logout");
+  if ($logoutBtn) {
+    $logoutBtn.addEventListener("click", () => {
+      loginSession.clear();
+      location.reload();
+    });
+  }
 
   return $header;
 }
