@@ -28,11 +28,11 @@
 }
 
 .btn-container .btn-left {
-  background-image: url("../../../assets/images/icons/icon-swiper-1.svg");
+  background-image: url("/assets/images/icons/icon-swiper-1.svg");
 }
 
 .btn-container .btn-right {
-  background-image: url("../../../assets/images/icons/icon-swiper-2.svg");
+  background-image: url("/assets/images/icons/icon-swiper-2.svg");
 }
 
 .swiper-wrap {
