@@ -1,5 +1,15 @@
-export function createHeader(isLoggedIn = false) {
+import { UserSession } from "../services/UserSession.js";
+
+export function createHeader() {
+  // header 없으면 생성
+  let existHeader = document.querySelector("header");
+  if (existHeader) return;
+
+  // DOM 생성
+  // header-container
   const $header = document.createElement("header");
+  document.body.prepend($header);
+
   $header.innerHTML = `
     <div class="header-container container">
       <h1 class="header-h1">
@@ -14,32 +24,44 @@ export function createHeader(isLoggedIn = false) {
         <input id="search" type="text" placeholder="상품을 검색해보세요!" />
         <button type="submit"></button>
       </form>
-      <ul class="actions-list"></ul>
+      <ul class="actions-list">
+        <li></li>
+        <li></li>
+      </ul>
     </div>
   `;
+
+  // 로그인별 actions-list 수정
+  // Session
+  const loginSession = new UserSession(localStorage);
+  const isLoggedIn = loginSession.isAuthed();
+  const isBuyer = loginSession.isBuyer();
 
   // actions-list
   const $actionsList = $header.querySelector(".actions-list");
   const actions = [
     {
-      href: "",
+      href: "#",
       img: "./assets/images/icons/icon-shopping-cart.svg",
       alt: "장바구니 바로가기",
       text: "장바구니",
+      id: "action-cart",
     },
     // 기본 > 로그인 / 로그인 되었을 때 > 마이페이지
     isLoggedIn
       ? {
-          href: "",
+          href: "#",
           img: "./assets/images/icons/icon-user.svg",
           alt: "마이페이지 바로가기",
           text: "마이페이지",
+          id: "action-mypage",
         }
       : {
-          href: "./login",
+          href: "./login.html",
           img: "./assets/images/icons/icon-user.svg",
           alt: "로그인 바로가기",
           text: "로그인",
+          id: "action-login",
         },
   ];
 
@@ -47,6 +69,7 @@ export function createHeader(isLoggedIn = false) {
     const li = document.createElement("li");
     const a = document.createElement("a");
     a.href = action.href;
+    a.id = action.id;
 
     const img = document.createElement("img");
     img.src = action.img;

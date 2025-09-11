@@ -36,10 +36,12 @@ export class UserSession {
     const access = this.getAccess();
     const exp = Number(this.storage.getItem("omkt_aexp") || 0);
     if (!access) return false; // 토큰 없으면 false 반환 -> 로그인 안됨
-    if (exp || Date.now() >= exp) {
-      // 만료 시간이거나 이미 지났다면
-      return false; // 로그인 만료
-    }
+    // if (exp || Date.now() >= exp) {
+    //   // 만료 시간이거나 이미 지났다면
+    //   return false; // 로그인 만료
+    // }
+    // 임시 수정
+    if (Date.now() >= exp) return false;
     return true; // 나머지는 로그인 유지
   }
 
