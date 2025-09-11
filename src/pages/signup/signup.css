@@ -131,15 +131,9 @@ h1 > img {
   padding: 2rem;
   text-align: center;
   font-weight: 500;
-  border: 1px solid var(--color-border);
-  border-radius: 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: 1rem 1rem 0 0;
   background-color: var(--color-gray);
-}
-
-.buyer-login,
-.seller-login {
-  display: inline-block;
-  vertical-align: top;
 }
 
 /* 탭 활성화시 */
@@ -149,7 +143,15 @@ h1 > img {
   z-index: 5;
 }
 
-.form-wrap {
+.buyer-menu.on {
+  border-right: transparent;
+}
+
+.seller-menu.on {
+  border-left: transparent;
+}
+
+#signup-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -185,7 +187,8 @@ legend {
 
 input {
   height: 5.4rem;
-  padding: 0;
+  padding: 1rem;
+  font-size: 1.6rem;
   border: 1px solid var(--color-border);
   border-radius: 5px;
   position: relative;
@@ -203,13 +206,13 @@ select:focus-visible {
   flex-direction: row;
 }
 
-.id-wrap {
+.id-input-wrap {
   display: flex;
   flex-direction: column;
   margin-right: 1.2rem;
 }
 
-.id-input {
+#user-id {
   width: 34.6rem;
   height: 5.4rem;
 }
@@ -224,17 +227,17 @@ select:focus-visible {
 }
 
 /* 비밀번호 */
-.pw-wrap {
+.pw-input-wrap {
   width: 100%;
   position: relative;
   display: inline-block;
 }
 
-.pw-wrap input {
+.pw-input-wrap input {
   width: 100%;
 }
 
-.pw-wrap > img {
+.pw-input-wrap > img {
   width: 2.8rem;
   aspect-ratio: 1/1;
   object-fit: contain;
