@@ -11,76 +11,70 @@
     <title>Product Detail</title>
   </head>
   <body>
-    <!-- 헤더 아래 영역 추가 -->
     <main class="product-detail">
-      <!-- 상단부 -->
+      <!-- 상단부 -->       
       <section class="flex between product" id="product-abstract">
-        <!-- h2 추가 수정-->
+        <h2 class="hide">상품 정보</h2>
         <!-- 상품이미지 -->
-        <div class="product__image-container">
+        <div class="product-image-container">
           <img
-            class="product__image"
+            class="product-image"
             id="product-image"
             src=""
             alt="상품 이미지"
           />
-          <div class="product__image--soldout" id="product-image-soldout"></div>
+          <div class="product-image-soldout" id="product-image-soldout"></div>
         </div>
-        <div class="product__summary">
+        <div class="product-summary">
           <div>
             <!-- 브랜드 -->
-            <p class="product__brand" id="product-brand">브랜드명</p>
+            <p class="product-brand" id="product-brand">브랜드명</p>
             <!-- 상품명 -->
-            <p class="product__name" id="product-name">상품명</p>
+            <p class="product-name" id="product-name">상품명</p>
             <!-- 금액 -->
-            <!-- span을 금액에 씌우기로 수정 -->
-            <p class="product__amount" id="product-amount">
-              0<span class="product__amount--small">원</span>
+            <p class="product-amount">
+              <span class="product-amount-big" id="product-amount">0</span>원
             </p>
           </div>
           <div>
-            <p class="order__shipping" id="product-shopping-method">
+            <p class="order-shipping" id="product-shopping-method">
               택배배송/무료배송
             </p>
             <hr />
             <!-- 수량 -->
-            <div class="order__amount flex">
+            <div class="order-amount flex">
               <button
-                class="order__btn order__btn--decrease"
+                class="order-btn order-btn-decrease"
                 id="btn-dec"
                 aria-label="수량 감소"
                 disabled
               >
                 -
-                <p class="order__text--min">
+                <p class="order-text-min">
                   상품 수량을 더 이상 내릴 수 없습니다.
                 </p>
               </button>
               <input type="number" id="product-quantity" value="0" readonly />
               <button
-                class="order__btn order__btn--increase"
+                class="order-btn order-btn-increase"
                 id="btn-add"
                 aria-label="수량 증가"
               >
                 +
-                <p class="order__text--stock">
+                <p class="order-text-stock">
                   상품의 재고 수량을 초과할 수 없습니다.
                 </p>
               </button>
             </div>
             <hr />
-            <div class="order__summary flex">
+            <div class="order-summary flex">
               <p>총 상품 금액</p>
               <p>
-                총 수량&nbsp;<span id="product-tot-quantity">0</span>
-                <!-- | 가상요소로 변경 -->
-                &nbsp;개&nbsp;<span class="order__text--gray">|</span>&nbsp;
-                <span class="order__span--amount" id="product-tot-amount"
-                  >0</span
-                >원
+                총 수량&nbsp;<span id="product-tot-quantity">0</span>&nbsp;개
+                <span class="order-span-amount" id="product-tot-amount">0</span>원
               </p>
             </div>
-            <div class="btn__container">
+            <div class="btn-container">
               <!-- 재고 0 일 때 비활성화 수정 -->
               <button class="btn-left" id="btn-buy">바로 구매</button>
               <button class="btn-right" id="btn-cart">장바구니</button>
@@ -90,12 +84,12 @@
       </section>
 
       <!-- 하단부 -->
-      <section>
-        <!-- h2 추가 수정 -->
+      <section>        
+        <h2 class="hide">상품 정보 탭</h2>
         <!-- 탭 -->
-        <nav class="product-tabs__nav flex" id="tab-area">
+        <nav class="product-tabs-nav flex" id="tab-area">
           <button
-            class="product-tabs__tab--active"
+            class="product-tabs-tab-active"
             id="product-tab-info"
             data-target="#product-info"
           >
@@ -111,16 +105,16 @@
         </nav>
 
         <!-- 상품 상세 정보 -->
-        <div class="product-tabs__content" id="product-info"></div>
+        <div class="product-tabs-content" id="product-info"></div>
 
         <!-- 리뷰 -->
-        <div class="product-tabs__content hide" id="product-review"></div>
+        <div class="product-tabs-content hide" id="product-review"></div>
 
         <!-- Q&A -->
-        <div class="product-tabs__content hide" id="product-qna"></div>
+        <div class="product-tabs-content hide" id="product-qna"></div>
 
         <!-- 반품/교환정보 -->
-        <div class="product-tabs__content hide" id="product-refund"></div>
+        <div class="product-tabs-content hide" id="product-refund"></div>
       </section>
     </main>
 
