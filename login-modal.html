@@ -3,9 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../src/styles/reset.css" />
-    <link rel="stylesheet" href="../src/styles/variables.css" />
-    <link rel="stylesheet" href="../src/styles/main.css" />
     <title>로그인 모달 임시 파일</title>
     <style>
       dialog {
@@ -80,19 +77,9 @@
           right: 14px;
         }
       }
-
-      .temp {
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
     </style>
   </head>
-  <body>
-    <!-- 비로그인 상태에서의 바로구매 / 장바구니 버튼 -->
-    <button class="temp btn btn-ms">임시 버튼</button>
-
+  <body>    
     <dialog id="login-modal" class="modal-login">
       <h2 class="sr-only">로그인을 요청하는 모달 창</h2>
       <div class="modal-content">
@@ -106,33 +93,5 @@
         <img src="../assets/images/icons/icon-delete.svg" alt="모달창 닫기" />
       </button>
     </dialog>
-
-    <!-- 임시 script -->
-    <script>
-      const tempBtn = document.querySelector(".temp");
-      const loginModal = document.getElementById("login-modal");
-      const modalCloseBtn = document.getElementById("btn-close");
-      const btnContainer = document.querySelector(".btn-container");
-
-      tempBtn.addEventListener("click", (e) => {
-        if (!e.target.closest(".temp")) return;
-        loginModal.show();
-      });
-
-      modalCloseBtn.addEventListener("click", (e) => {
-        if (!e.target.closest("#btn-close")) return;
-        loginModal.close();
-      });
-
-      btnContainer.addEventListener("click", (e) => {
-        console.log(e.target);
-        if (e.target.closest("#btn-yes")) {
-          window.location.href = "../public/login.html";
-        }
-        if (e.target.closest("#btn-no")) {
-          loginModal.close();
-        }
-      });
-    </script>
   </body>
 </html>
