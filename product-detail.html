@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="./src/pages/product-detail/product-detail.css"
+    />
+    <title>Product Detail</title>
+  </head>
+  <body>
+    <!-- 헤더 아래 영역 추가 -->
+    <main class="product-detail">
+      <!-- 상단부 -->
+      <section class="flex between product" id="product-abstract">
+        <!-- h2 추가 수정-->
+        <!-- 상품이미지 -->
+        <div class="product__image-container">
+          <img
+            class="product__image"
+            id="product-image"
+            src=""
+            alt="상품 이미지"
+          />
+          <div class="product__image--soldout" id="product-image-soldout"></div>
+        </div>
+        <div class="product__summary">
+          <div>
+            <!-- 브랜드 -->
+            <p class="product__brand" id="product-brand">브랜드명</p>
+            <!-- 상품명 -->
+            <p class="product__name" id="product-name">상품명</p>
+            <!-- 금액 -->
+            <!-- span을 금액에 씌우기로 수정 -->
+            <p class="product__amount" id="product-amount">
+              0<span class="product__amount--small">원</span>
+            </p>
+          </div>
+          <div>
+            <p class="order__shipping" id="product-shopping-method">
+              택배배송/무료배송
+            </p>
+            <hr />
+            <!-- 수량 -->
+            <div class="order__amount flex">
+              <button
+                class="order__btn order__btn--decrease"
+                id="btn-dec"
+                aria-label="수량 감소"
+                disabled
+              >
+                -
+                <p class="order__text--min">
+                  상품 수량을 더 이상 내릴 수 없습니다.
+                </p>
+              </button>
+              <input type="number" id="product-quantity" value="0" readonly />
+              <button
+                class="order__btn order__btn--increase"
+                id="btn-add"
+                aria-label="수량 증가"
+              >
+                +
+                <p class="order__text--stock">
+                  상품의 재고 수량을 초과할 수 없습니다.
+                </p>
+              </button>
+            </div>
+            <hr />
+            <div class="order__summary flex">
+              <p>총 상품 금액</p>
+              <p>
+                총 수량&nbsp;<span id="product-tot-quantity">0</span>
+                <!-- | 가상요소로 변경 -->
+                &nbsp;개&nbsp;<span class="order__text--gray">|</span>&nbsp;
+                <span class="order__span--amount" id="product-tot-amount"
+                  >0</span
+                >원
+              </p>
+            </div>
+            <div class="btn__container">
+              <!-- 재고 0 일 때 비활성화 수정 -->
+              <button class="btn-left" id="btn-buy">바로 구매</button>
+              <button class="btn-right" id="btn-cart">장바구니</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 하단부 -->
+      <section>
+        <!-- h2 추가 수정 -->
+        <!-- 탭 -->
+        <nav class="product-tabs__nav flex" id="tab-area">
+          <button
+            class="product-tabs__tab--active"
+            id="product-tab-info"
+            data-target="#product-info"
+          >
+            상품 상세
+          </button>
+          <button id="product-tab-review" data-target="#product-review">
+            리뷰
+          </button>
+          <button id="product-tab-qna" data-target="#product-qna">Q&A</button>
+          <button id="product-tab-refund" data-target="#product-refund">
+            반품/교환정보
+          </button>
+        </nav>
+
+        <!-- 상품 상세 정보 -->
+        <div class="product-tabs__content" id="product-info"></div>
+
+        <!-- 리뷰 -->
+        <div class="product-tabs__content hide" id="product-review"></div>
+
+        <!-- Q&A -->
+        <div class="product-tabs__content hide" id="product-qna"></div>
+
+        <!-- 반품/교환정보 -->
+        <div class="product-tabs__content hide" id="product-refund"></div>
+      </section>
+    </main>
+
+    <script
+      type="module"
+      src="./src/pages/product-detail/product-detail.js"
+    ></script>
+  </body>
+</html>

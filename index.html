@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../src/styles/reset.css" />
-    <link rel="stylesheet" href="../src/styles/variables.css" />
-    <link rel="stylesheet" href="../src/styles/main.css" />
-    <link rel="stylesheet" href="../src/pages/index/index.css" />
-    <script type="module" src="../src/pages/index/index.js" defer></script>
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/variables.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/pages/index/index.css" />
+    <script type="module" src="./src/pages/index/index.js" defer></script>
 
     <title>홈</title>
   </head>
@@ -16,17 +16,13 @@
     <main>
       <section class="section-banner">
         <h2 class="sr-only">배너</h2>
+        <!-- swiper & pagination > index.js에서 생성 -->
+        <div class="swiper-wrap"></div>
+        <ul class="pagination-list"></ul>
         <div class="btn-container">
           <button class="btn-left"></button>
           <button class="btn-right"></button>
         </div>
-        <ul class="pagination-banner">
-          <li class="pagination-item"></li>
-          <li class="pagination-item"></li>
-          <li class="pagination-item"></li>
-          <li class="pagination-item"></li>
-          <li class="pagination-item"></li>
-        </ul>
       </section>
       <section class="section-list container">
         <h2 class="sr-only">상품 목록</h2>
