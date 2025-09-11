@@ -31,18 +31,15 @@ export class UserSession {
     return this.storage.getItem("omkt_access");
   }
 
-  //
   isAuthed() {
     const access = this.getAccess();
-    const exp = Number(this.storage.getItem("omkt_aexp") || 0);
-    if (!access) return false; // 토큰 없으면 false 반환 -> 로그인 안됨
-    // if (exp || Date.now() >= exp) {
-    //   // 만료 시간이거나 이미 지났다면
-    //   return false; // 로그인 만료
-    // }
-    // 임시 수정
-    if (Date.now() >= exp) return false;
-    return true; // 나머지는 로그인 유지
+    const rexp = Number(this.storage.getItem("omkt_rexp") || 0);
+    if (!access) return false;
+    if (!rexp || Date.now() >= rexp) {
+      this.clear(); // 로그아웃
+      return false;
+    }
+    return true;
   }
 
   // 세션 정보 저장 (로그인)

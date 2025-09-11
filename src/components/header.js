@@ -25,8 +25,10 @@ export function createHeader() {
         <button type="submit"></button>
       </form>
       <ul class="actions-list">
-        <li></li>
-        <li></li>
+        <div class="dropdown-mypage">
+          <a class="dropdown-item" href="./mypage.html">마이페이지</a>
+          <button class="dropdown-item" id="btn-logout">로그아웃</button>
+        </div>
       </ul>
     </div>
   `;
@@ -81,6 +83,24 @@ export function createHeader() {
     a.append(img, p);
     li.appendChild(a);
     $actionsList.appendChild(li);
+  });
+
+  const $mypageDropdown = document.querySelector(".dropdown-mypage");
+  const $mypageBtn = document.getElementById("action-mypage");
+  if ($mypageBtn) {
+    $mypageBtn.addEventListener("click", () => {
+      $mypageDropdown.classList.add("active");
+    });
+  }
+
+  document.addEventListener("click", (e) => {
+    if (
+      e.target.closest("#action-mypage") ||
+      e.target.closest(".dropdown-mypage")
+    )
+      return;
+
+    $mypageDropdown.classList.remove("active");
   });
 
   return $header;
