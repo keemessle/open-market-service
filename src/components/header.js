@@ -9,7 +9,7 @@ export function createHeader(isLoggedIn = false) {
         </a>
       </h1>
       <form class="form-search" action="/search" method="get">
-        <a class="search-logo-wrap" href="#"><img class="search-logo" src="../assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
+        <a class="search-logo-wrap" href="#"><img class="search-logo" src="/assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
         <label class="sr-only" for="search">검색</label>
         <input id="search" type="text" placeholder="상품을 검색해보세요!" />
         <button type="submit"></button>
