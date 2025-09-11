@@ -279,6 +279,10 @@ header {
   display: inline-block;
 }
 
+#action-mypage.active p {
+  color: var(--color-main) !important;
+}
+
 .dropdown-mypage .dropdown-item {
   box-sizing: border-box;
   display: inline-block;

@@ -87,6 +87,9 @@ export function createHeader() {
   const $mypageBtn = document.getElementById("action-mypage");
   if ($mypageBtn) {
     $mypageBtn.addEventListener("click", () => {
+      $mypageBtn.querySelector("img").src =
+        "./assets/images/icons/icon-user-2.svg";
+      $mypageBtn.classList.add("active");
       $mypageDropdown.classList.add("active");
     });
 
@@ -103,6 +106,8 @@ export function createHeader() {
     )
       return;
 
+    $mypageBtn.querySelector("img").src = "./assets/images/icons/icon-user.svg";
+    $mypageBtn.classList.remove("active");
     $mypageDropdown.classList.remove("active");
   });
 
