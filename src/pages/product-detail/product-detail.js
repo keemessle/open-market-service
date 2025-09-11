@@ -2,6 +2,7 @@
 // 컴포넌트 import
 import { createHeader } from "../../components/header.js";
 import { createFooter } from "../../components/footer.js";
+import { showLoginModal } from "../../components/login-modal.js";
 
 // header & footer 넣기
 let isLoggedIn = false;
@@ -21,7 +22,7 @@ let   productStock           = 0;
 let   productAmount          = 0;
 let   productDeliveryFee     = 0;
 
-const $productAbstract       = document.getElementById("product-abstract");
+// const $productAbstract       = document.getElementById("product-abstract");
 const $productImage          = document.getElementById("product-image");
 const $productImageSoldout   = document.getElementById("product-image-soldout");
 const $productBrand          = document.getElementById("product-brand");
@@ -40,17 +41,16 @@ const $btnBuy                = document.getElementById("btn-buy");
 const $btnCart               = document.getElementById("btn-cart");
 
 const $tabArea               = document.getElementById("tab-area");
-const $productTabInfo        = document.getElementById("product-tab-info");
-const $productTabReview      = document.getElementById("product-tab-review");
-const $productTabQna         = document.getElementById("product-tab-qna");
-const $productTabRefund      = document.getElementById("product-tab-refund");
+// const $productTabInfo        = document.getElementById("product-tab-info");
+// const $productTabReview      = document.getElementById("product-tab-review");
+// const $productTabQna         = document.getElementById("product-tab-qna");
+// const $productTabRefund      = document.getElementById("product-tab-refund");
 
 const $productInfo           = document.getElementById("product-info");
-const $productReview         = document.getElementById("product-review");
-const $productQna            = document.getElementById("product-qna");
-const $productRefund         = document.getElementById("product-refund");
 
-const $modalLogin            = document.getElementById("modal-login");
+// const $productReview         = document.getElementById("product-review");
+// const $productQna            = document.getElementById("product-qna");
+// const $productRefund         = document.getElementById("product-refund");
 
 
 // API 호출
@@ -103,14 +103,6 @@ async function getProductDetail() {
 // API 호출
 window.addEventListener("DOMContentLoaded", getProductDetail);
 
-// 모달 연결
-document.addEventListener("DOMContentLoaded", function () {
-  fetch("../../../product-detail-modal.html")
-    .then(response => response.text())
-    .then(data => {
-      $modalLogin.innerHTML = data;
-    });
-});
 
 // 수량 감소 버튼 클릭
 $btnDec.addEventListener("click", function(e){
@@ -154,7 +146,9 @@ $btnAdd.addEventListener("click", function(e){
 // 바로 구매 버튼 클릭
 $btnBuy.addEventListener("click", function(e){
     if(!isLoggedIn){
-        $modalLogin.show();
+      
+        showLoginModal(e);
+
         return;
     }
 
@@ -165,7 +159,9 @@ $btnBuy.addEventListener("click", function(e){
 // 장바구니 버튼 클릭
 $btnCart.addEventListener("click", function(e){
     if(!isLoggedIn){
-        $modalLogin.show();
+
+        showLoginModal(e);
+
         return;
     }
 
