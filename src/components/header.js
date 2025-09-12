@@ -1,21 +1,71 @@
 import { UserSession } from "../services/UserSession.js";
 
+//로그인별 actions-list
+const actionCart = {
+  href: "./cart.html",
+  img: "./assets/images/icons/icon-shopping-cart.svg",
+  alt: "장바구니 바로가기",
+  text: "장바구니",
+  id: "action-cart",
+};
+
+const actionLogin = {
+  href: "./login.html",
+  img: "./assets/images/icons/icon-user.svg",
+  alt: "로그인 바로가기",
+  text: "로그인",
+  id: "action-login",
+};
+
+const actionMypage = {
+  href: "#",
+  img: "./assets/images/icons/icon-user.svg",
+  alt: "마이페이지 바로가기",
+  text: "마이페이지",
+  id: "action-mypage",
+};
+
+const actionSeller = {
+  href: "./seller-center.html",
+  img: "./assets/images/icons/icon-shopping-bag.svg",
+  alt: "판매자 센터 바로가기",
+  text: "판메자 센터",
+  id: "action-seller",
+};
+
+const actionsDefault = [actionCart, actionLogin];
+const actionsLoggedIn = [actionCart, actionMypage];
+const actionsLoggedInSeller = [actionMypage, actionSeller];
+
 export function createHeader() {
   // Session
   const loginSession = new UserSession(localStorage);
   const isLoggedIn = loginSession.isAuthed();
-  const isBuyer = loginSession.isBuyer();
+  // const isBuyer = loginSession.isBuyer();
+  const isBuyer = false;
+  // const isSeller = loginSession.isSeller();
+  const isSeller = true;
 
   // header 없으면 생성
   let existHeader = document.querySelector("header");
   if (existHeader) return;
 
-  // DOM 생성
-  // header-container
-  const $header = document.createElement("header");
-  document.body.prepend($header);
+  const $header = createDOM();
 
-  $header.innerHTML = `
+  if (isLoggedIn && isBuyer) {
+    loadActionsList(actionsLoggedIn);
+  } else if (isLoggedIn && isSeller) {
+    loadActionsList(actionsLoggedInSeller);
+  } else {
+    loadActionsList(actionsDefault);
+  }
+
+  // DOM 생성
+  function createDOM() {
+    const $header = document.createElement("header");
+    document.body.prepend($header);
+
+    $header.innerHTML = `
     <div class="header-container container">
       <h1 class="header-h1">
         <a href="#">
@@ -37,79 +87,65 @@ export function createHeader() {
       </ul>
     </div>
   `;
-
-  //로그인별 actions-list
-  const $actionsList = $header.querySelector(".actions-list");
-  const actions = [
-    {
-      href: "#",
-      img: "./assets/images/icons/icon-shopping-cart.svg",
-      alt: "장바구니 바로가기",
-      text: "장바구니",
-      id: "action-cart",
-    },
-    isLoggedIn
-      ? {
-          href: "#",
-          img: "./assets/images/icons/icon-user.svg",
-          alt: "마이페이지 바로가기",
-          text: "마이페이지",
-          id: "action-mypage",
-        }
-      : {
-          href: "./login.html",
-          img: "./assets/images/icons/icon-user.svg",
-          alt: "로그인 바로가기",
-          text: "로그인",
-          id: "action-login",
-        },
-  ];
-
-  actions.forEach((action) => {
-    const li = document.createElement("li");
-    const a = document.createElement("a");
-    a.href = action.href;
-    a.id = action.id;
-
-    const img = document.createElement("img");
-    img.src = action.img;
-    img.alt = action.alt;
-
-    const p = document.createElement("p");
-    p.textContent = action.text;
-
-    a.append(img, p);
-    li.appendChild(a);
-    $actionsList.appendChild(li);
-  });
-
-  const $mypageDropdown = document.querySelector(".dropdown-mypage");
-  const $mypageBtn = document.getElementById("action-mypage");
-  if ($mypageBtn) {
-    $mypageBtn.addEventListener("click", () => {
-      $mypageBtn.querySelector("img").src =
-        "./assets/images/icons/icon-user-2.svg";
-      $mypageBtn.classList.add("active");
-      $mypageDropdown.classList.add("active");
-    });
-
-    // 드롭다운 위치 설정
-    const btnRect = $mypageBtn.getBoundingClientRect();
-    $mypageDropdown.style.right = `${btnRect.width / 2}px`;
+    return $header;
   }
 
-  // 다른 곳 클릭시 dropdown 사라짐
-  document.addEventListener("click", (e) => {
-    if (
-      e.target.closest("#action-mypage") ||
-      e.target.closest(".dropdown-mypage")
-    )
-      return;
+  // 상태별 actionsList 로드
+  function loadActionsList(actionsDataList) {
+    const $actionsList = $header.querySelector(".actions-list");
 
-    $mypageBtn.querySelector("img").src = "./assets/images/icons/icon-user.svg";
-    $mypageBtn.classList.remove("active");
-    $mypageDropdown.classList.remove("active");
-  });
+    actionsDataList.forEach((action) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = action.href;
+      a.id = action.id;
+
+      const img = document.createElement("img");
+      img.src = action.img;
+      img.alt = action.alt;
+
+      const p = document.createElement("p");
+      p.textContent = action.text;
+
+      a.append(img, p);
+      li.appendChild(a);
+      $actionsList.appendChild(li);
+    });
+
+    laodDropbox();
+  }
+
+  // 마이페이지 드롭박스
+  function laodDropbox() {
+    const $mypageDropdown = document.querySelector(".dropdown-mypage");
+    const $mypageBtn = document.getElementById("action-mypage");
+    if ($mypageBtn) {
+      $mypageBtn.addEventListener("click", () => {
+        $mypageBtn.querySelector("img").src =
+          "./assets/images/icons/icon-user-2.svg";
+        $mypageBtn.classList.add("active");
+        $mypageDropdown.classList.add("active");
+      });
+
+      // 드롭다운 위치 설정
+      const btnRect = $mypageBtn.getBoundingClientRect();
+      $mypageDropdown.style.right = `${btnRect.width / 2}px`;
+    }
+
+    // 다른 곳 클릭시 dropdown 사라짐
+    document.addEventListener("click", (e) => {
+      if (
+        e.target.closest("#action-mypage") ||
+        e.target.closest(".dropdown-mypage")
+      )
+        return;
+
+      $mypageBtn.querySelector("img").src =
+        "./assets/images/icons/icon-user.svg";
+      $mypageBtn.classList.remove("active");
+      $mypageDropdown.classList.remove("active");
+    });
+  }
 
   // 로그아웃 버튼 이벤트
   const $logoutBtn = document.getElementById("btn-logout");
