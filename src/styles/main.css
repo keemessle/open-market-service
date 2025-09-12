@@ -250,6 +250,30 @@ header {
 
   text-align: center;
   white-space: nowrap;
+  line-height: 1;
+}
+
+.actions-list #action-seller {
+  background-color: var(--color-main);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
+  padding: 11px 20px 11px 16px;
+
+  border-radius: 5px;
+}
+
+.actions-list #action-seller p {
+  color: #fff;
+  font-size: var(--fs-lg);
+  font-weight: 500;
+}
+
+.actions-list #action-seller:hover {
+  background-color: var(--color-main-dark);
 }
 
 /* 마이페이지 드롭다운 */
@@ -277,10 +301,6 @@ header {
 
 .dropdown-mypage.active {
   display: inline-block;
-}
-
-#action-mypage.active p {
-  color: var(--color-main) !important;
 }
 
 .dropdown-mypage .dropdown-item {
