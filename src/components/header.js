@@ -140,13 +140,15 @@ export function createHeader() {
     showDropdown();
   }
 
-  // 마이페이지 드롭다운
+  // 마이페이지 드롭다운 active
   function showDropdown() {
     const $mypageBtn = document.getElementById("action-mypage");
     const $mypageDropdown = document.querySelector(".dropdown-mypage");
     if ($mypageBtn) {
       $mypageBtn.addEventListener("click", () => {
         $mypageDropdown.classList.add("active");
+
+        setDropdownPos();
       });
     }
 
@@ -163,6 +165,19 @@ export function createHeader() {
     });
   }
 
+  // 마이페이지 드롭다운 위치 (오버플로우시)
+  function setDropdownPos() {
+    const $mypageDropdown = document.querySelector(".dropdown-mypage");
+    const dropdownRect = $mypageDropdown.getBoundingClientRect();
+    const padding = 24;
+    if (dropdownRect.right > window.innerWidth - padding) {
+      $mypageDropdown.classList.add("overflow");
+    } else {
+      $mypageDropdown.classList.remove("overflow");
+    }
+  }
+
+  // 액션 리스트 선택시 active
   const $actionsList = document.querySelector(".actions-list");
   $actionsList.addEventListener("click", (e) => {
     const target = e.target.closest(".actions-item");
@@ -178,6 +193,10 @@ export function createHeader() {
       location.reload();
     });
   }
+
+  window.addEventListener("resize", () => {
+    setDropdownPos();
+  });
 
   return $header;
 }

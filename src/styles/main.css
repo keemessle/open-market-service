@@ -242,6 +242,7 @@ header {
 }
 
 .actions-list svg {
+  flex: 0;
   display: block;
   width: 32px;
   aspect-ratio: 1;
@@ -312,6 +313,14 @@ header {
 
 .dropdown-mypage.active {
   display: flex;
+}
+
+.dropdown-mypage.overflow {
+  left: 8px;
+}
+
+.dropdown-mypage.overflow::before {
+  left: 68%;
 }
 
 .dropdown-mypage .dropdown-item {
@@ -503,6 +512,10 @@ footer .divider {
   /* section-list */
   .actions-list {
     gap: 0 8px;
+  }
+
+  .actions-list a {
+    gap: 4px;
   }
 
   .actions-list svg {
