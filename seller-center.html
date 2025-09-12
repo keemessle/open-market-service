@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/variables.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/pages/seller-center/seller-center.css" />
+    <script
+      type="module"
+      src="./src/pages/seller-center/seller-center.js"
+    ></script>
+
+    <title>대시보드 | 호두샵 - 판매자 센터</title>
+  </head>
+  <body>
+    <main>
+      <section class="container">
+        <h2 class="sr-only">판매자 센터 대시보드</h2>
+        <div class="title-btn-container">
+          <div class="title-wrap">
+            <p class="title">대시보드</p>
+            <p class="title-seller">백엔드글로벌</p>
+          </div>
+          <a class="btn btn-ms btn-icon" href="./make-product.html"
+            >상품 업로드</a
+          >
+        </div>
+        <div class="store-info-container">
+          <ul class="list-sidebar">
+            <li class="sidebar-item">
+              판매중인 상품 (<span id="onsale-count"></span>)
+            </li>
+            <li class="sidebar-item">
+              주문/배송
+              <span class="badge" id="badge-order"></span>
+            </li>
+            <li class="sidebar-item">
+              문의/리뷰
+              <span class="badge" id="badge-feedback"></span>
+            </li>
+            <li class="sidebar-item">통계</li>
+            <li class="sidebar-item">스토어 설정</li>
+          </ul>
+          <div class="table table-onsale">
+            <ul class="list-onsale">
+              <!-- js -->
+              <li class="onsale-item">
+                <img src="" alt="" />
+                <div class="text-wrap">
+                  <div class="item-name"></div>
+                  <div class="item-stock"></div>
+                </div>
+                <div class="item-price"></div>
+                <a href="" class="btn-modify btn btn-s">수정</a>
+                <a href="" class="btn-delete btn btn-s btn-white">삭제</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- header, footer -->
+  </body>
+</html>
