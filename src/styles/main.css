@@ -241,11 +241,7 @@ header {
   gap: 4px;
 }
 
-.actions-list a.active span {
-  color: var(--color-main);
-}
-
-.actions-list img {
+.actions-list svg {
   display: block;
   width: 32px;
   aspect-ratio: 1;
@@ -467,6 +463,10 @@ footer .divider {
 @media (max-width: 1280px) {
   .container {
     width: 100%;
+  }
+
+  .dropdown-mypage {
+    padding: 6px;
   }
 
   .dropdown-mypage .dropdown-item {
