@@ -224,8 +224,10 @@ header {
   justify-content: end;
   align-items: center;
   gap: 0 26px;
+}
 
-  position: relative;
+.actions-list * {
+  border: 1px solid pink;
 }
 
 .actions-list a {
@@ -277,10 +279,15 @@ header {
 }
 
 /* 마이페이지 드롭다운 */
+.actions-list .dropdown-wrap {
+  position: relative;
+}
+
 .dropdown-mypage {
   position: absolute;
-  transform: translateX(50%);
-  top: calc(100% + 24px);
+  top: 150%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
 
   background-color: #fff;
@@ -300,7 +307,7 @@ header {
 }
 
 .dropdown-mypage.active {
-  display: inline-block;
+  display: flex;
 }
 
 .dropdown-mypage .dropdown-item {
@@ -452,15 +459,6 @@ footer .divider {
   .container {
     width: 100%;
   }
-
-  .dropdown-mypage {
-    transform: translateX(0) !important;
-    right: -8% !important;
-  }
-
-  .dropdown-mypage::before {
-    left: 71%;
-  }
 }
 
 @media (max-width: 768px) {
@@ -482,10 +480,6 @@ footer .divider {
 
   .form-search .search-logo-wrap {
     display: inline-block;
-  }
-
-  .dropdown-mypage {
-    top: calc(100% + 20px);
   }
 
   /* section-list */

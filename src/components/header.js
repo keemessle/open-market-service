@@ -23,6 +23,12 @@ const actionMypage = {
   alt: "마이페이지 바로가기",
   text: "마이페이지",
   id: "action-mypage",
+  dropdown: `
+      <div class="dropdown-mypage">
+        <a class="dropdown-item" href="./mypage.html">마이페이지</a>
+        <button class="dropdown-item" id="btn-logout">로그아웃</button>
+      </div>
+      `,
 };
 
 const actionSeller = {
@@ -80,10 +86,6 @@ export function createHeader() {
         <button type="submit"></button>
       </form>
       <ul class="actions-list">
-        <div class="dropdown-mypage">
-          <a class="dropdown-item" href="./mypage.html">마이페이지</a>
-          <button class="dropdown-item" id="btn-logout">로그아웃</button>
-        </div>
       </ul>
     </div>
   `;
@@ -96,6 +98,13 @@ export function createHeader() {
 
     actionsDataList.forEach((action) => {
       const li = document.createElement("li");
+
+      // 마이페이지 버튼 li > 드롭다운
+      if (action.dropdown) {
+        li.innerHTML = action.dropdown;
+        li.className = "dropdown-wrap";
+      }
+
       const a = document.createElement("a");
       a.href = action.href;
       a.id = action.id;
@@ -112,26 +121,22 @@ export function createHeader() {
       $actionsList.appendChild(li);
     });
 
-    laodDropbox();
+    showDropdown();
   }
 
-  // 마이페이지 드롭박스
-  function laodDropbox() {
-    const $mypageDropdown = document.querySelector(".dropdown-mypage");
+  // 마이페이지 드롭다운
+  function showDropdown() {
     const $mypageBtn = document.getElementById("action-mypage");
+    const $mypageDropdown = document.querySelector(".dropdown-mypage");
     if ($mypageBtn) {
       $mypageBtn.addEventListener("click", () => {
         $mypageBtn.querySelector("img").src =
           "./assets/images/icons/icon-user-2.svg";
         $mypageDropdown.classList.add("active");
       });
-
-      // 드롭다운 위치 설정
-      const btnRect = $mypageBtn.getBoundingClientRect();
-      $mypageDropdown.style.right = `${btnRect.width / 2}px`;
     }
 
-    // 다른 곳 클릭시 dropdown 사라짐
+    // 마이페이지 드롭다운 >> 다른 곳 클릭시 사라짐
     document.addEventListener("click", (e) => {
       if (
         e.target.closest("#action-mypage") ||
