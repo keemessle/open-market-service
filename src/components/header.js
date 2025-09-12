@@ -1,5 +1,20 @@
-export function createHeader(isLoggedIn = false) {
+import { UserSession } from "../services/UserSession.js";
+
+export function createHeader() {
+  // Session
+  const loginSession = new UserSession(localStorage);
+  const isLoggedIn = loginSession.isAuthed();
+  const isBuyer = loginSession.isBuyer();
+
+  // header 없으면 생성
+  let existHeader = document.querySelector("header");
+  if (existHeader) return;
+
+  // DOM 생성
+  // header-container
   const $header = document.createElement("header");
+  document.body.prepend($header);
+
   $header.innerHTML = `
     <div class="header-container container">
       <h1 class="header-h1">
@@ -14,32 +29,39 @@ export function createHeader(isLoggedIn = false) {
         <input id="search" type="text" placeholder="상품을 검색해보세요!" />
         <button type="submit"></button>
       </form>
-      <ul class="actions-list"></ul>
+      <ul class="actions-list">
+        <div class="dropdown-mypage">
+          <a class="dropdown-item" href="./mypage.html">마이페이지</a>
+          <button class="dropdown-item" id="btn-logout">로그아웃</button>
+        </div>
+      </ul>
     </div>
   `;
 
-  // actions-list
+  //로그인별 actions-list
   const $actionsList = $header.querySelector(".actions-list");
   const actions = [
     {
-      href: "",
+      href: "#",
       img: "./assets/images/icons/icon-shopping-cart.svg",
       alt: "장바구니 바로가기",
       text: "장바구니",
+      id: "action-cart",
     },
-    // 기본 > 로그인 / 로그인 되었을 때 > 마이페이지
     isLoggedIn
       ? {
-          href: "",
+          href: "#",
           img: "./assets/images/icons/icon-user.svg",
           alt: "마이페이지 바로가기",
           text: "마이페이지",
+          id: "action-mypage",
         }
       : {
-          href: "./login",
+          href: "./login.html",
           img: "./assets/images/icons/icon-user.svg",
           alt: "로그인 바로가기",
           text: "로그인",
+          id: "action-login",
         },
   ];
 
@@ -47,6 +69,7 @@ export function createHeader(isLoggedIn = false) {
     const li = document.createElement("li");
     const a = document.createElement("a");
     a.href = action.href;
+    a.id = action.id;
 
     const img = document.createElement("img");
     img.src = action.img;
@@ -59,6 +82,43 @@ export function createHeader(isLoggedIn = false) {
     li.appendChild(a);
     $actionsList.appendChild(li);
   });
+
+  const $mypageDropdown = document.querySelector(".dropdown-mypage");
+  const $mypageBtn = document.getElementById("action-mypage");
+  if ($mypageBtn) {
+    $mypageBtn.addEventListener("click", () => {
+      $mypageBtn.querySelector("img").src =
+        "./assets/images/icons/icon-user-2.svg";
+      $mypageBtn.classList.add("active");
+      $mypageDropdown.classList.add("active");
+    });
+
+    // 드롭다운 위치 설정
+    const btnRect = $mypageBtn.getBoundingClientRect();
+    $mypageDropdown.style.right = `${btnRect.width / 2}px`;
+  }
+
+  // 다른 곳 클릭시 dropdown 사라짐
+  document.addEventListener("click", (e) => {
+    if (
+      e.target.closest("#action-mypage") ||
+      e.target.closest(".dropdown-mypage")
+    )
+      return;
+
+    $mypageBtn.querySelector("img").src = "./assets/images/icons/icon-user.svg";
+    $mypageBtn.classList.remove("active");
+    $mypageDropdown.classList.remove("active");
+  });
+
+  // 로그아웃 버튼 이벤트
+  const $logoutBtn = document.getElementById("btn-logout");
+  if ($logoutBtn) {
+    $logoutBtn.addEventListener("click", () => {
+      loginSession.clear();
+      location.reload();
+    });
+  }
 
   return $header;
 }
