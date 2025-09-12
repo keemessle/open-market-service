@@ -12,7 +12,7 @@ createFooter();
 const userSession            = new UserSession();
 let isLoggedIn               = userSession.isAuthed();
 let userRole                 = userSession.getRole();
-let accessToken              = userSession.getAccess();
+let accessToken;
 
 /* 공통 영역 끝 */
 
@@ -45,15 +45,8 @@ const $btnBuy                = document.getElementById("btn-buy");
 const $btnCart               = document.getElementById("btn-cart");
 
 const $tabArea               = document.getElementById("tab-area");
-// const $productTabInfo        = document.getElementById("product-tab-info");
-// const $productTabReview      = document.getElementById("product-tab-review");
-// const $productTabQna         = document.getElementById("product-tab-qna");
-// const $productTabRefund      = document.getElementById("product-tab-refund");
 
 const $productInfo           = document.getElementById("product-info");
-// const $productReview         = document.getElementById("product-review");
-// const $productQna            = document.getElementById("product-qna");
-// const $productRefund         = document.getElementById("product-refund");
 
 
 // API 호출
@@ -109,6 +102,9 @@ async function addCart() {
     let cartData        = new Object();
     cartData.product_id = onlyNumber(productId);
     cartData.quantity   = onlyNumber($productTotQuantity.innerText);
+    
+    // 토큰 재발급.
+    accessToken     = await userSession.refreshAccessToken();
 
     try{
         const response  = await fetch(CART_API_URL, {            
