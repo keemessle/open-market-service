@@ -12,6 +12,7 @@ html {
 body {
   width: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
   font-size: 1.6rem;
   color: #000000;
 
@@ -226,8 +227,10 @@ header {
   gap: 0 26px;
 }
 
-.actions-list * {
-  border: 1px solid pink;
+.actions-item:hover :is(svg path, span),
+.actions-item.active :is(svg path, span) {
+  stroke: var(--color-main);
+  color: var(--color-main);
 }
 
 .actions-list a {
@@ -238,13 +241,17 @@ header {
   gap: 4px;
 }
 
+.actions-list a.active span {
+  color: var(--color-main);
+}
+
 .actions-list img {
   display: block;
   width: 32px;
   aspect-ratio: 1;
 }
 
-.actions-list p {
+.actions-list span {
   color: var(--gray-dark);
   font-size: var(--fs-xs);
   min-width: 56px;
@@ -268,7 +275,7 @@ header {
   border-radius: 5px;
 }
 
-.actions-list #action-seller p {
+.actions-list #action-seller span {
   color: #fff;
   font-size: var(--fs-lg);
   font-weight: 500;
@@ -279,7 +286,7 @@ header {
 }
 
 /* 마이페이지 드롭다운 */
-.actions-list .dropdown-wrap {
+.actions-list .dropdown-parent {
   position: relative;
 }
 
