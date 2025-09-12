@@ -67,6 +67,7 @@ input {
 /* 버튼 사이즈 : btn + btn-lg / btn-m / btn-ms / btn-s */
 /* 버튼 컬러 : default: 메인 그린 컬러 / btn + btn-white / btn-dark */
 /* 버튼 기능 : default: / btn + btn-disabled */
+/* 버튼 + 아이콘 : btn-icon (div > svg + span 구조) */
 .btn {
   display: flex;
   justify-content: center;
@@ -105,6 +106,29 @@ input {
   font-size: 16px;
   width: 80px;
   height: 40px;
+}
+
+.btn-icon {
+  background-color: var(--color-main);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
+  padding: 11px 20px 11px 16px;
+
+  border-radius: 5px;
+}
+
+.btn-icon svg {
+}
+
+.btn-icon span {
+  color: #fff;
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  width: auto;
 }
 
 .btn:hover {
