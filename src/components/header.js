@@ -65,8 +65,8 @@ export function createHeader() {
   const loginSession = new UserSession(localStorage);
   const isLoggedIn = loginSession.isAuthed();
   // const isBuyer = loginSession.isBuyer();
-  const isBuyer = true;
   // const isSeller = loginSession.isSeller();
+  const isBuyer = true;
   const isSeller = false;
 
   // header 없으면 생성

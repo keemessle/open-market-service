@@ -286,7 +286,7 @@ header {
 }
 
 /* 마이페이지 드롭다운 */
-.actions-list .dropdown-parent {
+.dropdown-parent {
   position: relative;
 }
 
@@ -309,6 +309,7 @@ header {
 
   color: var(--gray-dark);
   font-weight: 500;
+  white-space: nowrap;
 
   display: none;
 }
@@ -331,6 +332,7 @@ header {
   gap: 8px;
 
   background-color: #fff;
+  border: 1px solid #fff;
 }
 
 .dropdown-mypage .dropdown-item:hover {
@@ -466,6 +468,15 @@ footer .divider {
   .container {
     width: 100%;
   }
+
+  .dropdown-mypage .dropdown-item {
+    width: 98px;
+    height: 36px;
+    border-radius: 5px;
+
+    gap: 6px;
+    font-size: var(--fs-sm);
+  }
 }
 
 @media (max-width: 768px) {
@@ -494,11 +505,11 @@ footer .divider {
     gap: 0 8px;
   }
 
-  .actions-list img {
+  .actions-list svg {
     width: 24px;
   }
 
-  .actions-list p {
+  .actions-list span {
     color: var(--gray-dark);
     font-size: var(--fs-xs);
     width: 48px;
