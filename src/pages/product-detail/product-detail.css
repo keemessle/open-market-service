@@ -97,6 +97,17 @@
   padding-bottom: 4px;
 }
 
+.price-l {				 
+  font-size: var(--fs-xl);
+}
+
+.price-l span {
+  padding-right: 2px;
+                
+  font-size: var(--fs-3xl);  
+  font-weight: 700;
+}
+
 /* 상품 정보 끝 */
 
 /* 주문 정보 시작 */
