@@ -1,23 +1,27 @@
 /* 공통 영역 시작 */
-// 컴포넌트 import
+import { UserSession  } from "../../services/UserSession.js";
 import { createHeader } from "../../components/header.js";
 import { createFooter } from "../../components/footer.js";
-import { showLoginModal } from "../../components/login-modal.js";
+import { showModal    } from "../../components/modal.js";
 
 // header & footer 넣기
-let isLoggedIn = false;
-const $header = createHeader(isLoggedIn);
-document.body.prepend($header);
+createHeader();
+createFooter();
 
-const $footer = createFooter(isLoggedIn);
-document.body.append($footer);
+// 로그인 상태 가져오기
+const userSession            = new UserSession();
+let isLoggedIn               = userSession.isAuthed();
+let userRole                 = userSession.getRole();
+let accessToken              = userSession.getAccess();
 
 /* 공통 영역 끝 */
 
 // 변수 선언
 const url                    = new URL(location.href);
 const productId              = url.searchParams.get("id") ? url.searchParams.get("id") : 1;
-const API_URL                = `https://api.wenivops.co.kr/services/open-market/products/${productId}`;
+const API_URL                = "https://api.wenivops.co.kr/services/open-market";
+const DETAIL_API_URL         = `${API_URL}/products/${productId}`
+const CART_API_URL           = `${API_URL}/cart/`
 let   productStock           = 0;
 let   productAmount          = 0;
 let   productDeliveryFee     = 0;
@@ -47,7 +51,6 @@ const $tabArea               = document.getElementById("tab-area");
 // const $productTabRefund      = document.getElementById("product-tab-refund");
 
 const $productInfo           = document.getElementById("product-info");
-
 // const $productReview         = document.getElementById("product-review");
 // const $productQna            = document.getElementById("product-qna");
 // const $productRefund         = document.getElementById("product-refund");
@@ -55,19 +58,19 @@ const $productInfo           = document.getElementById("product-info");
 
 // API 호출
 async function getProductDetail() {
-      try {
-        const res = await fetch(API_URL);
+    try {
+        const res = await fetch(DETAIL_API_URL);
         if (!res.ok) throw new Error('오류 발생!', res.status);
         const data = await res.json();
 
         $productImage.setAttribute("src",data.image);
-        $productBrand.innerText           = data.seller.store_name;
-        $productName.innerText            = data.name;
-        $productAmount.innerText          = `${formatNumberWithComma(data.price)}`;
-        productAmount                     = data.price;
-        productDeliveryFee                = data.shipping_fee;
-        productStock                      = data.stock;
-        $productInfo.innerHTML            = data.info;
+        $productBrand.innerText              = data.seller.store_name;
+        $productName.innerText               = data.name;
+        $productAmount.innerText             = `${formatNumberWithComma(data.price)}`;
+        productAmount                        = data.price;
+        productDeliveryFee                   = data.shipping_fee;
+        productStock                         = data.stock;
+        $productInfo.innerHTML               = data.info;
         
         if (productDeliveryFee === 0) {
             $productShoppingMethod.innerText = "무료배송";
@@ -76,43 +79,74 @@ async function getProductDetail() {
             $productShoppingMethod.innerText = `택배배송 (배송료 ${formatNumberWithComma(productDeliveryFee)}원)`;
         }
 
-        if (productStock === 0) {
-            $btnAdd.disabled              = true;
-            $productTotAmount.innerText   = 0;
+        if (userRole === "SELLER") {
+            $btnAdd.disabled                 = true;
+            $btnDec.disabled                 = true;
+            $btnBuy.disabled                 = true;
+            $btnCart.disabled                = true;
+        }
+        else if (productStock === 0) {
+            $btnAdd.disabled                 = true;
+            $productTotAmount.innerText      = 0;
             $productImageSoldout.classList.add("product-image-soldout-active");
-            $btnBuy.disabled              = true;
-            $btnCart.disabled             = true;
+            $btnBuy.disabled                 = true;
+            $btnCart.disabled                = true;
         }
         else {
-            $productQuantity.value        = 1;
-            $productTotQuantity.innerText = 1;
-            $productTotAmount.innerText   = formatNumberWithComma(productAmount + productDeliveryFee);
-            $btnBuy.disabled              = false;
-            $btnCart.disabled             = false;
-        }       
-
-      } catch (err) {        
-        
+            $productQuantity.value           = 1;
+            $productTotQuantity.innerText    = 1;
+            $productTotAmount.innerText      = formatNumberWithComma(productAmount + productDeliveryFee);
+            $btnBuy.disabled                 = false;
+            $btnCart.disabled                = false;
+        }
+    } catch (err) {
         // 에러 페이지 이동
         location.href = "./404.html";
-      }
     }
+}
 
+async function addCart() {
+    let cartData        = new Object();
+    cartData.product_id = onlyNumber(productId);
+    cartData.quantity   = onlyNumber($productTotQuantity.innerText);
+
+    try{
+        const response  = await fetch(CART_API_URL, {            
+            method: "POST", 
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                "Content-Type" : "application/json",
+            },
+            body: JSON.stringify(cartData)
+        })
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        alert("장바구니에 물건이 담겼습니다.");
+
+        // 장바구니 페이지 이동
+        location.href    = "./cart.html";
+    } catch(err) {
+        console.log(err);
+        alert("서버에서 오류가 발생하였습니다.");
+    }    
+}
     
 // 이벤트
 // API 호출
 window.addEventListener("DOMContentLoaded", getProductDetail);
 
-
 // 수량 감소 버튼 클릭
-$btnDec.addEventListener("click", function(e){
-    let productQuantity = parseInt($productQuantity.value);
+$btnDec.addEventListener("click", function(e) {
+    let productQuantity    = parseInt($productQuantity.value);
 
-    if (!isNumber(productQuantity) || productQuantity<2){        
+    if (!isNumber(productQuantity) || productQuantity<2) {        
         return alert("물품 수량이 잘못 되었습니다.");
     }
 
-    $productQuantity.value = -productQuantity;
+    $productQuantity.value = --productQuantity;
 
     // 수량이 1개 이하일 경우, 감소 버튼 비활성화
     validateProductQuantity(productQuantity);
@@ -123,10 +157,10 @@ $btnDec.addEventListener("click", function(e){
 });
 
 // 수량 증가 버튼 클릭
-$btnAdd.addEventListener("click", function(e){
+$btnAdd.addEventListener("click", function(e) {
     let productQuantity = parseInt($productQuantity.value);    
 
-    if (!isNumber(productQuantity)){        
+    if (!isNumber(productQuantity)) {        
         return alert("물품 수량이 잘못 되었습니다.");
     }
     else if (productQuantity === productStock) {
@@ -140,33 +174,33 @@ $btnAdd.addEventListener("click", function(e){
 
     // 총 갯수 및 금액 계산
     $productTotQuantity.innerText = formatNumberWithComma(productQuantity);
-    $productTotAmount.innerText = formatNumberWithComma(productQuantity * productAmount + productDeliveryFee);
+    $productTotAmount.innerText   = formatNumberWithComma(productQuantity * productAmount + productDeliveryFee);
 });
 
 // 바로 구매 버튼 클릭
-$btnBuy.addEventListener("click", function(e){
-    if(!isLoggedIn){
-      
-        showLoginModal(e);
-
+$btnBuy.addEventListener("click", function(e) {
+    if(!isLoggedIn) {
+        let modalNotice = "로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?";
+        showModal(e, modalNotice, callbackLoginModal);
         return;
     }
 
-    // 임시페이지 연결 (데이터 전달은 어떻게?)
-    location.href = "./product-buy.html";
+    // 물품구매 물건 넣기
+    addBuy();    
 });
 
 // 장바구니 버튼 클릭
-$btnCart.addEventListener("click", function(e){
-    if(!isLoggedIn){
-
-        showLoginModal(e);
-
+$btnCart.addEventListener("click", function(e) {
+    if(!isLoggedIn) {
+        let modalNotice = "로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?";
+        showModal(e, modalNotice, callbackLoginModal);
         return;
     }
 
-    // 임시페이지 연결 (데이터 전달은 어떻게?)
-    location.href = "./cart.html";
+    // 장바구니 물건 넣기
+    addCart();
+    // 임시페이지 연결
+    
 });
 
 // 탭 버튼 클릭
@@ -196,7 +230,7 @@ $tabArea.addEventListener("click", function(e) {
  * 수량이 재고 개수와 동일하면 증가버튼을 비활성화한다.
  * @param {Number} quantity 
  */
-function validateProductQuantity(quantity){
+function validateProductQuantity(quantity) {
     if (quantity === 1) {
         $btnDec.disabled = true;
     }
@@ -212,6 +246,35 @@ function validateProductQuantity(quantity){
     }
 }
 
+/**
+ * 로그인모달 콜백. 로그인 페이지로 이동
+ *
+ */
+function callbackLoginModal() {
+    window.location.href = "../../../login.html";
+}
+
+/**
+ * 바로 구매 버튼 클릭 시, 구매목록을 로컬스토리지에 추가하고, 구매하기 페이지로 이동한다.
+ * 
+ */
+function addBuy() {
+    // 로컬스토리지 구매목록 초기화
+    window.localStorage.removeItem("buyProduct");
+
+    // buyProduct 객체 생성
+    let buyData         = new Object();
+    buyData.PRODUCT_ID  = productId;
+    buyData.QUANTITY    = onlyNumber($productTotQuantity.innerText);
+    buyData.TOTAL_PRICE = onlyNumber($productTotAmount.innerText);
+
+    // 로컬스토리지 구매목록 추가
+    window.localStorage.setItem("buyProduct", JSON.stringify(buyData));
+
+    // 구매하기 페이지 이동
+    location.href = "./product-buy.html";
+}
+
 
 // 공통 함수
 /**
@@ -219,7 +282,7 @@ function validateProductQuantity(quantity){
  * @param {Number} num 
  * @returns Boolean
  */
-function isNumber(num){
+function isNumber(num) {
     if (num === undefined) return false;
     if (isNaN(num))        return false;
     return true;
@@ -233,4 +296,13 @@ function isNumber(num){
 function formatNumberWithComma(num) {
     let str = String(num);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+/**
+ * 숫자만 남기기
+ * @param {String} str
+ * @returns Number
+ */
+function onlyNumber(str) {
+    return parseInt(str.replace(/[^0-9]/g, ""));
 }
