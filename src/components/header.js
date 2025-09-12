@@ -54,6 +54,7 @@ const actionSeller = {
   label: "판매자 센터 바로가기",
   text: "판매자 센터",
   id: "action-seller",
+  class: "btn btn-icon",
 };
 
 const actionsDefault = [actionCart, actionLogin];
@@ -128,6 +129,11 @@ export function createHeader() {
       a.id = action.id;
       a.innerHTML = action.svgTag;
       a.ariaLabel = action.label;
+
+      // 판매자 센터 클래스명 부여
+      if (action.class) {
+        a.className = action.class;
+      }
 
       const span = document.createElement("span");
       span.textContent = action.text;

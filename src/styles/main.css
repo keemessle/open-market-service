@@ -169,6 +169,7 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   gap: 8px;
   padding: 11px 20px;
 }
@@ -313,8 +314,8 @@ header {
   padding-left: 32px;
 }
 
-.actions-item:hover :is(svg path, span),
-.actions-item.active :is(svg path, span) {
+.actions-item:hover :is(svg path:not(#action-seller path, span)),
+.actions-item.active :is(svg path:not(#action-seller path, span)) {
   stroke: var(--color-main);
   color: var(--color-main);
 }
@@ -346,27 +347,17 @@ header {
   line-height: 1;
 }
 
-.actions-list #action-seller {
-  background-color: var(--color-main);
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.actions-list .btn-icon {
   flex-direction: row;
   gap: 8px;
   padding: 11px 20px 11px 16px;
-
-  border-radius: 5px;
 }
 
-.actions-list #action-seller span {
+.actions-list .btn-icon span {
   color: #fff;
-  font-size: var(--fs-lg);
-  font-weight: 500;
-  width: auto;
 }
 
-.actions-list #action-seller:hover {
+.actions-list .btn-icon:hover {
   background-color: var(--color-main-dark);
 }
 
