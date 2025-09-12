@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>로그인 모달 임시 파일</title>
+    <title>모달 파일</title>
     <style>
       dialog {
         all: unset;
@@ -18,7 +18,7 @@
         display: block;
       }
 
-      .modal-login {
+      .modal {
         width: auto;
         height: auto;
         border: 1px solid var(--gray-light);
@@ -62,7 +62,7 @@
       }
 
       @media (max-width: 640px) {
-        .modal-login {
+        .modal {
           padding: 50px 40px 34px;
         }
 
@@ -80,10 +80,10 @@
     </style>
   </head>
   <body>    
-    <dialog id="login-modal" class="modal-login">
-      <h2 class="sr-only">로그인을 요청하는 모달 창</h2>
+    <dialog id="modal" class="modal">
+      <h2 class="sr-only">모달 창</h2>
       <div class="modal-content">
-        <p>로그인이 필요한 서비스입니다. <br />로그인 하시겠습니까?</p>
+        <p id="modal-notice"></p>
         <div class="btn-container">
           <button id="btn-no" class="btn btn-s btn-white">아니오</button>
           <button id="btn-yes" class="btn btn-s">예</button>
