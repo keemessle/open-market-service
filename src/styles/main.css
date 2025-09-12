@@ -12,6 +12,7 @@ html {
 body {
   width: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
   font-size: 1.6rem;
   color: #000000;
 
@@ -172,7 +173,8 @@ header {
 .form-search {
   background-color: #fff;
   border: 2px solid var(--color-main);
-  width: 400px;
+  width: auto;
+  max-width: 400px;
   height: 46px;
   border-radius: 24px;
 
@@ -223,9 +225,15 @@ header {
   display: flex;
   justify-content: end;
   align-items: center;
-  gap: 0 26px;
+  gap: clamp(14px, 1.8vw, 26px);
 
-  position: relative;
+  padding-left: 32px;
+}
+
+.actions-item:hover :is(svg path, span),
+.actions-item.active :is(svg path, span) {
+  stroke: var(--color-main);
+  color: var(--color-main);
 }
 
 .actions-list a {
@@ -236,13 +244,15 @@ header {
   gap: 4px;
 }
 
-.actions-list img {
+.actions-list svg {
+  flex-grow: 0;
+  flex-shrink: 0;
   display: block;
-  width: 32px;
-  aspect-ratio: 1;
+  width: clamp(24px, 3vw, 32px);
+  height: clamp(24px, 3vw, 32px);
 }
 
-.actions-list p {
+.actions-list span {
   color: var(--gray-dark);
   font-size: var(--fs-xs);
   min-width: 56px;
@@ -250,13 +260,43 @@ header {
 
   text-align: center;
   white-space: nowrap;
+  line-height: 1;
+}
+
+.actions-list #action-seller {
+  background-color: var(--color-main);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
+  padding: 11px 20px 11px 16px;
+
+  border-radius: 5px;
+}
+
+.actions-list #action-seller span {
+  color: #fff;
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  width: auto;
+}
+
+.actions-list #action-seller:hover {
+  background-color: var(--color-main-dark);
 }
 
 /* 마이페이지 드롭다운 */
+.dropdown-parent {
+  position: relative;
+}
+
 .dropdown-mypage {
   position: absolute;
-  transform: translateX(50%);
-  top: calc(100% + 24px);
+  top: 150%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
 
   background-color: #fff;
@@ -271,16 +311,21 @@ header {
 
   color: var(--gray-dark);
   font-weight: 500;
+  white-space: nowrap;
 
   display: none;
 }
 
 .dropdown-mypage.active {
-  display: inline-block;
+  display: flex;
 }
 
-#action-mypage.active p {
-  color: var(--color-main) !important;
+.dropdown-mypage.overflow {
+  left: 8px;
+}
+
+.dropdown-mypage.overflow::before {
+  left: 68%;
 }
 
 .dropdown-mypage .dropdown-item {
@@ -297,6 +342,7 @@ header {
   gap: 8px;
 
   background-color: #fff;
+  border: 1px solid #fff;
 }
 
 .dropdown-mypage .dropdown-item:hover {
@@ -434,12 +480,24 @@ footer .divider {
   }
 
   .dropdown-mypage {
-    transform: translateX(0) !important;
-    right: -8% !important;
+    padding: 6px;
   }
 
-  .dropdown-mypage::before {
-    left: 71%;
+  .dropdown-mypage .dropdown-item {
+    width: 98px;
+    height: 36px;
+    border-radius: 5px;
+
+    gap: 6px;
+    font-size: var(--fs-sm);
+  }
+
+  .actions-list #action-seller {
+    padding: 8px 16px 8px 14px;
+  }
+
+  .actions-list #action-seller span {
+    font-size: var(--fs-md);
   }
 }
 
@@ -449,6 +507,7 @@ footer .divider {
     height: 72px;
     display: flex;
     justify-content: space-between;
+    gap: 0 14px;
   }
 
   .header-h1 {
@@ -464,23 +523,34 @@ footer .divider {
     display: inline-block;
   }
 
-  .dropdown-mypage {
-    top: calc(100% + 20px);
-  }
-
   /* section-list */
   .actions-list {
-    gap: 0 8px;
+    gap: 4px;
+    padding-left: 14px;
   }
 
-  .actions-list img {
-    width: 24px;
+  .actions-list a {
+    gap: 4px;
   }
 
-  .actions-list p {
+  .actions-list span {
     color: var(--gray-dark);
     font-size: var(--fs-xs);
     width: 48px;
+  }
+
+  .actions-list #action-seller {
+    padding: 8px 14px 8px 8px;
+    margin-left: 12px;
+  }
+
+  .actions-list #action-seller svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .actions-list #action-seller span {
+    font-size: var(--fs-sm);
   }
 }
 
