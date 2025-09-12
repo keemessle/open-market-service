@@ -139,43 +139,46 @@ input {
 }
 
 .btn-lg {
-  font-size: 24px;
+  font-size: var(--fs-2xl);
   width: 220px;
   height: 68px;
 }
 
 .btn-m {
-  font-size: 18px;
+  font-size: var(--fs-lg);
   width: 480px;
   height: 60px;
 }
 
 .btn-ms {
-  font-size: 16px;
+  font-size: var(--fs-md);
   width: 200px;
   height: 60px;
 }
 
 .btn-s {
-  font-size: 16px;
+  font-size: var(--fs-md);
   width: 80px;
   height: 40px;
 }
 
 .btn-icon {
   background-color: var(--color-main);
+  border-radius: 5px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-direction: row;
   gap: 8px;
-  padding: 11px 20px 11px 16px;
-
-  border-radius: 5px;
+  padding: 11px 20px;
 }
 
 .btn-icon svg {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: block;
+  width: 30px;
+  height: 30px;
 }
 
 .btn-icon span {
@@ -183,6 +186,8 @@ input {
   font-size: var(--fs-lg);
   font-weight: 500;
   width: auto;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .btn:hover {
