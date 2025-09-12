@@ -225,7 +225,7 @@ header {
   display: flex;
   justify-content: end;
   align-items: center;
-  gap: 0 clamp(14px, 2.5vw, 26px);
+  gap: clamp(14px, 1.8vw, 26px);
 
   padding-left: 32px;
 }
@@ -525,6 +525,7 @@ footer .divider {
 
   /* section-list */
   .actions-list {
+    gap: 4px;
     padding-left: 14px;
   }
 
@@ -540,6 +541,7 @@ footer .divider {
 
   .actions-list #action-seller {
     padding: 8px 14px 8px 8px;
+    margin-left: 12px;
   }
 
   .actions-list #action-seller svg {
