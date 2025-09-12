@@ -104,7 +104,7 @@ a {
    layout
    ========================= */
 
-h1 > img {
+h1 > a > img {
   width: 23.8rem;
   aspect-ratio: 238/74;
   object-fit: contain;
@@ -131,7 +131,7 @@ h1 > img {
   padding: 2rem;
   text-align: center;
   font-weight: 500;
-  border: 2px solid var(--color-border);
+  border: 1px solid var(--color-border);
   border-radius: 1rem 1rem 0 0;
   background-color: var(--color-gray);
 }
@@ -157,7 +157,7 @@ h1 > img {
   flex-direction: column;
   align-items: center;
   padding: 3.6rem 0;
-  border: 2px solid var(--color-border);
+  border: 1px solid var(--color-border);
   border-radius: 1rem;
   background-color: #fff;
   position: relative;

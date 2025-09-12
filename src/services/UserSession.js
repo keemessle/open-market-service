@@ -52,7 +52,7 @@ export class UserSession {
     return true;
   }
 
-  // 토큰 재발급 -> 성공/ 실패 여부를 간단히 알 수 있는 로직 필요
+  // 토큰 재발급
   async refreshAccessToken() {
     const refreshToken = this.getRefresh();
     const rexp = Number(this.storage.getItem("omkt_rexp") || 0);

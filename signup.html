@@ -12,7 +12,9 @@
     <div id="toast-container"></div>
 
     <h1>
-      <img src="./assets/images/Logo-hodu.png" alt="호두 사이트 로고" />
+      <a href="./index.html">
+        <img src="./assets/images/Logo-hodu.png" alt="호두 사이트 로고" />
+      </a>
     </h1>
 
     <section>
@@ -36,36 +38,52 @@
         <form id="signup-form" autocomplete="on">
           <div class="input-wrap">
             <!-- 아이디 -->
-            <div class="form-group">
+            <div class="form-group id">
               <div class="id-input-wrap">
                 <label for="user-id">아이디</label>
-                <input type="text" id="user-id" name="user-id" />
+                <input
+                  type="text"
+                  id="user-id"
+                  name="username"
+                  maxlength="20"
+                />
               </div>
-              <button type="button" class="check-btn">중복확인</button>
+              <button type="button" class="id-check-btn">중복확인</button>
             </div>
 
             <p id="id-check" aria-live="polite"></p>
 
             <!-- 비밀번호 -->
-            <div class="form-group">
+            <div class="form-group pw">
               <label for="password">비밀번호</label>
               <div class="pw-input-wrap">
-                <input type="password" id="password" name="password" />
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  minlength="8"
+                />
                 <img
                   src="./assets/images/icons/icon-check-off.svg"
                   alt=""
+                  class="check-img"
                   aria-hidden="true"
                 />
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group pwc">
               <label for="pw-check">비밀번호 재확인</label>
               <div class="pw-input-wrap">
-                <input type="password" id="pw-check" name="passwordConfirm" />
+                <input
+                  type="password"
+                  id="password-confirm"
+                  name="passwordConfirm"
+                />
                 <img
                   src="./assets/images/icons/icon-check-off.svg"
                   alt=""
+                  class="recheck-img"
                   aria-hidden="true"
                 />
               </div>
@@ -74,13 +92,13 @@
             <p id="pw-check" aria-live="polite"></p>
 
             <!-- 이름 -->
-            <div class="form-group">
+            <div class="form-group name">
               <label for="user-name">이름</label>
-              <input type="text" id="user-name" name="username" />
+              <input type="text" id="user-name" name="name" />
             </div>
 
             <!-- 휴대폰번호 -->
-            <fieldset class="form-group">
+            <fieldset class="form-group phone-num">
               <legend>휴대폰번호</legend>
               <div class="phone-wrap">
                 <label for="phone1" class="sr-only">통신사 앞자리</label>
@@ -110,12 +128,12 @@
               </div>
             </fieldset>
 
-            <!-- 판매자 전용 회원가입 -->
+            <!-- 판매자 회원가입란 -->
             <div class="seller-only" data-role-visible="SELLER" hidden>
               <!-- 사업자 등록번호 -->
-              <div class="form-group">
-                <label for="biz-num">사업자 등록번호</label>
+              <div class="form-group biz-num">
                 <div class="biz-input-wrap">
+                  <label for="biz-num">사업자 등록번호</label>
                   <input
                     type="text"
                     id="biz-num"
@@ -123,14 +141,16 @@
                     pattern="[0-9]{10}"
                     maxlength="10"
                   />
-                  <button type="button" class="check-btn">인증</button>
                 </div>
+                <button type="button" class="biz-check-btn">인증</button>
               </div>
 
+              <p id="biz-check" aria-live="polite"></p>
+
               <!-- 스토어 이름 -->
-              <div class="form-group">
-                <label for="shop-name">스토어 이름</label>
-                <input type="text" id="shop-name" name="shop_name" />
+              <div class="form-group store-name">
+                <label for="store-name">스토어 이름</label>
+                <input type="text" id="store-name" name="shop-name" />
               </div>
             </div>
           </div>
@@ -139,7 +159,7 @@
           <fieldset class="agree-wrap">
             <legend class="sr-only">약관 동의</legend>
             <label class="agree">
-              <input type="checkbox" id="agree" name="agree" required />
+              <input type="checkbox" id="agree-box" name="agree" required />
               <span class="agree-text">
                 호두샵의
                 <strong>이용약관</strong> 및
@@ -149,7 +169,9 @@
             </label>
           </fieldset>
 
-          <button class="signup-btn" type="submit">가입하기</button>
+          <button class="signup-btn" type="submit" disabled="true">
+            가입하기
+          </button>
         </form>
       </div>
     </section>
