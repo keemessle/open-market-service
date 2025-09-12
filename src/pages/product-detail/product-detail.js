@@ -1,6 +1,8 @@
 /* 공통 영역 시작 */
+// 컴포넌트 import
 import { createHeader } from "../../components/header.js";
 import { createFooter } from "../../components/footer.js";
+import { showLoginModal } from "../../components/login-modal.js";
 
 // header & footer 넣기
 let isLoggedIn = false;
@@ -20,7 +22,7 @@ let   productStock           = 0;
 let   productAmount          = 0;
 let   productDeliveryFee     = 0;
 
-const $productAbstract       = document.getElementById("product-abstract");
+// const $productAbstract       = document.getElementById("product-abstract");
 const $productImage          = document.getElementById("product-image");
 const $productImageSoldout   = document.getElementById("product-image-soldout");
 const $productBrand          = document.getElementById("product-brand");
@@ -39,15 +41,16 @@ const $btnBuy                = document.getElementById("btn-buy");
 const $btnCart               = document.getElementById("btn-cart");
 
 const $tabArea               = document.getElementById("tab-area");
-const $productTabInfo        = document.getElementById("product-tab-info");
-const $productTabReview      = document.getElementById("product-tab-review");
-const $productTabQna         = document.getElementById("product-tab-qna");
-const $productTabRefund      = document.getElementById("product-tab-refund");
+// const $productTabInfo        = document.getElementById("product-tab-info");
+// const $productTabReview      = document.getElementById("product-tab-review");
+// const $productTabQna         = document.getElementById("product-tab-qna");
+// const $productTabRefund      = document.getElementById("product-tab-refund");
 
 const $productInfo           = document.getElementById("product-info");
-const $productReview         = document.getElementById("product-review");
-const $productQna            = document.getElementById("product-qna");
-const $productRefund         = document.getElementById("product-refund");
+
+// const $productReview         = document.getElementById("product-review");
+// const $productQna            = document.getElementById("product-qna");
+// const $productRefund         = document.getElementById("product-refund");
 
 
 // API 호출
@@ -56,16 +59,15 @@ async function getProductDetail() {
         const res = await fetch(API_URL);
         if (!res.ok) throw new Error('오류 발생!', res.status);
         const data = await res.json();
-        console.log(data);
 
         $productImage.setAttribute("src",data.image);
-        $productBrand.innerText     = data.seller.store_name;
-        $productName.innerText      = data.name;
-        $productAmount.innerText    = `${formatNumberWithComma(data.price)}원`;
-        productAmount               = data.price;
-        productDeliveryFee          = data.shipping_fee;
-        productStock                = data.stock;
-        $productInfo.innerHTML      = data.info;
+        $productBrand.innerText           = data.seller.store_name;
+        $productName.innerText            = data.name;
+        $productAmount.innerText          = `${formatNumberWithComma(data.price)}`;
+        productAmount                     = data.price;
+        productDeliveryFee                = data.shipping_fee;
+        productStock                      = data.stock;
+        $productInfo.innerHTML            = data.info;
         
         if (productDeliveryFee === 0) {
             $productShoppingMethod.innerText = "무료배송";
@@ -75,14 +77,18 @@ async function getProductDetail() {
         }
 
         if (productStock === 0) {
-            $btnAdd.disabled            = true;
-            $productTotAmount.innerText = 0;
-            $productImageSoldout.classList.add("product__image--soldout-active");
+            $btnAdd.disabled              = true;
+            $productTotAmount.innerText   = 0;
+            $productImageSoldout.classList.add("product-image-soldout-active");
+            $btnBuy.disabled              = true;
+            $btnCart.disabled             = true;
         }
         else {
             $productQuantity.value        = 1;
             $productTotQuantity.innerText = 1;
             $productTotAmount.innerText   = formatNumberWithComma(productAmount + productDeliveryFee);
+            $btnBuy.disabled              = false;
+            $btnCart.disabled             = false;
         }       
 
       } catch (err) {        
@@ -95,7 +101,8 @@ async function getProductDetail() {
     
 // 이벤트
 // API 호출
-window.addEventListener('DOMContentLoaded', getProductDetail);
+window.addEventListener("DOMContentLoaded", getProductDetail);
+
 
 // 수량 감소 버튼 클릭
 $btnDec.addEventListener("click", function(e){
@@ -105,7 +112,7 @@ $btnDec.addEventListener("click", function(e){
         return alert("물품 수량이 잘못 되었습니다.");
     }
 
-    $productQuantity.value = --productQuantity;
+    $productQuantity.value = -productQuantity;
 
     // 수량이 1개 이하일 경우, 감소 버튼 비활성화
     validateProductQuantity(productQuantity);
@@ -139,37 +146,45 @@ $btnAdd.addEventListener("click", function(e){
 // 바로 구매 버튼 클릭
 $btnBuy.addEventListener("click", function(e){
     if(!isLoggedIn){
-        return confirm("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?")
+      
+        showLoginModal(e);
+
+        return;
     }
 
-    location.href = "";
+    // 임시페이지 연결 (데이터 전달은 어떻게?)
+    location.href = "./product-buy.html";
 });
 
 // 장바구니 버튼 클릭
 $btnCart.addEventListener("click", function(e){
     if(!isLoggedIn){
-        return confirm("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?")
+
+        showLoginModal(e);
+
+        return;
     }
 
-    location.href = "";
+    // 임시페이지 연결 (데이터 전달은 어떻게?)
+    location.href = "./cart.html";
 });
 
 // 탭 버튼 클릭
 $tabArea.addEventListener("click", function(e) {
     if (e.target.tagName !== "BUTTON") return;
     
-    const $activeBtn     = $tabArea.querySelector(".product-tabs__tab--active");
+    const $activeBtn     = $tabArea.querySelector(".product-tabs-tab-active");
     const $activeContent = document.querySelector($activeBtn.dataset.target);
 
     // 숨김처리
-    $activeBtn.classList.remove("product-tabs__tab--active");
+    $activeBtn.classList.remove("product-tabs-tab-active");
     $activeContent.classList.add("hide");
 
     // 활성화처리
     const $newBtn     = e.target;
     const $newContent = document.querySelector($newBtn.dataset.target);
 
-    $newBtn.classList.add("product-tabs__tab--active");
+    $newBtn.classList.add("product-tabs-tab-active");
     $newContent.classList.remove("hide");
 });
 
