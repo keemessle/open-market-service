@@ -44,6 +44,7 @@
 :root {
   /* color */
   --color-main: #21bf48;
+  --color-error: #eb5757;
   --color-gray: #f2f2f2;
   --color-gray-1: #333333;
   --color-border: #c4c4c4;
@@ -106,7 +107,7 @@ a {
 /* =========================
    layout
    ========================= */
-h1 > img {
+h1 > a > img {
   width: 23.8rem;
   aspect-ratio: 238/74;
   object-fit: contain;
@@ -131,7 +132,7 @@ h1 > img {
   padding: 2rem;
   text-align: center;
   font-weight: 500;
-  border: 2px solid var(--color-border);
+  border: 1px solid var(--color-border);
   border-radius: 1rem 1rem 0 0;
   background-color: var(--color-gray);
 }
@@ -201,7 +202,7 @@ select:focus-visible {
 }
 
 /* 아이디 */
-.form-group:nth-child(1) {
+.form-group.id {
   display: flex;
   flex-direction: row;
 }
@@ -217,13 +218,19 @@ select:focus-visible {
   height: 5.4rem;
 }
 
-.check-btn {
+.id-check-btn {
   width: 12.2rem;
   height: 5.4rem;
   align-self: end;
   font-size: 1.6rem;
   color: #fff;
   background-color: var(--color-main);
+}
+
+#id-check {
+  width: 48rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-main);
 }
 
 /* 비밀번호 */
@@ -246,19 +253,20 @@ select:focus-visible {
   right: 1.3rem;
 }
 
-/* 비밀번호 재확인 */
-.form-group:nth-child(3) {
-  margin-bottom: 5rem;
+#pw-check {
+  width: 48rem;
+  margin-bottom: 4rem;
+  color: var(--color-error);
 }
 
 /* 이름 */
-.form-group:nth-child(4) {
+.form-group.name {
   margin-bottom: 1.6rem;
 }
 
 /* 휴대폰번호 */
-.form-group:nth-child(5) {
-  margin-bottom: 0;
+.form-group.phone-num {
+  margin-bottom: 0rem;
 }
 
 .phone-wrap {
@@ -320,5 +328,54 @@ strong {
   height: 6rem;
   font-weight: 700;
   color: #fff;
+  background-color: var(--color-main);
+}
+
+.signup-btn:disabled {
+  width: 48rem;
+  height: 6rem;
+  font-weight: 700;
+  color: #fff;
   background-color: var(--color-border);
+}
+
+/* 에러 처리 */
+.input-error {
+  border: 1px solid var(--color-error) !important;
+}
+
+.message-error {
+  color: var(--color-error) !important;
+}
+
+/* 판매자 전용: 사업자 등록번호 */
+.form-group.biz-num {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5rem;
+  margin-bottom: 1.6rem;
+}
+
+.biz-input-wrap {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1.2rem;
+}
+
+#biz-num {
+  width: 34.6rem;
+}
+
+.biz-check-btn {
+  width: 12.2rem;
+  height: 5.4rem;
+  align-self: end;
+  font-size: 1.6rem;
+  color: #fff;
+  background-color: var(--color-main);
+}
+
+/* 판매자 전용: 스토어 이름 */
+.form-group.store-name {
+  margin-bottom: 0;
 }
