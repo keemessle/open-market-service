@@ -29,7 +29,7 @@ const actionSeller = {
   href: "./seller-center.html",
   img: "./assets/images/icons/icon-shopping-bag.svg",
   alt: "판매자 센터 바로가기",
-  text: "판메자 센터",
+  text: "판매자 센터",
   id: "action-seller",
 };
 
