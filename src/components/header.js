@@ -91,7 +91,7 @@ export function createHeader() {
     $header.innerHTML = `
     <div class="header-container container">
       <h1 class="header-h1">
-        <a href="#">
+        <a href="./index.html">
           <img class="header-logo" src="./assets/images/Logo-hodu.png" alt="호두샵 로고" />
           <span class="sr-only">HODU</span>
         </a>
