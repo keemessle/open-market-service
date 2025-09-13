@@ -1,5 +1,37 @@
 import { UserSession } from "../services/UserSession.js";
 
+// headerHTML - 기본 / 판매자 센터용
+const defaultHeaderHTML = `
+    <div class="header-container container">
+      <h1 class="header-h1">
+        <a href="./index.html">
+          <img class="header-logo" src="./assets/images/Logo-hodu.png" alt="호두샵 로고" />
+          <span class="sr-only">HODU</span>
+        </a>
+      </h1>
+      <form class="form-search" action="/search" method="get">
+        <a class="search-logo-wrap" href="#"><img class="search-logo" src="./assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
+        <label class="sr-only" for="search">검색</label>
+        <input id="search" type="text" placeholder="상품을 검색해보세요!" />
+        <button type="submit"></button>
+      </form>
+      <ul class="actions-list">
+      </ul>
+    </div>
+  `;
+
+const sellerHeaderHTML = `
+    <div class="header-container seller seller-container">
+      <h1 class="header-h1">
+        <a href="./index.html">
+          <img class="header-logo" src="./assets/images/Logo-hodu.png" alt="호두샵 로고" />
+          <span class="sr-only">HODU</span>
+        </a>
+      </h1>
+      <p class="header-title">판매자 센터</p>
+    </div>
+  `;
+
 //로그인별 actions-list
 const actionCart = {
   href: "./cart.html",
@@ -66,46 +98,38 @@ export function createHeader() {
   const loginSession = new UserSession(localStorage);
   const isLoggedIn = loginSession.isAuthed();
   const isBuyer = loginSession.isBuyer();
-  // const isSeller = loginSession.isSeller();
-  const isSeller = true;
+  const isSeller = loginSession.isSeller();
 
   // header 없으면 생성
   let existHeader = document.querySelector("header");
   if (existHeader) return;
 
-  const $header = createDOM();
+  // header
+  let $header;
 
-  if (isLoggedIn && isBuyer) {
-    loadActionsList(actionsLoggedIn);
-  } else if (isLoggedIn && isSeller) {
-    loadActionsList(actionsLoggedInSeller);
+  const path = window.location.pathname;
+  const isSellerCenter =
+    path === "/seller-center.html" || path === "/make-product.html";
+  if (isSellerCenter) {
+    $header = createDOM(sellerHeaderHTML);
   } else {
-    loadActionsList(actionsDefault);
+    $header = createDOM(defaultHeaderHTML);
+
+    if (isLoggedIn && isBuyer) {
+      loadActionsList(actionsLoggedIn);
+    } else if (isLoggedIn && isSeller) {
+      loadActionsList(actionsLoggedInSeller);
+    } else {
+      loadActionsList(actionsDefault);
+    }
   }
 
   // DOM 생성
-  function createDOM() {
+  function createDOM(headerHTML) {
     const $header = document.createElement("header");
     document.body.prepend($header);
 
-    $header.innerHTML = `
-    <div class="header-container container">
-      <h1 class="header-h1">
-        <a href="./index.html">
-          <img class="header-logo" src="./assets/images/Logo-hodu.png" alt="호두샵 로고" />
-          <span class="sr-only">HODU</span>
-        </a>
-      </h1>
-      <form class="form-search" action="/search" method="get">
-        <a class="search-logo-wrap" href="#"><img class="search-logo" src="./assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
-        <label class="sr-only" for="search">검색</label>
-        <input id="search" type="text" placeholder="상품을 검색해보세요!" />
-        <button type="submit"></button>
-      </form>
-      <ul class="actions-list">
-      </ul>
-    </div>
-  `;
+    $header.innerHTML = headerHTML;
     return $header;
   }
 
@@ -143,6 +167,9 @@ export function createHeader() {
     });
 
     showDropdown();
+    setDropdownPos();
+    activeActionList();
+    setupLogout();
   }
 
   // 마이페이지 드롭다운 active
@@ -183,22 +210,26 @@ export function createHeader() {
   }
 
   // 액션 리스트 선택시 active
-  const $actionsList = document.querySelector(".actions-list");
-  $actionsList.addEventListener("click", (e) => {
-    const target = e.target.closest(".actions-item");
-    if (!target) return;
-    target.classList.add("active");
-  });
+  function activeActionList() {
+    const $actionsList = document.querySelector(".actions-list");
+    $actionsList.addEventListener("click", (e) => {
+      const target = e.target.closest(".actions-item");
+      if (!target) return;
+      target.classList.add("active");
+    });
+  }
 
   // 로그아웃 버튼 이벤트
-  const $logoutBtn = document.getElementById("btn-logout");
-  if ($logoutBtn) {
-    $logoutBtn.addEventListener("click", () => {
-      loginSession.clear();
-      window.location.href = "./index.html";
-      // 수정
-      location.reload();
-    });
+  function setupLogout() {
+    const $logoutBtn = document.getElementById("btn-logout");
+    if ($logoutBtn) {
+      $logoutBtn.addEventListener("click", () => {
+        loginSession.clear();
+        window.location.href = "./index.html";
+        // 수정
+        location.reload();
+      });
+    }
   }
 
   window.addEventListener("resize", () => {

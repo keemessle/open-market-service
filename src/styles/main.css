@@ -120,8 +120,6 @@ input {
 }
 
 .seller-container {
-  margin-top: 44px;
-
   max-width: calc(1720px + 48px);
   margin: 0 auto;
   padding: 0 24px;
@@ -326,6 +324,7 @@ main {
   flex: 1;
 }
 
+/* default-header */
 header {
   background-color: #fff;
   box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.1);
@@ -445,6 +444,28 @@ header {
 .actions-item.active :is(svg path, span) {
   stroke: var(--color-main);
   color: var(--color-main);
+}
+
+/* seller-header */
+.header-container.seller {
+  height: 90px;
+
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-container.seller .header-logo {
+  flex: 0 0 80px;
+  width: 80px;
+  height: auto;
+  display: block;
+}
+
+.header-container.seller .header-title {
+  font-size: var(--fs-3xl);
+  font-weight: 500;
 }
 
 /* 마이페이지 드롭다운 */
@@ -672,6 +693,10 @@ footer .divider {
 
   .header-h1 {
     display: none;
+  }
+
+  .header-container.seller .header-h1 {
+    display: inline-block;
   }
 
   .form-search {
