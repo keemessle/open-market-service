@@ -213,7 +213,7 @@ input {
   background-color: var(--color-main-dark);
 }
 
-.btn-disabled {
+.btn:disabled {
   background-color: var(--gray-light);
   cursor: not-allowed;
 }
@@ -236,6 +236,38 @@ input {
 
 .btn-dark:hover {
   background-color: #4a4a4a;
+}
+
+/* 가격 사이즈 : price-l price-m price-s */
+/* <p class="price-lg"><span>가격</span>원</p> 구조 */
+.price-l {
+  font-size: var(--fs-lg);
+}
+
+.price-l span {
+  padding-right: 2px;
+  font-size: var(--fs-4xl);
+  font-weight: 700;
+}
+
+.price-m {
+  font-size: var(--fs-lg);
+}
+
+.price-m span {
+  padding-right: 2px;
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+}
+
+.price-s {
+  font-size: var(--fs-sm);
+}
+
+.price-s span {
+  padding-right: 4px;
+  font-size: var(--fs-lg);
+  font-weight: 700;
 }
 
 /* tab-menu */
