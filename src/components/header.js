@@ -166,9 +166,13 @@ export function createHeader() {
       $actionsList.appendChild(li);
     });
 
+    activeActionList();
+    if (isLoggedIn) setupLoggedInActions();
+  }
+
+  function setupLoggedInActions() {
     showDropdown();
     setDropdownPos();
-    activeActionList();
     setupLogout();
   }
 
@@ -193,7 +197,7 @@ export function createHeader() {
         return;
 
       $mypageDropdown.classList.remove("active");
-      $mypageDropdown.closest(".actions-item").classList.remove("active");
+      $mypageDropdown.closest(".actions-item")?.classList.remove("active");
     });
   }
 
@@ -226,14 +230,14 @@ export function createHeader() {
       $logoutBtn.addEventListener("click", () => {
         loginSession.clear();
         window.location.href = "./index.html";
-        // 수정
-        location.reload();
       });
     }
   }
 
   window.addEventListener("resize", () => {
-    setDropdownPos();
+    if (document.querySelector(".dropdown-mypage")) {
+      setDropdownPos();
+    }
   });
 
   return $header;
