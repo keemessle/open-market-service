@@ -188,6 +188,11 @@ header {
 
   overflow: hidden;
   padding: 0 22px;
+  position: relative;
+}
+
+.form-search:focus-within {
+  outline: 1px solid var(--color-main);
 }
 
 .form-search .search-logo-wrap {
@@ -213,7 +218,27 @@ header {
   color: var(--gray-dark);
 }
 
-.form-search button {
+.form-search .btn-clear {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 16.5%;
+
+  background: var(--gray-dark) url("../../assets/images/icons/icon-delete.svg")
+    no-repeat center / 70%;
+  width: 16px;
+  aspect-ratio: 1;
+  opacity: 35%;
+  z-index: 10;
+
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+
+  /* display: none; */
+}
+
+.form-search .btn-search {
   flex: 0 1 auto;
   width: 28px;
   min-width: 22px;

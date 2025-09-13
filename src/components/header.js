@@ -14,7 +14,8 @@ const defaultHeaderHTML = `
         <a class="search-logo-wrap" href="#"><img class="search-logo" src="./assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
         <label class="sr-only" for="search">검색</label>
         <input id="search" type="text" placeholder="상품을 검색해보세요!" />
-        <button type="submit"></button>
+        <button type="button" class="btn-clear"></button>
+        <button type="submit" class="btn-search"></button>
       </form>
       <ul class="actions-list">
       </ul>
@@ -237,6 +238,20 @@ export function createHeader() {
       });
     }
   }
+
+  // 검색어 초기화
+  const $searchInput = document.getElementById("search");
+  const $clearBtn = document.querySelector(".btn-clear");
+
+  $searchInput.addEventListener("input", () => {
+    $clearBtn.style.display = $searchInput.value ? "block" : "none";
+  });
+
+  $clearBtn.addEventListener("click", () => {
+    $searchInput.value = "";
+    $clearBtn.style.display = "none";
+    $searchInput.focus();
+  });
 
   window.addEventListener("resize", () => {
     if (document.querySelector(".dropdown-mypage")) {
