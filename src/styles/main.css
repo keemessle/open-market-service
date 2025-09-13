@@ -61,7 +61,7 @@ html {
 }
 
 body {
-  font-family: "SpoqaHanSansNeo" !important;
+  font-family: "SpoqaHanSansNeo";
   font-weight: 400;
 
   width: 100%;
@@ -221,11 +221,18 @@ header {
 }
 
 .actions-list a {
+  flex: 0 1 auto;
+
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 4px;
+}
+
+.actions-list .btn-icon {
+  flex-direction: row;
+  gap: 8px;
 }
 
 .actions-list svg {
@@ -461,6 +468,7 @@ footer .divider {
 }
 
 /* 공통 CSS */
+
 /* 버튼 사이즈 : btn + btn-lg / btn-m / btn-ms / btn-s */
 /* 버튼 컬러 : default: 메인 그린 컬러 / btn + btn-white / btn-dark */
 /* 버튼 기능 : default: / btn + btn-disabled */
@@ -506,15 +514,15 @@ footer .divider {
 }
 
 .btn-icon {
-  background-color: var(--color-main) !important;
-  border-radius: 5px !important;
+  background-color: var(--color-main);
+  border-radius: 5px;
 
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  flex-direction: row !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
 
-  gap: 8px !important;
+  gap: 8px;
   padding: 11px 20px 11px 16px;
 }
 
@@ -527,21 +535,22 @@ footer .divider {
 }
 
 .btn-icon span {
-  color: #fff !important;
-  font-size: var(--fs-lg) !important;
-  font-weight: 500 !important;
-  width: auto;
-  white-space: nowrap !important;
-  line-height: 1 !important;
+  flex: 0 0 auto;
+
+  color: #fff;
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .btn-icon:hover {
-  background-color: var(--color-main-dark) !important;
+  background-color: var(--color-main-dark);
 }
 
 .btn-icon:hover :is(svg path, span) {
-  stroke: #fff !important;
-  color: #fff !important;
+  stroke: #fff;
+  color: #fff;
 }
 
 .btn:hover {
@@ -655,7 +664,6 @@ footer .divider {
 }
 
 /* responsive */
-
 @media (max-width: 1280px) {
   .container {
     width: 100%;
@@ -675,11 +683,11 @@ footer .divider {
   }
 
   .actions-list .btn-icon {
-    padding: 8px 16px 8px 14px !important;
+    padding: 8px 16px 8px 14px;
   }
 
   .actions-list .btn-icon span {
-    font-size: var(--fs-md) !important;
+    font-size: var(--fs-md);
   }
 }
 
@@ -709,7 +717,7 @@ footer .divider {
     display: inline-block;
   }
 
-  /* section-list */
+  /* actions-list */
   .actions-list {
     gap: 4px;
     padding-left: 14px;
@@ -717,26 +725,30 @@ footer .divider {
 
   .actions-list a {
     gap: 4px;
+    color: #fff;
   }
 
   .actions-list span {
     color: var(--gray-dark);
     font-size: var(--fs-xs);
-    width: 48px;
   }
 
   .actions-list .btn-icon {
-    padding: 8px 14px 8px 8px !important;
-    margin-left: 12px !important;
-  }
-
-  .actions-list .btn-icon svg {
-    width: 22px !important;
-    height: 22px !important;
+    padding: 8px 10px 8px 8px;
+    margin-left: 12px;
   }
 
   .actions-list .btn-icon span {
-    font-size: var(--fs-sm) !important;
+    color: #fff;
+  }
+
+  .actions-list .btn-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .actions-list .btn-icon span {
+    font-size: var(--fs-sm);
   }
 }
 
