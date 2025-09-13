@@ -362,10 +362,15 @@ header {
   padding-left: 32px;
 }
 
-.actions-item:hover :is(svg path:not(#action-seller path, span)),
-.actions-item.active :is(svg path:not(#action-seller path, span)) {
+.actions-item:hover :is(svg path, span),
+.actions-item.active :is(svg path, span) {
   stroke: var(--color-main);
   color: var(--color-main);
+}
+
+#action-seller:hover :is(svg path, span) {
+  stroke: #fff;
+  color: #fff;
 }
 
 .actions-list a {
