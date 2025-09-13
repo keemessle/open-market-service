@@ -178,8 +178,9 @@ input {
   font-size: 1.6rem;
 }
 
-input:focus {
+input:focus-visible {
   border-bottom: 1px solid var(--color-main);
+  outline: none;
 }
 
 input:first-of-type {

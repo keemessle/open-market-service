@@ -204,33 +204,25 @@ select:focus-visible {
 /* 아이디 */
 .form-group.id {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .id-input-wrap {
   display: flex;
-  flex-direction: column;
-  margin-right: 1.2rem;
+  gap: 1.4rem;
 }
 
 #user-id {
   width: 34.6rem;
-  height: 5.4rem;
+  margin-bottom: 0;
 }
 
 .id-check-btn {
   width: 12.2rem;
   height: 5.4rem;
-  align-self: end;
   font-size: 1.6rem;
   color: #fff;
   background-color: var(--color-main);
-}
-
-#id-check {
-  width: 48rem;
-  margin-bottom: 1.5rem;
-  color: var(--color-main);
 }
 
 /* 비밀번호 */
@@ -253,10 +245,8 @@ select:focus-visible {
   right: 1.3rem;
 }
 
-#pw-check {
-  width: 48rem;
-  margin-bottom: 4rem;
-  color: var(--color-error);
+.form-group.pwc {
+  margin-bottom: 5rem;
 }
 
 /* 이름 */
@@ -277,6 +267,7 @@ select:focus-visible {
 
 .phone-wrap input {
   width: 15.2rem;
+  text-align: center;
 }
 
 select {
@@ -307,9 +298,39 @@ option {
   margin-right: 1.2rem;
 }
 
-.agree-wrap input[type="checkbox"] {
+/* .agree-wrap input[type="checkbox"] {
   accent-color: #fff;
   color: var(--color-main);
+} */
+
+/* 체크박스 숨기고, 커스텀 박스와 체크 표시를 CSS로 만듭니다 */
+.agree input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  vertical-align: middle;
+  cursor: pointer;
+  position: relative;
+}
+
+.agree input[type="checkbox"]:checked {
+  border-color: var(--color-main);
+}
+
+.agree input[type="checkbox"]:checked::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 5px;
+  top: 3px;
+  width: 10px;
+  height: 10px;
+  border: solid var(--color-main);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
 }
 
 .agree-text {
@@ -339,6 +360,11 @@ strong {
   background-color: var(--color-border);
 }
 
+.message {
+  width: 48rem;
+  margin: 1rem 0;
+}
+
 /* 에러 처리 */
 .input-error {
   border: 1px solid var(--color-error) !important;
@@ -348,18 +374,24 @@ strong {
   color: var(--color-error) !important;
 }
 
+.message-success {
+  color: var(--color-main) !important;
+}
+
+/* 판매자 */
+.seller-only {
+  margin-top: 5rem;
+}
+
 /* 판매자 전용: 사업자 등록번호 */
 .form-group.biz-num {
   display: flex;
-  flex-direction: row;
-  margin-top: 5rem;
-  margin-bottom: 1.6rem;
+  flex-direction: column;
 }
 
 .biz-input-wrap {
   display: flex;
-  flex-direction: column;
-  margin-right: 1.2rem;
+  gap: 1.2rem;
 }
 
 #biz-num {
