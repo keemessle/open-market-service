@@ -49,6 +49,7 @@
 /* table */
 .table {
   flex: 1 1 auto;
+  min-width: 600px;
   min-height: 60vh;
 
   border-radius: 5px;
@@ -59,7 +60,7 @@
 
   display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: stretch;
   flex-direction: column;
 }
 
@@ -69,11 +70,11 @@
   border-bottom: 1px solid var(--gray-light);
 
   display: grid;
-  grid-template-columns: minmax(250px, 2fr) 1fr 0.7fr 0.7fr;
-  grid-auto-flow: column;
+  grid-template-columns: 2fr 1fr 0.7fr 0.7fr;
   align-items: center;
   justify-items: center;
   text-align: center;
+  white-space: nowrap;
 }
 
 .table-head,
