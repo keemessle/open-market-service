@@ -91,6 +91,7 @@ a {
 
 button {
   all: unset;
+  box-sizing: border-box;
   cursor: pointer;
 }
 
@@ -271,7 +272,7 @@ input {
 }
 
 /* tab-menu */
-/* <li class="tab-menu"><span class="badge"></span><li>  */
+/* <button class="tab-menu"><span class="badge"></span></button>  */
 .tab-menu {
   width: 100%;
   height: 50px;
@@ -284,6 +285,7 @@ input {
   padding: 15px 20px;
 
   font-weight: 500;
+  cursor: pointer;
 }
 
 .tab-menu .badge {

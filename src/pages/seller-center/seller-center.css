@@ -34,7 +34,7 @@
   margin-top: 38px;
 }
 
-.store-info-container .tab-list {
+.tab-list {
   flex: 0 1 15%;
   min-width: 200px;
   max-width: 250px;
@@ -46,31 +46,54 @@
   gap: 10px;
 }
 
-/* table */
-.table {
+.tab-panels {
   flex: 1 1 auto;
   min-width: 600px;
-  min-height: 60vh;
+  height: 70vh;
 
   border-radius: 5px;
   border: 1px solid var(--gray-light);
   background-color: #f2f2f2;
   overflow: hidden;
   font-size: var(--fs-lg);
+}
+
+.panel-table {
+  width: 100%;
+  height: 100%;
 
   display: flex;
   justify-content: start;
   align-items: stretch;
   flex-direction: column;
+
+  display: none;
+}
+
+.panel-table.active {
+  display: flex;
+}
+
+.panel-table.active > p {
+  width: 100%;
+  height: 100%;
+
+  font-size: var(--fs-sm);
+  color: var(--gray-dark);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .table-head,
 .table-item {
   width: 100%;
   border-bottom: 1px solid var(--gray-light);
+  padding: 0 14px;
 
   display: grid;
-  grid-template-columns: 2fr 1fr 0.7fr 0.7fr;
+  grid-template-columns: 2.8fr 1fr 0.6fr 0.6fr;
   align-items: center;
   justify-items: center;
   text-align: center;
@@ -82,10 +105,14 @@
   background-color: #fff;
 }
 
+.table-head {
+  flex: 0 0 60px;
+  height: 60px;
+}
+
 .table-list {
-  flex: 1;
   width: 100%;
-  height: 100%;
+  flex: 1;
   overflow-y: auto;
 }
 
@@ -98,10 +125,6 @@
   align-items: center;
 }
 
-.table-head {
-  height: 60px;
-}
-
 .table-item {
   height: 103px;
 }
@@ -110,6 +133,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .table-item:last-child {
@@ -120,8 +144,11 @@
   color: var(--color-red);
 }
 
-.item-col.has-img {
+.item-col:not(.btn) {
   width: 100%;
+}
+
+.item-col.has-img {
   display: flex;
   justify-content: start;
   align-items: center;
@@ -134,7 +161,7 @@
   aspect-ratio: 1;
   border-radius: 50%;
   background-color: #dfdfdf;
-  margin: 0 clamp(8px, 1.8vw, 30px);
+  margin: 0 clamp(0px, 1.8vw, 16px);
 }
 
 .item-col .item-title-wrap {
@@ -144,10 +171,6 @@
 
 .item-col .item-title {
   margin-bottom: 10px;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .item-col .item-desc {

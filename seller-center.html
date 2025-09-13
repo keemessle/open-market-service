@@ -34,51 +34,178 @@
           </a>
         </div>
         <div class="store-info-container">
-          <ul class="tab-list">
-            <li class="tab-menu active">
-              <div>판매중인 상품 <span id="onsale-count">(2)</span></div>
-              <span class="badge">1</span>
-            </li>
-            <li class="tab-menu">
-              주문/배송
-              <span class="badge" id="badge-order">2a</span>
-            </li>
-            <li class="tab-menu">
+          <nav class="tab-list">
+            <button class="tab-menu active" data-tabname="onsale">
+              <div>판매중인 상품 <span id="count-onsale"></span></div>
+              <span class="badge"></span>
+            </button>
+            <button class="tab-menu" data-tabname="order">
+              주문/배송<span class="badge"></span>
+            </button>
+            <button class="tab-menu" data-tabname="feedback">
               문의/리뷰
-              <span class="badge" id="badge-feedback"></span>
-            </li>
-            <li class="tab-menu">통계</li>
-            <li class="tab-menu">스토어 설정</li>
-          </ul>
-          <div class="table" id="table-onsale">
-            <div class="table-head">
-              <div class="head-col">상품정보</div>
-              <div class="head-col">판매가격</div>
-              <div class="head-col">수정</div>
-              <div class="head-col">삭제</div>
+              <span class="badge"></span>
+            </button>
+            <button class="tab-menu" data-tabname="stats">
+              통계
+              <span class="badge"></span>
+            </button>
+            <button class="tab-menu" data-tabname="settings">
+              스토어 설정
+            </button>
+          </nav>
+
+          <!-- js -->
+          <div class="tab-panels">
+            <!-- panel-01 -->
+            <div class="panel-table active" data-tabname="onsale">
+              <div class="table-head">
+                <div class="head-col">상품정보</div>
+                <div class="head-col">판매가격</div>
+                <div class="head-col">수정</div>
+                <div class="head-col">삭제</div>
+              </div>
+              <ul class="table-list" id="list-onsale"></ul>
             </div>
 
-            <!-- js -->
-            <ul class="table-list" id="list-onsale">
-              <!-- <li class="table-item" id="item-onsale">
-                <div class="item-col has-img">
-                  <img id="onsale-item-img" src="" alt="" />
-                  <div class="item-title-wrap">
-                    <p class="item-title" id="onsale-item-name">
-                      딥러닝 개발자 무릎 담요
-                    </p>
-                    <p class="item-desc" id="onsale-item-stock">
-                      재고: <span>370</span>개
-                    </p>
+            <!-- panel-02 -->
+            <div class="panel-table" data-tabname="order">
+              <div class="table-head">
+                <div class="head-col">상품정보</div>
+                <div class="head-col">배송현황</div>
+                <div class="head-col">수정</div>
+                <div class="head-col">삭제</div>
+              </div>
+              <ul class="table-list item-none" id="list-order">
+                주문/배송 상품이 없습니다.
+              </ul>
+            </div>
+
+            <!-- panel-03 -->
+            <div class="panel-table" data-tabname="feedback">
+              <div class="table-head">
+                <div class="head-col">상품정보</div>
+                <div class="head-col">문의/리뷰</div>
+                <div class="head-col">수정</div>
+                <div class="head-col">삭제</div>
+              </div>
+              <ul class="table-list" id="list-feedback">
+                <li class="table-item">
+                  <div class="item-col">
+                    <div class="item-title-wrap">
+                      <p class="item-title">개발자 금속 키링</p>
+                      <p class="item-desc">재고: <span>30</span>개</p>
+                    </div>
                   </div>
-                </div>
-                <p class="item-col" id="onsale-price"><span>17370</span>원</p>
-                <a href="" class="item-col btn-modify btn btn-s">수정</a>
-                <a href="" class="item-col btn-delete btn btn-s btn-white"
-                  >삭제</a
-                >
-              </li> -->
-            </ul>
+                  <p class="item-col"><span>250,000</span>원</p>
+                  <a href="" class="item-col btn-modify btn btn-s"> 수정 </a>
+                  <a href="" class="item-col btn-delete btn btn-s btn-white">
+                    삭제
+                  </a>
+                </li>
+                <li class="table-item">
+                  <div class="item-col">
+                    <div class="item-title-wrap">
+                      <p class="item-title">개발자 금속 키링</p>
+                      <p class="item-desc">재고: <span>30</span>개</p>
+                    </div>
+                  </div>
+                  <p class="item-col"><span>250,000</span>원</p>
+                  <a href="" class="item-col btn-modify btn btn-s"> 수정 </a>
+                  <a href="" class="item-col btn-delete btn btn-s btn-white">
+                    삭제
+                  </a>
+                </li>
+                <li class="table-item">
+                  <div class="item-col">
+                    <div class="item-title-wrap">
+                      <p class="item-title">개발자 금속 키링</p>
+                      <p class="item-desc">재고: <span>30</span>개</p>
+                    </div>
+                  </div>
+                  <p class="item-col"><span>250,000</span>원</p>
+                  <a href="" class="item-col btn-modify btn btn-s"> 수정 </a>
+                  <a href="" class="item-col btn-delete btn btn-s btn-white">
+                    삭제
+                  </a>
+                </li>
+                <li class="table-item">
+                  <div class="item-col">
+                    <div class="item-title-wrap">
+                      <p class="item-title">개발자 금속 키링</p>
+                      <p class="item-desc">재고: <span>30</span>개</p>
+                    </div>
+                  </div>
+                  <p class="item-col"><span>250,000</span>원</p>
+                  <a href="" class="item-col btn-modify btn btn-s"> 수정 </a>
+                  <a href="" class="item-col btn-delete btn btn-s btn-white">
+                    삭제
+                  </a>
+                </li>
+                <li class="table-item">
+                  <div class="item-col">
+                    <div class="item-title-wrap">
+                      <p class="item-title">개발자 금속 키링</p>
+                      <p class="item-desc">재고: <span>30</span>개</p>
+                    </div>
+                  </div>
+                  <p class="item-col"><span>250,000</span>원</p>
+                  <a href="" class="item-col btn-modify btn btn-s"> 수정 </a>
+                  <a href="" class="item-col btn-delete btn btn-s btn-white">
+                    삭제
+                  </a>
+                </li>
+                <li class="table-item">
+                  <div class="item-col">
+                    <div class="item-title-wrap">
+                      <p class="item-title">개발자 금속 키링</p>
+                      <p class="item-desc">재고: <span>30</span>개</p>
+                    </div>
+                  </div>
+                  <p class="item-col"><span>250,000</span>원</p>
+                  <a href="" class="item-col btn-modify btn btn-s"> 수정 </a>
+                  <a href="" class="item-col btn-delete btn btn-s btn-white">
+                    삭제
+                  </a>
+                </li>
+                <li class="table-item">
+                  <div class="item-col">
+                    <div class="item-title-wrap">
+                      <p class="item-title">개발자 금속 키링</p>
+                      <p class="item-desc">재고: <span>30</span>개</p>
+                    </div>
+                  </div>
+                  <p class="item-col"><span>250,000</span>원</p>
+                  <a href="" class="item-col btn-modify btn btn-s"> 수정 </a>
+                  <a href="" class="item-col btn-delete btn btn-s btn-white">
+                    삭제
+                  </a>
+                </li>
+                <li class="table-item">
+                  <div class="item-col">
+                    <div class="item-title-wrap">
+                      <p class="item-title">개발자 금속 키링</p>
+                      <p class="item-desc">재고: <span>30</span>개</p>
+                    </div>
+                  </div>
+                  <p class="item-col"><span>250,000</span>원</p>
+                  <a href="" class="item-col btn-modify btn btn-s"> 수정 </a>
+                  <a href="" class="item-col btn-delete btn btn-s btn-white">
+                    삭제
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- panel-04 -->
+            <div class="panel-table" data-tabname="stats">
+              <p>통계</p>
+            </div>
+
+            <!-- panel-05 -->
+            <div class="panel-table" data-tabname="settings">
+              <p>스토어 설정</p>
+            </div>
           </div>
         </div>
       </section>
