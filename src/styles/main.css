@@ -220,6 +220,54 @@ input {
   background-color: #4a4a4a;
 }
 
+/* tab-menu */
+/* <li class="tab-menu"><span class="badge"></span><li>  */
+.tab-menu {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  background: #fff;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+
+  font-weight: 500;
+}
+
+.tab-menu .badge {
+  background-color: var(--color-red);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: 400;
+
+  display: inline-block;
+  min-width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+
+  border-radius: 9999px;
+  padding: 0px 4px;
+
+  display: none;
+}
+
+.tab-menu .badge.active {
+  display: inline-block;
+}
+
+.tab-menu.active {
+  background: var(--color-main);
+  color: #fff;
+}
+
+.tab-menu:hover {
+  background: #effff3;
+  color: #000;
+}
+
 /* header */
 main {
   /* header footer 위치 조정 */

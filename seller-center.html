@@ -23,7 +23,6 @@
             <p class="title">대시보드</p>
             <p class="title-seller">백엔드글로벌</p>
           </div>
-
           <!-- prettier-ignore -->
           <a class="btn btn-icon" href="./make-product.html">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -35,20 +34,21 @@
           </a>
         </div>
         <div class="store-info-container">
-          <ul class="list-sidebar">
-            <li class="sidebar-item">
-              판매중인 상품 (<span id="onsale-count"></span>)
+          <ul class="tab-list">
+            <li class="tab-menu active">
+              <div>판매중인 상품 <span id="onsale-count">(2)</span></div>
+              <span class="badge">1</span>
             </li>
-            <li class="sidebar-item">
+            <li class="tab-menu">
               주문/배송
-              <span class="badge" id="badge-order"></span>
+              <span class="badge" id="badge-order">2a</span>
             </li>
-            <li class="sidebar-item">
+            <li class="tab-menu">
               문의/리뷰
               <span class="badge" id="badge-feedback"></span>
             </li>
-            <li class="sidebar-item">통계</li>
-            <li class="sidebar-item">스토어 설정</li>
+            <li class="tab-menu">통계</li>
+            <li class="tab-menu">스토어 설정</li>
           </ul>
           <div class="table table-onsale">
             <ul class="list-onsale">
