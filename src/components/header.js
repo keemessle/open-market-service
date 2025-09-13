@@ -66,7 +66,8 @@ export function createHeader() {
   const loginSession = new UserSession(localStorage);
   const isLoggedIn = loginSession.isAuthed();
   const isBuyer = loginSession.isBuyer();
-  const isSeller = loginSession.isSeller();
+  // const isSeller = loginSession.isSeller();
+  const isSeller = true;
 
   // header 없으면 생성
   let existHeader = document.querySelector("header");
@@ -194,6 +195,8 @@ export function createHeader() {
   if ($logoutBtn) {
     $logoutBtn.addEventListener("click", () => {
       loginSession.clear();
+      window.location.href = "./index.html";
+      // 수정
       location.reload();
     });
   }
