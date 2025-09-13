@@ -1,4 +1,5 @@
 import { UserSession } from "../services/UserSession.js";
+import { showModal } from "../components/modal.js";
 
 // headerHTML - 기본 / 판매자 센터용
 const defaultHeaderHTML = `
@@ -166,38 +167,51 @@ export function createHeader() {
       $actionsList.appendChild(li);
     });
 
-    activeActionList();
+    setupCart();
     if (isLoggedIn) setupLoggedInActions();
   }
 
   function setupLoggedInActions() {
-    showDropdown();
+    setupDropdown();
     setDropdownPos();
     setupLogout();
   }
 
+  function setupCart() {
+    const $cartBtn = document.getElementById("action-cart");
+    $cartBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!isLoggedIn) {
+        const notice = "로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?";
+        showModal(e, notice, () => {
+          window.location.href = "./login.html";
+        });
+      } else {
+        window.location.href = $cartBtn.href;
+      }
+    });
+  }
+
   // 마이페이지 드롭다운 active
-  function showDropdown() {
+  function setupDropdown() {
     const $mypageBtn = document.getElementById("action-mypage");
     const $mypageDropdown = document.querySelector(".dropdown-mypage");
-    if ($mypageBtn) {
+    if ($mypageBtn && $mypageDropdown) {
       $mypageBtn.addEventListener("click", () => {
+        $mypageBtn.closest(".actions-item").classList.add("active");
         $mypageDropdown.classList.add("active");
-
-        setDropdownPos();
       });
     }
 
-    // 마이페이지 드롭다운 >> 다른 곳 클릭시 사라짐
+    // 다른 곳 클릭시 사라짐
     document.addEventListener("click", (e) => {
       if (
         e.target.closest("#action-mypage") ||
         e.target.closest(".dropdown-mypage")
       )
         return;
-
+      $mypageBtn.closest(".actions-item").classList.remove("active");
       $mypageDropdown.classList.remove("active");
-      $mypageDropdown.closest(".actions-item")?.classList.remove("active");
     });
   }
 
@@ -211,16 +225,6 @@ export function createHeader() {
     } else {
       $mypageDropdown.classList.remove("overflow");
     }
-  }
-
-  // 액션 리스트 선택시 active
-  function activeActionList() {
-    const $actionsList = document.querySelector(".actions-list");
-    $actionsList.addEventListener("click", (e) => {
-      const target = e.target.closest(".actions-item");
-      if (!target) return;
-      target.classList.add("active");
-    });
   }
 
   // 로그아웃 버튼 이벤트

@@ -8,7 +8,7 @@
   overflow: hidden;
 }
 
-.btn-container {
+.section-banner .btn-container {
   width: 100%;
   height: 100%;
 
@@ -18,7 +18,7 @@
   z-index: 1000;
 }
 
-.btn-container button {
+.section-banner .btn-container button {
   width: 60px;
   height: 124px;
   background-repeat: no-repeat;
@@ -27,11 +27,11 @@
   z-index: 1000;
 }
 
-.btn-container .btn-left {
+.section-banner .btn-container .btn-left {
   background-image: url("../../../assets/images/icons/icon-swiper-1.svg");
 }
 
-.btn-container .btn-right {
+.section-banner .btn-container .btn-right {
   background-image: url("../../../assets/images/icons/icon-swiper-2.svg");
 }
 
