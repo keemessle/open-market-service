@@ -67,9 +67,9 @@ async function loadeSellerProduct() {
 }
 
 const badgeDateList = [
-  { tabname: "onsale", count: 0 },
-  { tabname: "order", count: 14 },
-  { tabname: "feedback", count: 2 },
+  { tabname: "onsale", count: 1 },
+  { tabname: "order", count: 0 },
+  { tabname: "feedback", count: 10 },
   { tabname: "stats", count: 0 },
 ];
 function showTabBadge(badgeDateList) {
@@ -139,10 +139,10 @@ function createTempList() {
       <div class="item-col">
         <div class="item-title-wrap">
           <p class="item-title">개발자 금속 키링</p>
-          <p class="item-desc">재고: <span>30</span>개</p>
+          <p class="item-desc">기본 패키지</p>
         </div>
       </div>
-      <p class="item-col"><span>250,000</span>원</p>
+      <p class="item-col"><span>3</span>건/<span>5</span>건</p>
       <a href="" class="item-col btn btn-s btn-modify"> 수정 </a>
       <div href="" class="item-col btn btn-s btn-white btn-delete">
         삭제
