@@ -235,7 +235,7 @@ header {
   font-size: 16px;
   cursor: pointer;
 
-  /* display: none; */
+  display: none;
 }
 
 .form-search .btn-search {
