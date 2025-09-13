@@ -7,116 +7,133 @@
     <link rel="stylesheet" href="./src/styles/reset.css" />
     <link rel="stylesheet" href="./src/styles/variables.css" />
     <link rel="stylesheet" href="./src/styles/main.css" />
-    <style>
-      main {
-        display: grid;
-        grid-template-columns: 1fr 4fr;
-      }
-
-      section:first-of-type {
-        padding: 44px 100px;
-      }
-
-      section:last-of-type {
-        padding: 130px 80px;
-        background-color: skyblue;
-      }
-
-      h2 {
-        font-size: 36px;
-        font-weight: bold;
-        margin-bottom: 42px;
-      }
-
-      strong {
-        display: inline-block;
-        color: #eb5757;
-        margin-bottom: 10px;
-      }
-
-      ul {
-        display: inline-block;
-        width: 320px;
-        height: 346px;
-        padding: 20px;
-        background-color: #ffefe8;
-        border-radius: 5px;
-        font-size: 14px;
-      }
-
-      li {
-        margin-bottom: 2rem;
-        list-style: inside;
-        list-style-type: "- ";
-        line-height: 1.4;
-      }
-
-      li:last-of-type {
-        margin-bottom: 0;
-      }
-    </style>
+    <link rel="stylesheet" href="./src/pages/make-product/make-product.css" />
+    <script src="./src/pages/make-product/make-produtc.js" defer></script>
   </head>
   <body>
-    <!-- header 부분-->
+    <header>
+      <a href="./index.html">
+        <img
+          class="header-logo"
+          src="./assets/images/Logo-hodu.png"
+          alt="호두샵 로고"
+        />
+      </a>
+      <h1>판매자 센터</h1>
+    </header>
+
     <main>
-      <section>
+      <section class="side">
         <h2>상품 등록</h2>
-        <strong>*상품 등록 주의사항</strong>
-        <ul class="attention">
-          <li>너무 귀여운 사진은 심장이 아파올 수 있습니다.</li>
-          <li>
-            유소년에게서 천자만홍이 피고 이상이 온갖 들어 약동하다. 이상의
-            가지에 사랑의 있는가? 주며, 끓는 힘차게 얼음이 얼음 가치를
-            황금시대의 있음으로써 사라지지 것이다. 이 뜨거운지라, 이상의 속에서
-            이것은 피가 보배를 황금시대의 싹이 사막이다.
-          </li>
-          <li>
-            자신과 우는 옷을 지혜는 아니다. 더운지라 설레는 기쁘며, 위하여서,
-            평화스러운 광야에서 그리하였는가? 소담스러운 위하여 인도하겠다는
-            어디 무엇을 이상을 같지 따뜻한 청춘 칼이다.
-          </li>
-          <li>
-            가치를 그들을 예수는 찬미를 가슴이 과실이 이것이다. 희망의
-            것이다.보라, 풍부하게 이것은 황금시대를 얼마나 인간에 돋고,
-            이것이다.
-          </li>
-        </ul>
+        <h3>*상품 등록 주의사항</h3>
+        <div class="notice-list">
+          <ul>
+            <li>너무 귀여운 사진은 심장이 아파올 수 있습니다.</li>
+            <li>
+              유소년에게서 천자만홍이 피고 이상이 온갖 들어 약동하다. 이상의
+              가지에 사랑의 있는가? 주며, 끓는 힘차게 얼음이 얼음 가치를
+              황금시대의 있음으로써 사라지지 것이다. 이 뜨거운지라, 이상의
+              속에서 이것은 피가 보배를 황금시대의 싹이 사막이다.
+            </li>
+            <li>
+              자신과 우는 옷을 지혜는 아니다. 더운지라 설레는 기쁘며, 위하여서,
+              평화스러운 광야에서 그리하였는가? 소담스러운 위하여 인도하겠다는
+              어디 무엇을 이상을 같지 따뜻한 청춘 칼이다.
+            </li>
+            <li>
+              가치를 그들을 예수는 찬미를 가슴이 과실이 이것이다. 희망의
+              것이다.보라, 풍부하게 이것은 황금시대를 얼마나 인간에 돋고,
+              이것이다.
+            </li>
+          </ul>
+        </div>
       </section>
-      <section>
-        <h2>상품 등록하는 영역</h2>
-        <div>
-          <label for="">상품 이미지</label>
-          <input type="file" accept="image/*" required />
-          <fieldset>
-            <legend>상세 부분</legend>
-            <label for="">상품명</label>
-            <input type="text" maxlength="20" required />
 
-            <label for="">판매가</label>
-            <input type="number" required />
+      <section class="content">
+        <h2 class="sr-only">상품 등록하는 영역</h2>
+        <form name="newProduct" action="" method="POST">
+          <fieldset class="update-product-top">
+            <legend class="sr-only">상품 정보 선택</legend>
 
-            <div>
-              <button>택배,소포,등기</button>
-              <button>직접배송(화물배달)</button>
+            <div class="product product-img">
+              <label for="">상품 이미지</label>
+              <input
+                type="file"
+                class="real-upload"
+                accept="image/*"
+                required
+              />
+              <div class="upload">
+                <img
+                  src="./assets/images/icons/icon-img.png"
+                  alt="파일 선택하는 이미지"
+                />
+              </div>
             </div>
 
-            <label for="">기본 배송비</label>
-            <input type="number" required />
+            <div class="product product-detail">
+              <div class="product product-name">
+                <label for="">상품명</label>
+                <input type="text" maxlength="20" required />
+              </div>
 
-            <label for="">재고</label>
-            <input type="number" required />
+              <div class="product product-price">
+                <label for="">판매가</label>
+                <input type="number" required />
+                <span>원</span>
+              </div>
+
+              <div class="product product-shipping">
+                <label>배송방법</label>
+                <ul>
+                  <li>
+                    <input
+                      type="radio"
+                      id="shipping1"
+                      name="shipping"
+                      value="택배,소포,등기"
+                      checked
+                    />
+                    <label for="shipping1">택배, 소포, 등기</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      id="shipping2"
+                      name="shipping"
+                      value="직접배송(화물배달)"
+                    />
+                    <label for="shipping2">직접배송(화물배달)</label>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="product product-shipping-fee">
+                <label for="">기본 배송비</label>
+                <input type="number" required />
+                <span>원</span>
+              </div>
+
+              <div class="product product-stock">
+                <label for="">재고</label>
+                <input type="number" required />
+                <span>개</span>
+              </div>
+            </div>
           </fieldset>
-        </div>
-        <div>
-          <label for="">상품 상세 정보</label>
-          <input type="text" maxlength="100" required />
-        </div>
+
+          <fieldset class="update-product-bottom">
+            <label for="product product-text">상품 상세 정보</label>
+            <textarea id="product-text"></textarea>
+          </fieldset>
+
+          <!-- 저장, 취소 버튼 -->
+          <div class="product-btn">
+            <button type="reset">취소</button>
+            <button type="submit">저장하기</button>
+          </div>
+        </form>
       </section>
     </main>
-    <script type="module">
-      import { createHeader } from "./src/components/header.js";
-
-      createHeader();
-    </script>
   </body>
 </html>
