@@ -118,6 +118,14 @@ input {
   padding: 0 24px;
 }
 
+.seller-container {
+  margin-top: 44px;
+
+  max-width: calc(1720px + 48px);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
 /* 버튼 사이즈 : btn + btn-lg / btn-m / btn-ms / btn-s */
 /* 버튼 컬러 : default: 메인 그린 컬러 / btn + btn-white / btn-dark */
 /* 버튼 기능 : default: / btn + btn-disabled */
@@ -263,7 +271,7 @@ input {
   color: #fff;
 }
 
-.tab-menu:hover {
+.tab-menu:not(.active):hover {
   background: #effff3;
   color: #000;
 }
