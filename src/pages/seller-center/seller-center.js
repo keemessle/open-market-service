@@ -1,6 +1,7 @@
 import { createHeader } from "../../components/header.js";
 import { createFooter } from "../../components/footer.js";
 import { UserSession } from "../../services/UserSession.js";
+import { showModal } from "../../components/modal.js";
 
 // 로그인 정보
 const loginSession = new UserSession();
@@ -53,12 +54,13 @@ async function loadeSellerProduct() {
                 <p class="item-col">
                   <span> ${product.price.toLocaleString()}</span>원
                 </p>
-                <a href="" class="item-col btn-modify btn btn-s">
-                  수정
-                </a>
-                <a href="" class="item-col btn-delete btn btn-s btn-white">
-                  삭제
-                </a>
+                <a 
+                  href="./make-product.html" 
+                  class="item-col btn btn-s btn-modify" 
+                >수정</a>
+                <button 
+                  class="item-col btn btn-s btn-white btn-delete" 
+                >삭제</button>
     `;
     $listOnsale.append(li);
   });
@@ -109,11 +111,57 @@ function activateTabMenu() {
   });
 }
 
-showTabBadge(badgeDateList);
-activateTabMenu();
+function deleteItem() {
+  const $listOnsale = document.getElementById("list-onsale");
+  $listOnsale.addEventListener("click", (e) => {
+    const deleteBtn = e.target.closest(".btn-delete");
+    if (!deleteBtn) return;
+
+    const deleteTarget = deleteBtn.closest(".table-item");
+    const targetName = deleteTarget.querySelector(".item-title").innerText;
+
+    const notice = `
+    ${targetName}\n상품을 삭제하시겠습니까?
+    `;
+
+    showModal(e, notice, async () => {
+      deleteTarget.remove();
+    });
+  });
+}
+
+// 문의/리뷰 패널 임시 리스트 생성
+function createTempList() {
+  const $listFeedback = document.getElementById("list-feedback");
+  const tempItem = document.createElement("li");
+  tempItem.className = "table-item";
+  tempItem.innerHTML = `
+      <div class="item-col">
+        <div class="item-title-wrap">
+          <p class="item-title">개발자 금속 키링</p>
+          <p class="item-desc">재고: <span>30</span>개</p>
+        </div>
+      </div>
+      <p class="item-col"><span>250,000</span>원</p>
+      <a href="" class="item-col btn btn-s btn-modify"> 수정 </a>
+      <div href="" class="item-col btn btn-s btn-white btn-delete">
+        삭제
+      </div>`;
+
+  for (let i = 0; i < 10; i++) {
+    const clone = tempItem.cloneNode(true);
+    $listFeedback.append(clone);
+  }
+}
 
 window.addEventListener("DOMContentLoaded", () => {
   createHeader();
   createFooter();
   loadeSellerProduct();
 });
+
+showTabBadge(badgeDateList);
+activateTabMenu();
+deleteItem();
+
+createTempList();
