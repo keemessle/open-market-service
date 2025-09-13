@@ -115,6 +115,10 @@
   margin-bottom: 103px;
 }
 
+.table-item.stock-none .item-desc {
+  color: var(--color-red);
+}
+
 .item-col.has-img {
   width: 100%;
   display: flex;

@@ -15,7 +15,6 @@ if (!loginSession.isAuthed() && !loginSession.isSeller()) {
 
 const sellerInfo = JSON.parse(loginSession.storage.omkt_user);
 const sellerName = sellerInfo.name;
-console.log(sellerInfo);
 
 // 판매중인 상품
 const BASE_URL = "https://api.wenivops.co.kr/services/open-market/";
@@ -33,6 +32,9 @@ async function loadeSellerProduct() {
   data["results"].forEach((product) => {
     const li = document.createElement("li");
     li.className = "table-item";
+    if (product.stock === 0) {
+      li.classList.add("stock-none");
+    }
     li.innerHTML = `
                 <div class="item-col has-img">
                   <img src="${product.image}" alt="${product.info}" />
@@ -46,7 +48,7 @@ async function loadeSellerProduct() {
                   </div>
                 </div>
                 <p class="item-col">
-                  <span> ${product.price}</span>원
+                  <span> ${product.price.toLocaleString()}</span>원
                 </p>
                 <a href="" class="item-col btn-modify btn btn-s">
                   수정
