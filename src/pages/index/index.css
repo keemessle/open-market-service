@@ -120,12 +120,25 @@
 }
 
 .product-img {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+
+  border-radius: 12px;
+  border: 1.6px solid var(--gray-light);
+}
+
+.product-img img {
   max-width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
 
-  border-radius: 10px;
-  border: 1px solid #c4c4c4;
+  transform: scale(1.01);
+  transition: transform 0.2s ease-out;
+}
+
+.list-item:hover .product-img img {
+  transform: scale(1.06);
 }
 
 .info-container {
