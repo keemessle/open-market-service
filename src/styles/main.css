@@ -171,32 +171,42 @@ input {
 }
 
 .btn-icon {
-  background-color: var(--color-main);
-  border-radius: 5px;
+  background-color: var(--color-main) !important;
+  border-radius: 5px !important;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-direction: row !important;
 
-  gap: 8px;
-  padding: 11px 20px;
+  gap: 8px !important;
+  padding: 11px 20px 11px 16px;
 }
 
 .btn-icon svg {
-  flex-grow: 0;
-  flex-shrink: 0;
+  flex: 1 1 30px;
+
   display: block;
   width: 30px;
   height: 30px;
 }
 
 .btn-icon span {
-  color: #fff;
-  font-size: var(--fs-lg);
-  font-weight: 500;
+  color: #fff !important;
+  font-size: var(--fs-lg) !important;
+  font-weight: 500 !important;
   width: auto;
-  white-space: nowrap;
-  line-height: 1;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+}
+
+.btn-icon:hover {
+  background-color: var(--color-main-dark) !important;
+}
+
+.btn-icon:hover :is(svg path, span) {
+  stroke: #fff !important;
+  color: #fff !important;
 }
 
 .btn:hover {
@@ -370,17 +380,6 @@ header {
   padding-left: 32px;
 }
 
-.actions-item:hover :is(svg path, span),
-.actions-item.active :is(svg path, span) {
-  stroke: var(--color-main);
-  color: var(--color-main);
-}
-
-#action-seller:hover :is(svg path, span) {
-  stroke: #fff;
-  color: #fff;
-}
-
 .actions-list a {
   display: flex;
   justify-content: center;
@@ -408,18 +407,10 @@ header {
   line-height: 1;
 }
 
-.actions-list .btn-icon {
-  flex-direction: row;
-  gap: 8px;
-  padding: 11px 20px 11px 16px;
-}
-
-.actions-list .btn-icon span {
-  color: #fff;
-}
-
-.actions-list .btn-icon:hover {
-  background-color: var(--color-main-dark);
+.actions-item:hover :is(svg path, span),
+.actions-item.active :is(svg path, span) {
+  stroke: var(--color-main);
+  color: var(--color-main);
 }
 
 /* 마이페이지 드롭다운 */
