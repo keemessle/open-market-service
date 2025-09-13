@@ -125,199 +125,6 @@ input {
   padding: 0 24px;
 }
 
-/* 버튼 사이즈 : btn + btn-lg / btn-m / btn-ms / btn-s */
-/* 버튼 컬러 : default: 메인 그린 컬러 / btn + btn-white / btn-dark */
-/* 버튼 기능 : default: / btn + btn-disabled */
-/* 버튼 + 아이콘 : btn-icon (div > svg + span 구조) */
-.btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  text-align: center;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1;
-
-  color: #fff;
-  background-color: var(--color-main);
-  border-radius: 5px;
-}
-
-.btn-lg {
-  font-size: var(--fs-2xl);
-  width: 220px;
-  height: 68px;
-}
-
-.btn-m {
-  font-size: var(--fs-lg);
-  width: 480px;
-  height: 60px;
-}
-
-.btn-ms {
-  font-size: var(--fs-md);
-  width: 200px;
-  height: 60px;
-}
-
-.btn-s {
-  font-size: var(--fs-md);
-  width: 80px;
-  height: 40px;
-}
-
-.btn-icon {
-  background-color: var(--color-main) !important;
-  border-radius: 5px !important;
-
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  flex-direction: row !important;
-
-  gap: 8px !important;
-  padding: 11px 20px 11px 16px;
-}
-
-.btn-icon svg {
-  flex: 1 1 30px;
-
-  display: block;
-  width: 30px;
-  height: 30px;
-}
-
-.btn-icon span {
-  color: #fff !important;
-  font-size: var(--fs-lg) !important;
-  font-weight: 500 !important;
-  width: auto;
-  white-space: nowrap !important;
-  line-height: 1 !important;
-}
-
-.btn-icon:hover {
-  background-color: var(--color-main-dark) !important;
-}
-
-.btn-icon:hover :is(svg path, span) {
-  stroke: #fff !important;
-  color: #fff !important;
-}
-
-.btn:hover {
-  background-color: var(--color-main-dark);
-}
-
-.btn:disabled {
-  background-color: var(--gray-light);
-  cursor: not-allowed;
-}
-
-.btn-white {
-  color: var(--gray-dark);
-  background-color: #fff;
-  border: 1px solid var(--gray-light);
-}
-
-.btn-white:hover {
-  color: #000;
-  background-color: #fff;
-  border: 1px solid var(--gray-dark);
-}
-
-.btn-dark {
-  background-color: var(--gray-dark);
-}
-
-.btn-dark:hover {
-  background-color: #4a4a4a;
-}
-
-/* 가격 사이즈 : price-l price-m price-s */
-/* <p class="price-lg"><span>가격</span>원</p> 구조 */
-.price-l {
-  font-size: var(--fs-lg);
-}
-
-.price-l span {
-  padding-right: 2px;
-  font-size: var(--fs-4xl);
-  font-weight: 700;
-}
-
-.price-m {
-  font-size: var(--fs-lg);
-}
-
-.price-m span {
-  padding-right: 2px;
-  font-size: var(--fs-2xl);
-  font-weight: 700;
-}
-
-.price-s {
-  font-size: var(--fs-sm);
-}
-
-.price-s span {
-  padding-right: 4px;
-  font-size: var(--fs-lg);
-  font-weight: 700;
-}
-
-/* tab-menu */
-/* <button class="tab-menu"><span class="badge"></span></button>  */
-.tab-menu {
-  width: 100%;
-  height: 50px;
-  border-radius: 5px;
-  background: #fff;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.tab-menu .badge {
-  background-color: var(--color-red);
-  color: #fff;
-  font-size: var(--fs-xs);
-  font-weight: 400;
-
-  display: inline-block;
-  min-width: 22px;
-  height: 22px;
-  line-height: 22px;
-  text-align: center;
-
-  border-radius: 9999px;
-  padding: 0px 4px;
-
-  display: none;
-}
-
-.tab-menu .badge.active {
-  display: inline-block;
-}
-
-.tab-menu.active {
-  background: var(--color-main);
-  color: #fff;
-}
-
-.tab-menu:not(.active):hover {
-  background: #effff3;
-  color: #000;
-}
-
 /* header */
 main {
   /* header footer 위치 조정 */
@@ -653,6 +460,200 @@ footer .divider {
   line-height: 24px;
 }
 
+/* 공통 CSS */
+/* 버튼 사이즈 : btn + btn-lg / btn-m / btn-ms / btn-s */
+/* 버튼 컬러 : default: 메인 그린 컬러 / btn + btn-white / btn-dark */
+/* 버튼 기능 : default: / btn + btn-disabled */
+/* 버튼 + 아이콘 : btn-icon (div > svg + span 구조) */
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+
+  color: #fff;
+  background-color: var(--color-main);
+  border-radius: 5px;
+}
+
+.btn-lg {
+  font-size: var(--fs-2xl);
+  width: 220px;
+  height: 68px;
+}
+
+.btn-m {
+  font-size: var(--fs-lg);
+  width: 480px;
+  height: 60px;
+}
+
+.btn-ms {
+  font-size: var(--fs-md);
+  width: 200px;
+  height: 60px;
+}
+
+.btn-s {
+  font-size: var(--fs-md);
+  width: 80px;
+  height: 40px;
+}
+
+.btn-icon {
+  background-color: var(--color-main) !important;
+  border-radius: 5px !important;
+
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-direction: row !important;
+
+  gap: 8px !important;
+  padding: 11px 20px 11px 16px;
+}
+
+.btn-icon svg {
+  flex: 1 1 30px;
+
+  display: block;
+  width: 30px;
+  height: 30px;
+}
+
+.btn-icon span {
+  color: #fff !important;
+  font-size: var(--fs-lg) !important;
+  font-weight: 500 !important;
+  width: auto;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+}
+
+.btn-icon:hover {
+  background-color: var(--color-main-dark) !important;
+}
+
+.btn-icon:hover :is(svg path, span) {
+  stroke: #fff !important;
+  color: #fff !important;
+}
+
+.btn:hover {
+  background-color: var(--color-main-dark);
+}
+
+.btn:disabled {
+  background-color: var(--gray-light);
+  cursor: not-allowed;
+}
+
+.btn-white {
+  color: var(--gray-dark);
+  background-color: #fff;
+  border: 1px solid var(--gray-light);
+}
+
+.btn-white:hover {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid var(--gray-dark);
+}
+
+.btn-dark {
+  background-color: var(--gray-dark);
+}
+
+.btn-dark:hover {
+  background-color: #4a4a4a;
+}
+
+/* 가격 사이즈 : price-l price-m price-s */
+/* <p class="price-lg"><span>가격</span>원</p> 구조 */
+.price-l {
+  font-size: var(--fs-lg);
+}
+
+.price-l span {
+  padding-right: 2px;
+  font-size: var(--fs-4xl);
+  font-weight: 700;
+}
+
+.price-m {
+  font-size: var(--fs-lg);
+}
+
+.price-m span {
+  padding-right: 2px;
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+}
+
+.price-s {
+  font-size: var(--fs-sm);
+}
+
+.price-s span {
+  padding-right: 4px;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+}
+
+/* tab-menu */
+/* <button class="tab-menu"><span class="badge"></span></button>  */
+.tab-menu {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  background: #fff;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.tab-menu .badge {
+  background-color: var(--color-red);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: 400;
+
+  display: inline-block;
+  min-width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+
+  border-radius: 9999px;
+  padding: 0px 4px;
+
+  display: none;
+}
+
+.tab-menu .badge.active {
+  display: inline-block;
+}
+
+.tab-menu.active {
+  background: var(--color-main);
+  color: #fff;
+}
+
+.tab-menu:not(.active):hover {
+  background: #effff3;
+  color: #000;
+}
+
 /* responsive */
 
 @media (max-width: 1280px) {
@@ -673,12 +674,12 @@ footer .divider {
     font-size: var(--fs-sm);
   }
 
-  .actions-list #action-seller {
-    padding: 8px 16px 8px 14px;
+  .actions-list .btn-icon {
+    padding: 8px 16px 8px 14px !important;
   }
 
-  .actions-list #action-seller span {
-    font-size: var(--fs-md);
+  .actions-list .btn-icon span {
+    font-size: var(--fs-md) !important;
   }
 }
 
@@ -724,18 +725,18 @@ footer .divider {
     width: 48px;
   }
 
-  .actions-list #action-seller {
-    padding: 8px 14px 8px 8px;
-    margin-left: 12px;
+  .actions-list .btn-icon {
+    padding: 8px 14px 8px 8px !important;
+    margin-left: 12px !important;
   }
 
-  .actions-list #action-seller svg {
-    width: 22px;
-    height: 22px;
+  .actions-list .btn-icon svg {
+    width: 22px !important;
+    height: 22px !important;
   }
 
-  .actions-list #action-seller span {
-    font-size: var(--fs-sm);
+  .actions-list .btn-icon span {
+    font-size: var(--fs-sm) !important;
   }
 }
 
