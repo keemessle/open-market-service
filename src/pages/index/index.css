@@ -70,15 +70,21 @@
 }
 
 .swiper-item .banner-title {
+  width: 60%;
   color: #000000;
-  font-size: var(--fs-3xl);
+  font-size: clamp(var(--fs-xl), 3vw, var(--fs-3xl));
   font-weight: 700;
+  text-align: center;
 }
 
 .swiper-item .banner-desc {
+  width: 60%;
   color: #292c29;
-  font-size: var(--fs-lg);
+  font-size: clamp(var(--fs-sm), 3vw, var(--fs-lg));
   font-weight: 500;
+  word-break: keep-all;
+  text-align: center;
+  line-height: 140%;
 }
 
 .swiper-item img {
@@ -107,12 +113,12 @@
 
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 6.4px;
 }
 
 .pagination-item {
   display: inline-block;
-  width: 6px;
+  width: 6.4px;
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--gray-dark);
