@@ -87,7 +87,7 @@ input {
   position: relative;
 }
 
-span {
+.unit {
   position: absolute;
   bottom: 0;
   left: 166px; /* 220 - 54 */
@@ -139,7 +139,7 @@ form {
   width: 50px;
   height: 50px;
   aspect-ratio: 1/1;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 50%;
 }
 
@@ -150,6 +150,13 @@ form {
 
 .product-name input {
   width: 100%;
+}
+
+.text-count {
+  position: absolute;
+  bottom: 17px;
+  right: 16px;
+  color: var(--gray-dark);
 }
 
 .product-shipping ul {
@@ -218,19 +225,15 @@ form {
 
 /* 반응형 */
 @media (max-width: 1280px) {
-  /* .list-product {
-    gap: clamp(60px, 6vw, 78px) clamp(24px, 4vw, 70px);
-  } */
+  main {
+    width: 100%;
+  }
 }
 
 @media (max-width: 1024px) {
 }
 
 @media (max-width: 768px) {
-  /* .list-product {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 60px clamp(24px, 4vw, 32px);
-  } */
 }
 
 @media (max-width: 640px) {

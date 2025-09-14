@@ -391,8 +391,8 @@ $passwordInput.addEventListener("input", () => {
 
   if (checkIcon)
     checkIcon.src = isValidPassword(password)
-      ? "../../assets/images/icons/icon-check-on.svg"
-      : "../../assets/images/icons/icon-check-off.svg";
+      ? "../../assets/images/icons/icon-check-off.svg"
+      : "../../assets/images/icons/icon-check-on.svg";
 
   if (!password) {
     showMessage($passwordInput, "필수 정보입니다.");
@@ -570,7 +570,7 @@ $signupForm.addEventListener("submit", async (e) => {
       showMessage($phone1, err.message);
     } else {
       const errMsg =
-        err.message || "회원가입에 실패했습니다. 다시 시도해주세요.";
+        err.message || "회원가입에 실패했습니다. 다시 시도해 주세요.";
       alert(errMsg);
     }
   } finally {
