@@ -94,9 +94,9 @@ $loginForm.addEventListener("submit", async (e) => {
     // 이전 화면으로 돌아가기
     if (document.referrer && !document.referrer.includes("/login")) {
       history.back();
-      window.location.reload();
+      window.location.reload(); // 새로고침
     } else {
-      location.replace("../../index.html");
+      location.replace("./index.html");
     }
   } catch (err) {
     console.error(err);
