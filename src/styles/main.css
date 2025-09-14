@@ -291,6 +291,10 @@ header {
   line-height: 1;
 }
 
+.actions-item :is(svg path, span) {
+  transition: stroke 0.2s ease, color 0.2s ease;
+}
+
 .actions-item:hover :is(svg path, span),
 .actions-item.active :is(svg path, span) {
   stroke: var(--color-main);
@@ -341,11 +345,16 @@ header {
   flex-direction: column;
   gap: 8px;
 
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: left 0.2s ease, opacity 0.2s ease;
 }
 
 .dropdown-mypage.active {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .dropdown-mypage.overflow {
@@ -375,6 +384,10 @@ header {
   color: var(--gray-dark);
   font-weight: 500;
   white-space: nowrap;
+}
+
+.dropdown-mypage .dropdown-item {
+  transition: color 0.2s ease, border 0.2s ease;
 }
 
 .dropdown-mypage .dropdown-item:hover {
