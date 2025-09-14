@@ -87,7 +87,7 @@ function loadBanner(dataList) {
     swiperItem.innerHTML = `
       <p class="banner-title">${data.title}</p>
       <p class="banner-desc">${data.desc}</p>
-    <img src="${data.img}" />
+      <img src="${data.img}" />
   `;
 
     // pagination
@@ -99,43 +99,40 @@ function loadBanner(dataList) {
     paginationList.append(paginationItem);
   });
 
-  // btn click event
-  bannerBtns.addEventListener("click", (e) => {
-    const direction = e.target.closest(".btn-left") ? "left" : "right";
-    offsetSwiper(direction);
-  });
-
+  //
   let swiperIndex = 0;
+  const maxIdnex = dataList.length;
   activePagination(swiperIndex);
 
-  const offsetSwiper = function offsetSwiper(direction = "none") {
+  function updateSwiper(index) {
     const wrapWidth = swiperWrap.clientWidth;
-    const maxIdnex = dataList.length;
-    let offsetWidth;
+    swiperWrap.style.transform = `translateX(${-wrapWidth * index}px)`;
+    activePagination(index);
+  }
+
+  function moveSwiper(direction) {
     if (direction == "left") {
       swiperIndex = (swiperIndex - 1 + maxIdnex) % maxIdnex;
     }
     if (direction == "right") {
       swiperIndex = (swiperIndex + 1) % maxIdnex;
     }
-    offsetWidth = wrapWidth * swiperIndex * -1;
-    swiperWrap.style.transform = `translateX(${offsetWidth}px)`;
+    updateSwiper(swiperIndex);
+  }
 
-    activePagination(swiperIndex);
-  };
+  bannerBtns.addEventListener("click", (e) => {
+    const direction = e.target.closest(".btn-left") ? "left" : "right";
+    moveSwiper(direction);
+  });
 
   function activePagination(index) {
     const paginationItems = document.querySelectorAll(".pagination-item");
     paginationItems.forEach((item, i) => {
-      if (i === index) {
-        item.classList.add("active");
-      } else {
-        item.classList.remove("active");
-      }
+      item.classList.toggle("active", i === index);
     });
   }
 
-  return offsetSwiper;
+  return () => updateSwiper(swiperIndex);
 }
 
 let resizeTimer;
@@ -155,11 +152,10 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   await loadProductList();
   const bannerDataList = await loadBannerDatas();
-
-  const offsetSwiper = loadBanner(bannerDataList);
+  const updateSwiper = loadBanner(bannerDataList);
 
   window.addEventListener("resize", () => {
     offBannerTransition();
-    offsetSwiper();
+    updateSwiper();
   });
 });
