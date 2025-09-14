@@ -121,6 +121,8 @@
 
 .list-item a {
   display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 
 .product-img {
@@ -133,9 +135,9 @@
 }
 
 .product-img img {
-  max-width: 100%;
+  width: 100%;
   aspect-ratio: 1;
-  object-fit: cover;
+  object-fit: contain;
 
   transform: scale(1.01);
   transition: transform 0.2s ease-out;

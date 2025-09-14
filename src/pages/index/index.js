@@ -34,7 +34,7 @@ async function loadProductList() {
                 />
               </div>
               <div class="info-container">
-              <p class="info-seller ellipsis">${product.seller.name}</p>
+              <p class="info-seller ellipsis">${product.seller.store_name}</p>
               <p class="info-info ellipsis">${product.name}</p>
               <p class="info-unit">
                   <span class="info-price">${product.price.toLocaleString()}</span>원
