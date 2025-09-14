@@ -1,4 +1,38 @@
 import { UserSession } from "../services/UserSession.js";
+import { showModal } from "../components/modal.js";
+
+// headerHTML - 기본 / 판매자 센터용
+const defaultHeaderHTML = `
+    <div class="header-container container">
+      <h1 class="header-h1">
+        <a href="./index.html">
+          <img class="header-logo" src="./assets/images/Logo-hodu.png" alt="호두샵 로고" />
+          <span class="sr-only">HODU</span>
+        </a>
+      </h1>
+      <form class="form-search" action="/search" method="get">
+        <a class="search-logo-wrap" href="#"><img class="search-logo" src="./assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
+        <label class="sr-only" for="search">검색</label>
+        <input id="search" type="text" placeholder="상품을 검색해보세요!" />
+        <button type="button" class="btn-clear"></button>
+        <button type="submit" class="btn-search"></button>
+      </form>
+      <ul class="actions-list">
+      </ul>
+    </div>
+  `;
+
+const sellerHeaderHTML = `
+    <div class="header-container seller seller-container">
+      <h1 class="header-h1">
+        <a href="./index.html">
+          <img class="header-logo" src="./assets/images/Logo-hodu.png" alt="호두샵 로고" />
+          <span class="sr-only">HODU</span>
+        </a>
+      </h1>
+      <p class="header-title">판매자 센터</p>
+    </div>
+  `;
 
 //로그인별 actions-list
 const actionCart = {
@@ -54,6 +88,7 @@ const actionSeller = {
   label: "판매자 센터 바로가기",
   text: "판매자 센터",
   id: "action-seller",
+  class: "btn btn-icon",
 };
 
 const actionsDefault = [actionCart, actionLogin];
@@ -66,46 +101,37 @@ export function createHeader() {
   const isLoggedIn = loginSession.isAuthed();
   const isBuyer = loginSession.isBuyer();
   const isSeller = loginSession.isSeller();
-  // const isBuyer = true;
-  // const isSeller = false;
 
   // header 없으면 생성
   let existHeader = document.querySelector("header");
   if (existHeader) return;
 
-  const $header = createDOM();
+  // header
+  let $header;
 
-  if (isLoggedIn && isBuyer) {
-    loadActionsList(actionsLoggedIn);
-  } else if (isLoggedIn && isSeller) {
-    loadActionsList(actionsLoggedInSeller);
+  const path = window.location.pathname;
+  const isSellerCenter =
+    path === "/seller-center.html" || path === "/make-product.html";
+  if (isSellerCenter) {
+    $header = createDOM(sellerHeaderHTML);
   } else {
-    loadActionsList(actionsDefault);
+    $header = createDOM(defaultHeaderHTML);
+
+    if (isLoggedIn && isBuyer) {
+      loadActionsList(actionsLoggedIn);
+    } else if (isLoggedIn && isSeller) {
+      loadActionsList(actionsLoggedInSeller);
+    } else {
+      loadActionsList(actionsDefault);
+    }
   }
 
   // DOM 생성
-  function createDOM() {
+  function createDOM(headerHTML) {
     const $header = document.createElement("header");
     document.body.prepend($header);
 
-    $header.innerHTML = `
-    <div class="header-container container">
-      <h1 class="header-h1">
-        <a href="#">
-          <img class="header-logo" src="./assets/images/Logo-hodu.png" alt="호두샵 로고" />
-          <span class="sr-only">HODU</span>
-        </a>
-      </h1>
-      <form class="form-search" action="/search" method="get">
-        <a class="search-logo-wrap" href="#"><img class="search-logo" src="./assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
-        <label class="sr-only" for="search">검색</label>
-        <input id="search" type="text" placeholder="상품을 검색해보세요!" />
-        <button type="submit"></button>
-      </form>
-      <ul class="actions-list">
-      </ul>
-    </div>
-  `;
+    $header.innerHTML = headerHTML;
     return $header;
   }
 
@@ -129,6 +155,11 @@ export function createHeader() {
       a.innerHTML = action.svgTag;
       a.ariaLabel = action.label;
 
+      // 판매자 센터 클래스명 부여
+      if (action.class) {
+        a.className = action.class;
+      }
+
       const span = document.createElement("span");
       span.textContent = action.text;
 
@@ -137,31 +168,51 @@ export function createHeader() {
       $actionsList.appendChild(li);
     });
 
-    showDropdown();
+    setupCart();
+    if (isLoggedIn) setupLoggedInActions();
+  }
+
+  function setupLoggedInActions() {
+    setupDropdown();
+    setDropdownPos();
+    setupLogout();
+  }
+
+  function setupCart() {
+    const $cartBtn = document.getElementById("action-cart");
+    $cartBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!isLoggedIn) {
+        const notice = "로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?";
+        showModal(e, notice, () => {
+          window.location.href = "./login.html";
+        });
+      } else {
+        window.location.href = $cartBtn.href;
+      }
+    });
   }
 
   // 마이페이지 드롭다운 active
-  function showDropdown() {
+  function setupDropdown() {
     const $mypageBtn = document.getElementById("action-mypage");
     const $mypageDropdown = document.querySelector(".dropdown-mypage");
-    if ($mypageBtn) {
+    if ($mypageBtn && $mypageDropdown) {
       $mypageBtn.addEventListener("click", () => {
+        $mypageBtn.closest(".actions-item").classList.add("active");
         $mypageDropdown.classList.add("active");
-
-        setDropdownPos();
       });
     }
 
-    // 마이페이지 드롭다운 >> 다른 곳 클릭시 사라짐
+    // 다른 곳 클릭시 사라짐
     document.addEventListener("click", (e) => {
       if (
         e.target.closest("#action-mypage") ||
         e.target.closest(".dropdown-mypage")
       )
         return;
-
+      $mypageBtn.closest(".actions-item").classList.remove("active");
       $mypageDropdown.classList.remove("active");
-      $mypageDropdown.closest(".actions-item").classList.remove("active");
     });
   }
 
@@ -177,25 +228,35 @@ export function createHeader() {
     }
   }
 
-  // 액션 리스트 선택시 active
-  const $actionsList = document.querySelector(".actions-list");
-  $actionsList.addEventListener("click", (e) => {
-    const target = e.target.closest(".actions-item");
-    if (!target) return;
-    target.classList.add("active");
-  });
-
   // 로그아웃 버튼 이벤트
-  const $logoutBtn = document.getElementById("btn-logout");
-  if ($logoutBtn) {
-    $logoutBtn.addEventListener("click", () => {
-      loginSession.clear();
-      location.reload();
-    });
+  function setupLogout() {
+    const $logoutBtn = document.getElementById("btn-logout");
+    if ($logoutBtn) {
+      $logoutBtn.addEventListener("click", () => {
+        loginSession.clear();
+        window.location.href = "./index.html";
+      });
+    }
   }
 
+  // 검색어 초기화
+  const $searchInput = document.getElementById("search");
+  const $clearBtn = document.querySelector(".btn-clear");
+
+  $searchInput.addEventListener("input", () => {
+    $clearBtn.style.display = $searchInput.value ? "block" : "none";
+  });
+
+  $clearBtn.addEventListener("click", () => {
+    $searchInput.value = "";
+    $clearBtn.style.display = "none";
+    $searchInput.focus();
+  });
+
   window.addEventListener("resize", () => {
-    setDropdownPos();
+    if (document.querySelector(".dropdown-mypage")) {
+      setDropdownPos();
+    }
   });
 
   return $header;

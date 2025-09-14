@@ -24,13 +24,15 @@ async function loadProductList() {
         $listItem.className = "list-item";
         $listItem.innerHTML = `
           <a href="product-detail.html?id=${product.id}">
-              <img 
-                class="product-img" 
-                src="${product.image}"
-                alt="${product.name}" 
-                loading="lazy"
-                onerror="this.src='/assets/images/product-default.png'"
-              />
+              <div class="product-img">
+                <img 
+                  
+                  src="${product.image}"
+                  alt="${product.name}" 
+                  loading="lazy"
+                  onerror="this.src='/assets/images/product-default.png'"
+                />
+              </div>
               <div class="info-container">
               <p class="info-seller ellipsis">${product.seller.name}</p>
               <p class="info-info ellipsis">${product.name}</p>
