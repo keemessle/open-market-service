@@ -51,36 +51,53 @@
 
       <section class="content">
         <h2 class="sr-only">상품 등록하는 영역</h2>
-        <form name="newProduct" action="" method="POST">
+        <form id="update-form" name="newProduct" action="" method="POST">
           <fieldset class="update-product-top">
             <legend class="sr-only">상품 정보 선택</legend>
 
             <div class="product product-img">
-              <label for="">상품 이미지</label>
+              <label for="product-image">상품 이미지</label>
               <input
                 type="file"
+                id="product-image"
+                name="image"
                 class="real-upload"
-                accept="image/*"
+                accept="image/jpg, image/gif, image/png"
                 required
               />
               <div class="upload">
                 <img
                   src="./assets/images/icons/icon-img.png"
-                  alt="파일 선택하는 이미지"
+                  alt="파일 선택 이미지"
+                  class="img-preview"
                 />
               </div>
             </div>
 
             <div class="product product-detail">
               <div class="product product-name">
-                <label for="">상품명</label>
-                <input type="text" maxlength="20" required />
+                <label for="product-name">상품명</label>
+                <input
+                  type="text"
+                  id="product-name"
+                  name="name"
+                  maxlength="20"
+                  required
+                />
+                <span class="text-count"><span class="count"></span> / 20</span>
               </div>
 
               <div class="product product-price">
-                <label for="">판매가</label>
-                <input type="number" required />
-                <span>원</span>
+                <label for="product-price">판매가</label>
+                <input
+                  type="text"
+                  inputmode="numeric"
+                  class="num"
+                  id="product-price"
+                  name="price"
+                  required
+                />
+                <span class="unit">원</span>
               </div>
 
               <div class="product product-shipping">
@@ -90,8 +107,8 @@
                     <input
                       type="radio"
                       id="shipping1"
-                      name="shipping"
-                      value="택배,소포,등기"
+                      name="shipping_method"
+                      value="PARCEL"
                       checked
                     />
                     <label for="shipping1">택배, 소포, 등기</label>
@@ -100,8 +117,8 @@
                     <input
                       type="radio"
                       id="shipping2"
-                      name="shipping"
-                      value="직접배송(화물배달)"
+                      name="shipping_method"
+                      value="DELIVERY"
                     />
                     <label for="shipping2">직접배송(화물배달)</label>
                   </li>
@@ -109,22 +126,30 @@
               </div>
 
               <div class="product product-shipping-fee">
-                <label for="">기본 배송비</label>
-                <input type="number" required />
-                <span>원</span>
+                <label for="shipping-fee">기본 배송비</label>
+                <input
+                  type="text"
+                  inputmode="numeric"
+                  class="num"
+                  id="shipping-fee"
+                  name="shipping_fee"
+                  required
+                />
+                <span class="unit">원</span>
               </div>
 
               <div class="product product-stock">
-                <label for="">재고</label>
-                <input type="number" required />
-                <span>개</span>
+                <label for="product-stock">재고</label>
+                <input type="text" inputmode="numeric" class="num""
+                id="product-stock" name="stock" required />
+                <span class="unit">개</span>
               </div>
             </div>
           </fieldset>
 
           <fieldset class="update-product-bottom">
-            <label for="product product-text">상품 상세 정보</label>
-            <textarea id="product-text"></textarea>
+            <label for="product-info">상품 상세 정보</label>
+            <textarea id="product-info" name="info"></textarea>
           </fieldset>
 
           <!-- 저장, 취소 버튼 -->

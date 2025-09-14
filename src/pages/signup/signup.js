@@ -391,8 +391,8 @@ $passwordInput.addEventListener("input", () => {
 
   if (checkIcon)
     checkIcon.src = isValidPassword(password)
-      ? "../../assets/images/icons/icon-check-on.svg"
-      : "../../assets/images/icons/icon-check-off.svg";
+      ? "../../assets/images/icons/icon-check-off.svg"
+      : "../../assets/images/icons/icon-check-on.svg";
 
   if (!password) {
     showMessage($passwordInput, "필수 정보입니다.");
