@@ -1,7 +1,5 @@
 import { UserSession } from "../../services/UserSession.js";
 
-const BASE_URL = "https://api.wenivops.co.kr/services/open-market";
-
 const $menuItems = document.querySelectorAll(".menu-item");
 const $loginForm = document.getElementById("login-form");
 const $loginBtn = document.querySelector(".login-btn");
@@ -10,11 +8,14 @@ const $idInput = document.getElementById("user-id");
 const $pwInput = document.getElementById("password");
 let currentRole = "BUYER"; // 기본값 -> 구매자
 
-const session = new UserSession();
+const loginSession = new UserSession();
 
-// ----- API 서버 연결 -----
+function showMessage(message) {
+  $loginErr.textContent = message;
+}
+
 async function login(username, password) {
-  const res = await fetch(`${BASE_URL}/accounts/login/`, {
+  const res = await fetch(`${loginSession.baseUrl}/accounts/login/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -33,13 +34,7 @@ async function login(username, password) {
   return data;
 }
 
-// ----- 에러 메시지 표시 -----
-function showMessage(message) {
-  $loginErr.textContent = message;
-}
-
 // Event
-// ----- 회원 메뉴 선택 -----
 $menuItems.forEach((menuItem) => {
   menuItem.addEventListener("click", (e) => {
     const btn = menuItem.querySelector("button[data-role]");
@@ -48,12 +43,11 @@ $menuItems.forEach((menuItem) => {
     currentRole = btn.dataset.role;
     console.log("선택된 회원의 역할: ", currentRole);
 
-    $menuItems.forEach((item) => item.classList.remove("on")); // 일단 현재 on 클래스 전체 삭제
+    $menuItems.forEach((item) => item.classList.remove("on"));
     menuItem.classList.add("on");
   });
 });
 
-// ----- 로그인 폼 제출 처리  -----
 $loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   showMessage("");
@@ -61,7 +55,6 @@ $loginForm.addEventListener("submit", async (e) => {
   const username = $idInput.value.trim();
   const password = $pwInput.value;
 
-  // 유효성 검사
   if (!username) {
     showMessage("아이디를 입력해 주세요.");
     $idInput.focus();
@@ -74,27 +67,26 @@ $loginForm.addEventListener("submit", async (e) => {
   }
 
   // 중복 제출 방지
-  $loginBtn?.setAttribute("disabled", "");
+  $loginBtn.setAttribute("disabled", "");
 
   try {
-    const { access, refresh, user } = await login(username, password);
+    const result = await login(username, password);
+    console.log(result.user.user_type);
 
-    const userRole = String(user?.user_type || "").toUpperCase();
+    const userRole = String(result.user.user_type || "").toUpperCase();
     if (!userRole || userRole !== currentRole) {
       alert("선택한 회원 유형으로 로그인할 수 없습니다.");
       $idInput.focus();
       return;
     }
 
-    // 로그인 성공시 토큰 저장
-    session.save({ access, refresh, user });
+    loginSession.save(result);
 
     alert("로그인 성공!");
 
     // 이전 화면으로 돌아가기
     if (document.referrer && !document.referrer.includes("/login")) {
-      history.back();
-      window.location.reload(); // 새로고침
+      location.replace(document.referrer);
     } else {
       location.replace("./index.html");
     }
@@ -102,6 +94,6 @@ $loginForm.addEventListener("submit", async (e) => {
     console.error(err);
     showMessage(err.message || "로그인 실패했습니다. 다시 시도해 주세요.");
   } finally {
-    $loginBtn?.removeAttribute("disabled");
+    $loginBtn.removeAttribute("disabled");
   }
 });
