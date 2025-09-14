@@ -96,7 +96,7 @@ $loginForm.addEventListener("submit", async (e) => {
       history.back();
       window.location.reload();
     } else {
-      location.replace("../../index.html");
+      location.replace("./index.html");
     }
   } catch (err) {
     console.error(err);
