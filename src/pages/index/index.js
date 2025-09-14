@@ -77,7 +77,13 @@ function loadBanner(dataList) {
   const bannerBtns = document.querySelector(".btn-container");
   const paginationList = document.querySelector(".pagination-list");
 
-  dataList.forEach((data) => {
+  const cloneDataList = [
+    dataList[dataList.length - 1],
+    ...dataList,
+    dataList[0],
+  ];
+
+  cloneDataList.forEach((data, index) => {
     // swiper
     const swiperItem = document.createElement("a");
     swiperItem.className = "swiper-item";
@@ -90,49 +96,72 @@ function loadBanner(dataList) {
       <img src="${data.img}" />
   `;
 
-    // pagination
-    const paginationItem = document.createElement("li");
-    paginationItem.className = "pagination-item";
-
-    // append
     swiperWrap.append(swiperItem);
-    paginationList.append(paginationItem);
+
+    // pagination
+    if (index > 0 && index <= dataList.length) {
+      const paginationItem = document.createElement("li");
+      paginationItem.className = "pagination-item";
+      paginationList.append(paginationItem);
+    }
   });
 
   //
-  let swiperIndex = 0;
-  const maxIdnex = dataList.length;
-  activePagination(swiperIndex);
+  let swiperIndex = 1;
+  let wrapWidth = swiperWrap.clientWidth;
+  let isMoving = false;
+  swiperWrap.style.transform = `translateX(-${wrapWidth * swiperIndex}px)`;
 
-  function updateSwiper(index) {
-    const wrapWidth = swiperWrap.clientWidth;
-    swiperWrap.style.transform = `translateX(${-wrapWidth * index}px)`;
-    activePagination(index);
+  function updatePagination(index) {
+    const paginationItems = document.querySelectorAll(".pagination-item");
+    let activeIndex = index - 1;
+    if (activeIndex < 0) activeIndex = dataList.length - 1;
+    if (activeIndex >= dataList.length) activeIndex = 0;
+
+    paginationItems.forEach((item, i) => {
+      item.classList.toggle("active", i === activeIndex);
+    });
   }
+  updatePagination(swiperIndex);
 
   function moveSwiper(direction) {
-    if (direction == "left") {
-      swiperIndex = (swiperIndex - 1 + maxIdnex) % maxIdnex;
-    }
-    if (direction == "right") {
-      swiperIndex = (swiperIndex + 1) % maxIdnex;
-    }
-    updateSwiper(swiperIndex);
+    if (isMoving) return;
+    isMoving = true;
+
+    if (direction == "left") swiperIndex--;
+    if (direction == "right") swiperIndex++;
+    updateSwiper(true);
   }
+
+  function updateSwiper(withTransition = true) {
+    wrapWidth = swiperWrap.clientWidth;
+    swiperWrap.style.transition = withTransition
+      ? "transform 0.3s ease"
+      : "none";
+    swiperWrap.style.transform = `translateX(${-wrapWidth * swiperIndex}px)`;
+    updatePagination(swiperIndex);
+  }
+
+  swiperWrap.addEventListener("transitionend", () => {
+    let reset = false;
+
+    if (swiperIndex === 0) {
+      swiperIndex = dataList.length;
+      reset = true;
+    } else if (swiperIndex === dataList.length + 1) {
+      swiperIndex = 1;
+      reset = true;
+    }
+    if (reset) updateSwiper(false);
+    isMoving = false;
+  });
 
   bannerBtns.addEventListener("click", (e) => {
     const direction = e.target.closest(".btn-left") ? "left" : "right";
     moveSwiper(direction);
   });
 
-  function activePagination(index) {
-    const paginationItems = document.querySelectorAll(".pagination-item");
-    paginationItems.forEach((item, i) => {
-      item.classList.toggle("active", i === index);
-    });
-  }
-
-  return () => updateSwiper(swiperIndex);
+  return (withTransition = true) => updateSwiper(withTransition);
 }
 
 let resizeTimer;
@@ -156,6 +185,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   window.addEventListener("resize", () => {
     offBannerTransition();
-    updateSwiper();
+    updateSwiper(false);
   });
 });
