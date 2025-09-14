@@ -342,10 +342,6 @@ header {
   flex-direction: column;
   gap: 8px;
 
-  color: var(--gray-dark);
-  font-weight: 500;
-  white-space: nowrap;
-
   display: none;
 }
 
@@ -376,6 +372,10 @@ header {
 
   background-color: #fff;
   border: 1px solid #fff;
+
+  color: var(--gray-dark);
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .dropdown-mypage .dropdown-item:hover {
@@ -709,6 +709,7 @@ footer .divider {
 
   .dropdown-mypage {
     padding: 6px;
+    gap: 6px;
   }
 
   .dropdown-mypage .dropdown-item {
@@ -716,7 +717,6 @@ footer .divider {
     height: 36px;
     border-radius: 5px;
 
-    gap: 6px;
     font-size: var(--fs-sm);
   }
 
