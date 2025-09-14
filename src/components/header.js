@@ -101,6 +101,9 @@ export function createHeader() {
   const isLoggedIn = loginSession.isAuthed();
   const isBuyer = loginSession.isBuyer();
   const isSeller = loginSession.isSeller();
+  const isSellerCenter =
+    window.location.pathname === "/seller-center.html" ||
+    window.location.pathname === "/make-product.html";
 
   // header 없으면 생성
   let existHeader = document.querySelector("header");
@@ -109,22 +112,65 @@ export function createHeader() {
   // header
   let $header;
 
-  const path = window.location.pathname;
-  const isSellerCenter =
-    path === "/seller-center.html" || path === "/make-product.html";
+  let role = !isLoggedIn
+    ? "guest"
+    : isBuyer
+    ? "buyer"
+    : isSeller
+    ? "seller"
+    : "guest";
+
   if (isSellerCenter) {
     $header = createDOM(sellerHeaderHTML);
   } else {
     $header = createDOM(defaultHeaderHTML);
 
-    if (isLoggedIn && isBuyer) {
-      loadActionsList(actionsLoggedIn);
-    } else if (isLoggedIn && isSeller) {
-      loadActionsList(actionsLoggedInSeller);
-    } else {
-      loadActionsList(actionsDefault);
+    switch (role) {
+      case "guest":
+        loadActionsList(actionsDefault);
+        resetSearchInput();
+
+        setupCart();
+        break;
+
+      case "buyer":
+        loadActionsList(actionsLoggedIn);
+        resetSearchInput();
+
+        setupCart();
+        setupDropdown();
+        setupLogout();
+        break;
+
+      case "seller":
+        loadActionsList(actionsLoggedInSeller);
+        resetSearchInput();
+
+        setupDropdown();
+        setupLogout();
+        break;
     }
   }
+
+  //   if (isLoggedIn) {
+  //     if (isBuyer) {
+  //       loadActionsList(actionsLoggedIn);
+  //       setupCart();
+  //       console.log("로그인 구매자");
+  //     } else if (isSeller) {
+  //       loadActionsList(actionsLoggedInSeller);
+  //       console.log("로그인 팬매자");
+  //     }
+  //     setupDropdown();
+  //     setupLogout();
+  //     console.log("로그인");
+  //   } else {
+  //     loadActionsList(actionsDefault);
+  //     setupCart();
+  //     resetSearchInput();
+  //     console.log("비로그인");
+  //   }
+  // }
 
   // DOM 생성
   function createDOM(headerHTML) {
@@ -138,6 +184,7 @@ export function createHeader() {
   // 상태별 actionsList 로드
   function loadActionsList(actionsDataList) {
     const $actionsList = $header.querySelector(".actions-list");
+    if (!$actionsList) return;
 
     actionsDataList.forEach((action) => {
       const li = document.createElement("li");
@@ -167,29 +214,23 @@ export function createHeader() {
       li.appendChild(a);
       $actionsList.appendChild(li);
     });
-
-    setupCart();
-    if (isLoggedIn) setupLoggedInActions();
   }
 
-  function setupLoggedInActions() {
-    setupDropdown();
-    setDropdownPos();
-    setupLogout();
-  }
+  // 검색어 초기화
+  function resetSearchInput() {
+    const $searchInput = document.getElementById("search");
+    const $clearBtn = document.querySelector(".btn-clear");
 
-  function setupCart() {
-    const $cartBtn = document.getElementById("action-cart");
-    $cartBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (!isLoggedIn) {
-        const notice = "로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?";
-        showModal(e, notice, () => {
-          window.location.href = "./login.html";
-        });
-      } else {
-        window.location.href = $cartBtn.href;
-      }
+    if (!$searchInput) return;
+
+    $searchInput.addEventListener("input", () => {
+      $clearBtn.style.display = $searchInput.value ? "block" : "none";
+    });
+
+    $clearBtn.addEventListener("click", () => {
+      $searchInput.value = "";
+      $clearBtn.style.display = "none";
+      $searchInput.focus();
     });
   }
 
@@ -203,6 +244,8 @@ export function createHeader() {
         $mypageDropdown.classList.add("active");
       });
     }
+
+    setDropdownPos();
 
     // 다른 곳 클릭시 사라짐
     document.addEventListener("click", (e) => {
@@ -239,19 +282,24 @@ export function createHeader() {
     }
   }
 
-  // 검색어 초기화
-  const $searchInput = document.getElementById("search");
-  const $clearBtn = document.querySelector(".btn-clear");
+  // 장바구니 버튼
+  function setupCart() {
+    const $cartBtn = document.getElementById("action-cart");
+    if (!$cartBtn) return;
 
-  $searchInput.addEventListener("input", () => {
-    $clearBtn.style.display = $searchInput.value ? "block" : "none";
-  });
-
-  $clearBtn.addEventListener("click", () => {
-    $searchInput.value = "";
-    $clearBtn.style.display = "none";
-    $searchInput.focus();
-  });
+    $cartBtn.addEventListener("click", (e) => {
+      console.log("클릭됨");
+      e.preventDefault();
+      if (!isLoggedIn) {
+        const notice = "로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?";
+        showModal(e, notice, () => {
+          window.location.href = "./login.html";
+        });
+      } else {
+        window.location.href = $cartBtn.href;
+      }
+    });
+  }
 
   window.addEventListener("resize", () => {
     if (document.querySelector(".dropdown-mypage")) {
