@@ -58,7 +58,7 @@ async function loadBannerDatas() {
     const data = await response.json();
     data["results"].forEach((product) => {
       bannerImageList.push({
-        href: "#",
+        href: `product-detail.html?id=${product.id}`,
         title: product.name,
         desc: `${product.seller.store_name}의 인기 상품이 새로 들어왔습니다!`,
         img: product.image,
@@ -70,39 +70,6 @@ async function loadBannerDatas() {
     console.log(error);
   }
 }
-
-// const bannerDataList = [
-//   {
-//     href: "#",
-//     title: "배너제목1",
-//     desc: "배너설명1",
-//     img: productImageList[0],
-//   },
-//   {
-//     href: "#",
-//     title: "배너제목2",
-//     desc: "배너설명2",
-//     img: productImageList[1],
-//   },
-//   {
-//     href: "#",
-//     title: "배너제목3",
-//     desc: "배너설명3",
-//     img: productImageList[2],
-//   },
-//   {
-//     href: "#",
-//     title: "배너제목4",
-//     desc: "배너설명4",
-//     img: productImageList[3],
-//   },
-//   {
-//     href: "#",
-//     title: "배너제목5",
-//     desc: "배너설명5",
-//     img: productImageList[4],
-//   },
-// ];
 
 // section-banner
 function loadBanner(dataList) {
