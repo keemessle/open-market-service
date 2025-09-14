@@ -605,11 +605,6 @@ footer .divider {
   background-color: var(--color-main-dark);
 }
 
-.btn:disabled {
-  background-color: var(--gray-light);
-  cursor: not-allowed;
-}
-
 .btn-white {
   color: var(--gray-dark);
   background-color: #fff;
@@ -628,6 +623,11 @@ footer .divider {
 
 .btn-dark:hover {
   background-color: #4a4a4a;
+}
+
+.btn:disabled {
+  background-color: var(--gray-light);
+  cursor: not-allowed;
 }
 
 /* 가격 사이즈 : price-l price-m price-s */
