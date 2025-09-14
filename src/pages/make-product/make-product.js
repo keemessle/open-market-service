@@ -1,14 +1,13 @@
-import { UserSession } from "../services/UserSession.js";
+import { UserSession } from "../../services/UserSession.js";
 
 // ================== DOM ==================
-const $form = document.querySelector(".update-form");
-const $name = document.querySelector(".product-name");
-const $info = document.querySelector(".product-info");
-const $image = document.querySelector(".product-image");
-const $price = document.querySelector(".product-price");
+const $form = document.getElementById("update-form");
+const $name = document.getElementById("product-name");
+const $info = document.getElementById("product-info");
+const $price = document.getElementById("product-price");
 const $shipping = document.querySelectorAll('input[name="shipping_method"]');
-const $fee = document.querySelector(".product-fee");
-const $stock = document.querySelector(".product-stock");
+const $fee = document.getElementById("shipping-fee");
+const $stock = document.getElementById("product-stock");
 
 const $realUpload = document.querySelector(".real-upload");
 const $upload = document.querySelector(".upload");
@@ -19,36 +18,14 @@ const $count = document.querySelector(".count");
 const loginSession = new UserSession();
 // const access = loginSession.getAccess();
 
-// 권한 가드
-// (function guard() {
-//   if (!session.isAuthed()) {
-//     alert("로그인이 필요합니다.");
-//     location.href = "../../login.html";
-//     return;
-//   }
-//   if (session.getRole() !== "SELLER") {
-//     alert("이 작업을 수행할 권한(permission)이 없습니다.");
-//     history.back();
-//   }
-// })();
-
-if (!loginSession.isAuthed() && !loginSession.isSeller()) {
+if (!loginSession.isAuthed() || !loginSession.isSeller()) {
   alert("이 작업을 수행할 권한(permission)이 없습니다.");
   history.back();
 }
 
 // 유효성 검사
-function validateFields($input) {
-  // $input.forEach((input) => {
-  //   if (!input.value) {
-  //     input.focus();
-  //     ok = false;
-  //     return ok;
-  //   }
-  // });
-
+function validateFields() {
   if (!$name.value.trim()) {
-    // $name.textContent = '상품명을 입력해주세요.';
     alert("상품명을 입력해 주세요.");
     $name.focus();
     return false;
@@ -60,14 +37,14 @@ function validateFields($input) {
     return false;
   }
 
-  if (!$realUpload.files || !$realUpload.file[0]) {
+  if (!$realUpload.files || !$realUpload.files[0]) {
     alert("파일이 제출되지 않았습니다.");
     $upload.focus();
     return false;
   }
 
   if (!$price.value.trim()) {
-    alert("품 가격을 입력해 주세요.");
+    alert("상품 가격을 입력해 주세요.");
     $price.focus();
     return false;
   }
@@ -82,16 +59,43 @@ function validateFields($input) {
     alert("배송비를 입력해 주세요.");
     $fee.focus();
   }
+
+  // 정수값 검사
+  const price = $price.value.replace(/,/g, "");
+  const fee = $fee.value.replace(/,/g, "");
+  const stock = $stock.value.replace(/,/g, "");
+
+  if (!/^\d+$/.test(price)) {
+    alert("유효한 정수(integer)를 넣어주세요.");
+    $price.focus();
+    return false;
+  }
+
+  if (!/^\d+$/.test(fee)) {
+    alert("유효한 정수(integer)를 넣어주세요.");
+    $fee.focus();
+    return false;
+  }
+
+  if (!/^\d+$/.test(stock)) {
+    alert("유효한 정수(integer)를 넣어주세요.");
+    $stock.focus();
+    return false;
+  }
+
+  return true;
 }
 
-async function updateProduct(productData) {
-  const url = `${session.baseUrl}/products/`;
+async function updateProduct(formData) {
+  const url = `${loginSession.baseUrl}/products/`;
 
   try {
     const res = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(productData),
+      headers: {
+        Authorization: `Bearer ${loginSession.getAccess()}`,
+      },
+      body: formData,
     });
 
     if (!res.ok) throw new Error(res.status);
@@ -104,14 +108,12 @@ async function updateProduct(productData) {
   }
 }
 
-// 제출
-$form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-});
-
+// 이벤트
 // 상품 이미지
 $upload.addEventListener("click", () => $realUpload.click());
 $realUpload.addEventListener("change", () => {
+  console.log($realUpload.files[0]);
+
   const imgSrc = URL.createObjectURL($realUpload.files[0]);
   $preview.src = imgSrc;
   $preview.style.cssText = "width: 100%; height: 100%; border-radius: 0;";
@@ -132,7 +134,35 @@ document.querySelectorAll("input.num").forEach((input) => {
       return;
     }
 
-    const num = parseInt(value, 10);
+    const num = Number(value);
     e.target.value = num.toLocaleString();
   });
+});
+
+// 제출
+$form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (!validateFields()) return;
+
+  const formData = new FormData();
+  formData.append("name", $name.value.trim());
+  formData.append("info", $info.value.trim());
+  formData.append("image", $realUpload.files[0]);
+  formData.append("price", $price.value.replace(/,/g, ""));
+  formData.append(
+    "shipping_method",
+    [...$shipping].find((el) => el.checked)?.value
+  );
+  formData.append("shipping_fee", $fee.value.replace(/,/g, ""));
+  formData.append("stock", $stock.value.replace(/,/g, ""));
+
+  try {
+    const res = await updateProduct(formData);
+    alert("상품 등록 완료!");
+    setTimeout(() => history.back(), 800);
+    console.log(res);
+  } catch (err) {
+    console.error(err);
+    alert("상품 등록에 실패했습니다. 다시 시도해 주세요.");
+  }
 });

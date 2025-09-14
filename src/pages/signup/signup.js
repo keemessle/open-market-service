@@ -570,7 +570,7 @@ $signupForm.addEventListener("submit", async (e) => {
       showMessage($phone1, err.message);
     } else {
       const errMsg =
-        err.message || "회원가입에 실패했습니다. 다시 시도해주세요.";
+        err.message || "회원가입에 실패했습니다. 다시 시도해 주세요.";
       alert(errMsg);
     }
   } finally {
