@@ -677,6 +677,8 @@ footer .divider {
 
   font-weight: 500;
   cursor: pointer;
+
+  transition: background-color var(--trans), color var(--trans);
 }
 
 .tab-menu .badge {
