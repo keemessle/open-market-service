@@ -263,7 +263,7 @@ export function createHeader() {
   function setDropdownPos() {
     const $mypageDropdown = document.querySelector(".dropdown-mypage");
     const dropdownRect = $mypageDropdown.getBoundingClientRect();
-    const padding = 24;
+    const padding = dropdownRect.width / 2;
     if (dropdownRect.right > window.innerWidth - padding) {
       $mypageDropdown.classList.add("overflow");
     } else {
