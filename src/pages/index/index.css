@@ -119,6 +119,10 @@
   aspect-ratio: 380 / 490;
 }
 
+.list-item a {
+  display: inline-block;
+}
+
 .product-img {
   width: 100%;
   aspect-ratio: 1;

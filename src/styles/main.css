@@ -137,6 +137,22 @@ input {
   padding: 0 24px;
 }
 
+/* 포커스 스타일 */
+*:focus-visible {
+  outline: 2px solid #873be5;
+  outline-offset: 2px;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.list-item a:focus-visible {
+  border-radius: 12px;
+}
+
+#search {
+  outline: none;
+}
+
 /* header */
 main {
   /* header footer 위치 조정 */
