@@ -67,6 +67,7 @@ function loadBanner(dataList) {
     // swiper
     const swiperItem = document.createElement("a");
     swiperItem.className = "swiper-item";
+    swiperItem.setAttribute("tabindex", "-1");
     swiperItem.setAttribute("href", data.href);
     swiperItem.style.backgroundColor = data.img;
     swiperItem.innerHTML = `
