@@ -2,7 +2,6 @@
 .section-banner {
   width: 100%;
   height: clamp(300px, 40vw, 500px);
-  background-color: #f2f2f2;
   padding: 0 30px;
   position: relative;
   overflow: hidden;
@@ -62,14 +61,38 @@
   gap: 20px;
 }
 
-.swiper-wrap .banner-title {
+.swiper-item {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.swiper-item .banner-title {
+  color: #000000;
   font-size: var(--fs-3xl);
   font-weight: 700;
 }
 
-.swiper-wrap .banner-desc {
+.swiper-item .banner-desc {
+  color: #292c29;
   font-size: var(--fs-lg);
   font-weight: 500;
+}
+
+.swiper-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  filter: blur(8px);
+  transform: scale(102%);
+  z-index: -1;
+  background-color: #f2f2f2;
 }
 
 .pagination-list {
@@ -92,12 +115,12 @@
   width: 6px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: #fff;
+  background: var(--gray-dark);
   cursor: pointer;
 }
 
 .pagination-item.active {
-  background: #000;
+  background: var(--color-main);
 }
 
 /* section-list */

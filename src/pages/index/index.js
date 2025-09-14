@@ -50,14 +50,61 @@ async function loadProductList() {
   }
 }
 
+async function loadBannerDatas() {
+  let bannerImageList = [];
+  try {
+    const response = await fetch(`${BASE_URL}products`);
+    if (!response.ok) throw new Error("Network response was not ok");
+    const data = await response.json();
+    data["results"].forEach((product) => {
+      bannerImageList.push({
+        href: "#",
+        title: product.name,
+        desc: `${product.seller.store_name}의 인기 상품이 새로 들어왔습니다!`,
+        img: product.image,
+      });
+    });
+
+    return bannerImageList;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// const bannerDataList = [
+//   {
+//     href: "#",
+//     title: "배너제목1",
+//     desc: "배너설명1",
+//     img: productImageList[0],
+//   },
+//   {
+//     href: "#",
+//     title: "배너제목2",
+//     desc: "배너설명2",
+//     img: productImageList[1],
+//   },
+//   {
+//     href: "#",
+//     title: "배너제목3",
+//     desc: "배너설명3",
+//     img: productImageList[2],
+//   },
+//   {
+//     href: "#",
+//     title: "배너제목4",
+//     desc: "배너설명4",
+//     img: productImageList[3],
+//   },
+//   {
+//     href: "#",
+//     title: "배너제목5",
+//     desc: "배너설명5",
+//     img: productImageList[4],
+//   },
+// ];
+
 // section-banner
-const bannerDataList = [
-  { href: "#", title: "배너제목1", desc: "배너설명1", img: "yellowgreen" },
-  { href: "#", title: "배너제목2", desc: "배너설명2", img: "pink" },
-  { href: "#", title: "배너제목3", desc: "배너설명3", img: "skyblue" },
-  { href: "#", title: "배너제목4", desc: "배너설명4", img: "orange" },
-  { href: "#", title: "배너제목5", desc: "배너설명5", img: "dodgerblue" },
-];
 function loadBanner(dataList) {
   const swiperWrap = document.querySelector(".swiper-wrap");
   const bannerBtns = document.querySelector(".btn-container");
@@ -69,10 +116,11 @@ function loadBanner(dataList) {
     swiperItem.className = "swiper-item";
     swiperItem.setAttribute("tabindex", "-1");
     swiperItem.setAttribute("href", data.href);
-    swiperItem.style.backgroundColor = data.img;
+
     swiperItem.innerHTML = `
-    <p class="banner-title">${data.title}</p>
-    <p class="banner-desc">${data.desc}</p>
+      <p class="banner-title">${data.title}</p>
+      <p class="banner-desc">${data.desc}</p>
+    <img src="${data.img}" />
   `;
 
     // pagination
@@ -95,7 +143,7 @@ function loadBanner(dataList) {
 
   const offsetSwiper = function offsetSwiper(direction = "none") {
     const wrapWidth = swiperWrap.clientWidth;
-    const maxIdnex = bannerDataList.length;
+    const maxIdnex = dataList.length;
     let offsetWidth;
     if (direction == "left") {
       swiperIndex = (swiperIndex - 1 + maxIdnex) % maxIdnex;
@@ -111,8 +159,8 @@ function loadBanner(dataList) {
 
   function activePagination(index) {
     const paginationItems = document.querySelectorAll(".pagination-item");
-    paginationItems.forEach((item, index) => {
-      if (index === swiperIndex) {
+    paginationItems.forEach((item, i) => {
+      if (i === index) {
         item.classList.add("active");
       } else {
         item.classList.remove("active");
@@ -134,11 +182,14 @@ function offBannerTransition() {
   }, 200);
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   createHeader();
   createFooter();
+
+  await loadProductList();
+  const bannerDataList = await loadBannerDatas();
+
   const offsetSwiper = loadBanner(bannerDataList);
-  loadProductList();
 
   window.addEventListener("resize", () => {
     offBannerTransition();
