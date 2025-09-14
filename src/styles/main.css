@@ -804,16 +804,13 @@ footer .divider {
     margin-left: 12px;
   }
 
-  .actions-list .btn-icon span {
-    color: #fff;
-  }
-
   .actions-list .btn-icon svg {
     width: 22px;
     height: 22px;
   }
 
   .actions-list .btn-icon span {
+    color: #fff;
     font-size: var(--fs-sm);
   }
 }

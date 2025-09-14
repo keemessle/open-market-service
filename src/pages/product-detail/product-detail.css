@@ -405,7 +405,7 @@
     margin-top: 80px;
   }
 
-  .btn {
+  .order-btn-container .btn {
     height: 55px;
     font-size: var(--fs-lg);
   }
@@ -459,7 +459,7 @@
     padding-bottom: 4px;
   }
 
-  .btn {
+  .order-btn-container .btn {
     height: 50px;
 
     font-size: var(--fs-md);
