@@ -30,11 +30,11 @@ async function loadProductList() {
                   src="${product.image}"
                   alt="${product.name}" 
                   loading="lazy"
-                  onerror="this.src='/assets/images/product-default.png'"
+                  onerror="this.src='./assets/images/product-default.png'"
                 />
               </div>
               <div class="info-container">
-              <p class="info-seller ellipsis">${product.seller.name}</p>
+              <p class="info-seller ellipsis">${product.seller.store_name}</p>
               <p class="info-info ellipsis">${product.name}</p>
               <p class="info-unit">
                   <span class="info-price">${product.price.toLocaleString()}</span>원
@@ -50,76 +50,118 @@ async function loadProductList() {
   }
 }
 
+async function loadBannerDatas() {
+  let bannerImageList = [];
+  try {
+    const response = await fetch(`${BASE_URL}products`);
+    if (!response.ok) throw new Error("Network response was not ok");
+    const data = await response.json();
+    data["results"].forEach((product) => {
+      bannerImageList.push({
+        href: `product-detail.html?id=${product.id}`,
+        title: product.name,
+        desc: `${product.seller.store_name}의 인기 상품이 새로 들어왔습니다!`,
+        img: product.image,
+      });
+    });
+
+    return bannerImageList;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // section-banner
-const bannerDataList = [
-  { href: "#", title: "배너제목1", desc: "배너설명1", img: "yellowgreen" },
-  { href: "#", title: "배너제목2", desc: "배너설명2", img: "pink" },
-  { href: "#", title: "배너제목3", desc: "배너설명3", img: "skyblue" },
-  { href: "#", title: "배너제목4", desc: "배너설명4", img: "orange" },
-  { href: "#", title: "배너제목5", desc: "배너설명5", img: "dodgerblue" },
-];
 function loadBanner(dataList) {
   const swiperWrap = document.querySelector(".swiper-wrap");
   const bannerBtns = document.querySelector(".btn-container");
   const paginationList = document.querySelector(".pagination-list");
 
-  dataList.forEach((data) => {
+  const cloneDataList = [
+    dataList[dataList.length - 1],
+    ...dataList,
+    dataList[0],
+  ];
+
+  cloneDataList.forEach((data, index) => {
     // swiper
     const swiperItem = document.createElement("a");
     swiperItem.className = "swiper-item";
+    swiperItem.setAttribute("tabindex", "-1");
     swiperItem.setAttribute("href", data.href);
-    swiperItem.style.backgroundColor = data.img;
+
     swiperItem.innerHTML = `
-    <p class="banner-title">${data.title}</p>
-    <p class="banner-desc">${data.desc}</p>
+      <p class="banner-title">${data.title}</p>
+      <p class="banner-desc">${data.desc}</p>
+      <img src="${data.img}" />
   `;
 
-    // pagination
-    const paginationItem = document.createElement("li");
-    paginationItem.className = "pagination-item";
-
-    // append
     swiperWrap.append(swiperItem);
-    paginationList.append(paginationItem);
+
+    // pagination
+    if (index > 0 && index <= dataList.length) {
+      const paginationItem = document.createElement("li");
+      paginationItem.className = "pagination-item";
+      paginationList.append(paginationItem);
+    }
   });
 
-  // btn click event
-  bannerBtns.addEventListener("click", (e) => {
-    const direction = e.target.closest(".btn-left") ? "left" : "right";
-    offsetSwiper(direction);
-  });
+  //
+  let swiperIndex = 1;
+  let wrapWidth = swiperWrap.clientWidth;
+  let isMoving = false;
+  swiperWrap.style.transform = `translateX(-${wrapWidth * swiperIndex}px)`;
 
-  let swiperIndex = 0;
-  activePagination(swiperIndex);
-
-  const offsetSwiper = function offsetSwiper(direction = "none") {
-    const wrapWidth = swiperWrap.clientWidth;
-    const maxIdnex = bannerDataList.length;
-    let offsetWidth;
-    if (direction == "left") {
-      swiperIndex = (swiperIndex - 1 + maxIdnex) % maxIdnex;
-    }
-    if (direction == "right") {
-      swiperIndex = (swiperIndex + 1) % maxIdnex;
-    }
-    offsetWidth = wrapWidth * swiperIndex * -1;
-    swiperWrap.style.transform = `translateX(${offsetWidth}px)`;
-
-    activePagination(swiperIndex);
-  };
-
-  function activePagination(index) {
+  function updatePagination(index) {
     const paginationItems = document.querySelectorAll(".pagination-item");
-    paginationItems.forEach((item, index) => {
-      if (index === swiperIndex) {
-        item.classList.add("active");
-      } else {
-        item.classList.remove("active");
-      }
+    let activeIndex = index - 1;
+    if (activeIndex < 0) activeIndex = dataList.length - 1;
+    if (activeIndex >= dataList.length) activeIndex = 0;
+
+    paginationItems.forEach((item, i) => {
+      item.classList.toggle("active", i === activeIndex);
     });
   }
+  updatePagination(swiperIndex);
 
-  return offsetSwiper;
+  function moveSwiper(direction) {
+    if (isMoving) return;
+    isMoving = true;
+
+    if (direction == "left") swiperIndex--;
+    if (direction == "right") swiperIndex++;
+    updateSwiper(true);
+  }
+
+  function updateSwiper(withTransition = true) {
+    wrapWidth = swiperWrap.clientWidth;
+    swiperWrap.style.transition = withTransition
+      ? "transform 0.3s ease"
+      : "none";
+    swiperWrap.style.transform = `translateX(${-wrapWidth * swiperIndex}px)`;
+    updatePagination(swiperIndex);
+  }
+
+  swiperWrap.addEventListener("transitionend", () => {
+    let reset = false;
+
+    if (swiperIndex === 0) {
+      swiperIndex = dataList.length;
+      reset = true;
+    } else if (swiperIndex === dataList.length + 1) {
+      swiperIndex = 1;
+      reset = true;
+    }
+    if (reset) updateSwiper(false);
+    isMoving = false;
+  });
+
+  bannerBtns.addEventListener("click", (e) => {
+    const direction = e.target.closest(".btn-left") ? "left" : "right";
+    moveSwiper(direction);
+  });
+
+  return (withTransition = true) => updateSwiper(withTransition);
 }
 
 let resizeTimer;
@@ -133,14 +175,16 @@ function offBannerTransition() {
   }, 200);
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   createHeader();
   createFooter();
-  const offsetSwiper = loadBanner(bannerDataList);
-  loadProductList();
+
+  await loadProductList();
+  const bannerDataList = await loadBannerDatas();
+  const updateSwiper = loadBanner(bannerDataList);
 
   window.addEventListener("resize", () => {
     offBannerTransition();
-    offsetSwiper();
+    updateSwiper(false);
   });
 });

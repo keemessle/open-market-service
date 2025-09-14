@@ -180,8 +180,10 @@
   width: 70px;
   min-width: 60px;
   aspect-ratio: 1;
+  object-fit: contain;
   border-radius: 50%;
-  background-color: #dfdfdf;
+  border: 1px solid var(--gray-light);
+  background-color: #fff;
 }
 
 .item-col .item-title-wrap {

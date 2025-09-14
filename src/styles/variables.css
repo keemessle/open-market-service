@@ -15,4 +15,7 @@
   --fs-2xl: 24px;
   --fs-3xl: 30px;
   --fs-4xl: 36px;
+
+  /* transition */
+  --trans: 0.2s ease;
 }

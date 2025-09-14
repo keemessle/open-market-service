@@ -49,6 +49,16 @@
   ascent-override: 100%;
 }
 
+/* 로드시 fadeIn 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* 초기화 */
 * {
   margin: 0;
@@ -61,7 +71,7 @@ html {
 }
 
 body {
-  font-family: "SpoqaHanSansNeo";
+  font-family: "SpoqaHanSansNeo", system-ui, -apple-system, sans-serif;
   font-weight: 400;
 
   width: 100%;
@@ -73,6 +83,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  animation: fadeIn 1s forwards;
 }
 
 img {
@@ -113,19 +125,6 @@ input {
   font-weight: 700;
 }
 
-.fade-in {
-  animation: fadeIn 1s forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .container {
   max-width: calc(1280px + 48px);
   margin: 0 auto;
@@ -136,6 +135,22 @@ input {
   max-width: calc(1720px + 48px);
   margin: 0 auto;
   padding: 0 24px;
+}
+
+/* 포커스 스타일 */
+*:focus-visible {
+  outline: 2px solid #873be5;
+  outline-offset: 2px;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.list-item a:focus-visible {
+  border-radius: 12px;
+}
+
+#search {
+  outline: none;
 }
 
 /* header */
@@ -292,6 +307,10 @@ header {
   line-height: 1;
 }
 
+.actions-item :is(svg path, span) {
+  transition: stroke var(--trans), color var(--trans);
+}
+
 .actions-item:hover :is(svg path, span),
 .actions-item.active :is(svg path, span) {
   stroke: var(--color-main);
@@ -342,11 +361,16 @@ header {
   flex-direction: column;
   gap: 8px;
 
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: left var(--trans), opacity var(--trans);
 }
 
 .dropdown-mypage.active {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .dropdown-mypage.overflow {
@@ -376,6 +400,10 @@ header {
   color: var(--gray-dark);
   font-weight: 500;
   white-space: nowrap;
+}
+
+.dropdown-mypage .dropdown-item {
+  transition: color var(--trans), border var(--trans);
 }
 
 .dropdown-mypage .dropdown-item:hover {
@@ -525,6 +553,8 @@ footer .divider {
   color: #fff;
   background-color: var(--color-main);
   border-radius: 5px;
+
+  transition: background-color var(--trans);
 }
 
 .btn-lg {
@@ -582,10 +612,6 @@ footer .divider {
   line-height: 1;
 }
 
-.btn-icon:hover {
-  background-color: var(--color-main-dark);
-}
-
 .btn-icon:hover :is(svg path, span) {
   stroke: #fff;
   color: #fff;
@@ -593,11 +619,6 @@ footer .divider {
 
 .btn:hover {
   background-color: var(--color-main-dark);
-}
-
-.btn:disabled {
-  background-color: var(--gray-light);
-  cursor: not-allowed;
 }
 
 .btn-white {
@@ -618,6 +639,11 @@ footer .divider {
 
 .btn-dark:hover {
   background-color: #4a4a4a;
+}
+
+.btn:disabled {
+  background-color: var(--gray-light);
+  cursor: not-allowed;
 }
 
 /* 가격 사이즈 : price-l price-m price-s */
@@ -667,6 +693,8 @@ footer .divider {
 
   font-weight: 500;
   cursor: pointer;
+
+  transition: background-color var(--trans), color var(--trans);
 }
 
 .tab-menu .badge {
