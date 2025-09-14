@@ -292,7 +292,7 @@ header {
 }
 
 .actions-item :is(svg path, span) {
-  transition: stroke 0.2s ease, color 0.2s ease;
+  transition: stroke var(--trans), color var(--trans);
 }
 
 .actions-item:hover :is(svg path, span),
@@ -348,7 +348,7 @@ header {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: left 0.2s ease, opacity 0.2s ease;
+  transition: left var(--trans), opacity var(--trans);
 }
 
 .dropdown-mypage.active {
@@ -387,7 +387,7 @@ header {
 }
 
 .dropdown-mypage .dropdown-item {
-  transition: color 0.2s ease, border 0.2s ease;
+  transition: color var(--trans), border var(--trans);
 }
 
 .dropdown-mypage .dropdown-item:hover {
@@ -537,6 +537,8 @@ footer .divider {
   color: #fff;
   background-color: var(--color-main);
   border-radius: 5px;
+
+  transition: background-color var(--trans);
 }
 
 .btn-lg {
@@ -592,10 +594,6 @@ footer .divider {
   font-weight: 500;
   white-space: nowrap;
   line-height: 1;
-}
-
-.btn-icon:hover {
-  background-color: var(--color-main-dark);
 }
 
 .btn-icon:hover :is(svg path, span) {
