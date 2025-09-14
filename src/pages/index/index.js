@@ -30,7 +30,7 @@ async function loadProductList() {
                   src="${product.image}"
                   alt="${product.name}" 
                   loading="lazy"
-                  onerror="this.src='/assets/images/product-default.png'"
+                  onerror="this.src='./assets/images/product-default.png'"
                 />
               </div>
               <div class="info-container">
