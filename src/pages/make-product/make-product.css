@@ -1,0 +1,237 @@
+/* header */
+header {
+  display: flex;
+  gap: 16px;
+  padding: 33px 100px;
+}
+
+.header-logo {
+  width: 80px;
+}
+
+h1 {
+  font-size: var(--fs-3xl);
+  font-weight: 500; /* font 적용 공통 스타일? */
+}
+
+/* main */
+main {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+/* 왼쪽 section */
+.side {
+  margin: 44px 100px;
+}
+
+h2 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 42px;
+}
+
+h3 {
+  display: inline-block;
+  color: #eb5757;
+  margin-bottom: 10px;
+}
+
+.notice-list ul {
+  display: inline-block;
+  width: 320px;
+  height: 346px;
+  padding: 20px;
+  background-color: #ffefe8;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.notice-list li {
+  margin-bottom: 2rem;
+  list-style: inside;
+  list-style-type: "- ";
+  line-height: 1.4;
+}
+
+.notice-list li:last-of-type {
+  margin-bottom: 0;
+}
+
+/* 오른쪽 section */
+.content {
+  margin: 130px 100px 136px 0;
+}
+
+/* 공통 */
+label {
+  margin-bottom: 10px;
+  color: var(--gray-dark);
+}
+
+input {
+  box-sizing: border-box;
+  width: 220px;
+  height: 54px;
+  padding-left: 16px;
+  font-size: 16px;
+  border: 1px solid var(--gray-light);
+  border-radius: 5px;
+  outline: 0;
+  position: relative;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+span {
+  position: absolute;
+  bottom: 0;
+  left: 166px; /* 220 - 54 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 54px;
+  height: 54px;
+  background-color: var(--gray-light);
+  border-radius: 0 5px 5px 0;
+  color: #fff;
+  pointer-events: none; /* 클릭 방해 안되게 */
+}
+
+*:focus-visible {
+  outline: none;
+}
+
+/* 상품 등록 form */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.update-product-top {
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.product-img {
+  margin-right: 40px;
+}
+
+.product-img input[type="file"] {
+  display: none;
+}
+
+.upload {
+  width: 454px;
+  height: 454px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--gray-light);
+  cursor: pointer;
+}
+
+.upload img {
+  width: 50px;
+  height: 50px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.product-detail {
+  flex: 1;
+  gap: 16px;
+}
+
+.product-name input {
+  width: 100%;
+}
+
+.product-shipping ul {
+  display: flex;
+  gap: 10px;
+}
+
+.product-shipping input[type="radio"] {
+  display: none;
+}
+
+.product-shipping li > label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 220px;
+  height: 54px;
+  border: 1px solid var(--gray-light);
+  border-radius: 5px;
+}
+
+.product-shipping input[type="radio"]:checked + label {
+  background: var(--color-main);
+  color: #fff;
+  border: none;
+}
+
+.update-product-bottom {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.update-product-bottom textarea {
+  width: 100%;
+  height: 700px;
+  padding: 30px;
+  background-color: #f2f2f2;
+  border: 1px solid var(--gray-light);
+  border-radius: 5px;
+}
+
+.product-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.product-btn button {
+  width: 200px;
+  height: 60px;
+  text-align: center;
+  color: var(--gray-dark);
+  background-color: #fff;
+  border: 1px solid var(--gray-light);
+  border-radius: 5px;
+}
+
+.product-btn button:hover {
+  background-color: var(--color-main);
+  color: #fff;
+  border: none;
+}
+
+/* 반응형 */
+@media (max-width: 1280px) {
+  /* .list-product {
+    gap: clamp(60px, 6vw, 78px) clamp(24px, 4vw, 70px);
+  } */
+}
+
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 768px) {
+  /* .list-product {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 60px clamp(24px, 4vw, 32px);
+  } */
+}
+
+@media (max-width: 640px) {
+}
