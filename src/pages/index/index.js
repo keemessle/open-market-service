@@ -18,7 +18,7 @@ async function loadProductList() {
     const data = await response.json();
     data["results"]
       .slice()
-      .reverse() // 역순으로 추가
+      .reverse()
       .forEach((product) => {
         const $listItem = document.createElement("li");
         $listItem.className = "list-item";

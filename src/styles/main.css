@@ -347,7 +347,7 @@ header {
   aspect-ratio: 1;
 
   position: absolute;
-  top: -10%;
+  top: -8px;
   left: 50%;
   transform: translateX(-50%) rotate(45deg);
   z-index: -10;
