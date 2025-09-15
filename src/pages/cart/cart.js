@@ -21,12 +21,17 @@ const url                    = new URL(location.href);
 const API_URL                = "https://api.wenivops.co.kr/services/open-market";
 const CART_API_URL           = `${API_URL}/cart/`;
 
-const $cartListBody          = document.getElementById("cart-list-body");
-const $selectAll             = document.getElementById("select-all");
-const $cartTotProductAmount  = document.getElementById("cart-tot-product-amount");
+const $cartListBody           = document.getElementById("cart-list-body");
+const $selectAll              = document.getElementById("select-all");
+const $cartTotProductAmount   = document.getElementById("cart-tot-product-amount");
 const $cartTotProductDiscount = document.getElementById("cart-tot-product-discount");
 const $cartTotMethodAmount    = document.getElementById("cart-tot-method-amount");
 const $cartTotAmount          = document.getElementById("cart-tot-amount");
+
+let cartTotProductAmount      = 0;
+let cartTotProductDiscount    = 0;
+let cartTotMethodAmount       = 0;
+let cartTotAmount             = 0;
 
 // API 호출
 // 장바구니 목록 호출
@@ -160,11 +165,18 @@ function createCartList(results) {
 
         $tdArticle.className = "cart-list-detail";
 
+        $tdArticle.addEventListener("click", function(e){
+            const $row = e.target.closest("tr");
+            const productId = parseInt($row.dataset.productId);
+
+            location.href = `./product-detail.html?id=${productId}`
+        });
+
         // 체크박스
         $inputChkBox.setAttribute("type", "checkbox");
 
         $inputChkBox.addEventListener("click", function(e){
-            const $row = e.target.closest("tr");
+            const $row = e.target.closest("tr");            
 
             if(e.target.checked == false){
                 $selectAll.checked = false;
@@ -183,7 +195,7 @@ function createCartList(results) {
                 }
             }
 
-            calTotAmount($row);
+            calTotAmount($row, e.target.checked);
         })
 
         // 이미지
@@ -316,9 +328,9 @@ function createCartList(results) {
         $btnBuy.className = "btn btn-s btn-left";
         $btnBuy.textContent = "주문하기";
         $btnBuy.addEventListener('click', function(e){
-            const row = e.target.closest("tr");
-            const productId = parseInt(row.dataset.productId);
-            const productQuantity = parseInt(row.querySelector("[id^='product-quantity']").value);
+            const $row = e.target.closest("tr");
+            const productId = parseInt($row.dataset.productId);
+            const productQuantity = parseInt($row.querySelector("[id^='product-quantity']").value);
 
             addBuy(productId, productQuantity);
         });
@@ -442,16 +454,18 @@ function addBuy(productId, productQuantity) {
 /**
  * 상품요약 전체 금액 계산.
  * 체크박스의 체크상태가 변경되거나, 체크 된 상품이 삭제되거나, 체크된 상품의 수량 변경 시 호출
- * @param {String} row
+ * @param {String} row 행 인덱스
+ * @param {Boolean} state true 시 상품추가, false시 상품제거
  */
-function calTotAmount(row) {
-    // const cartTotProductAmount = row.querySelector("");
-    // const cartTotProductDiscount = row.querySelector("");
-    // const cartTotMethodAmount = row.querySelector("");
-    // const cartTotAmount = row.querySelector("");
+function calTotAmount(row, state) {
+    const rowTotProductAmount = row.querySelector("[id^='product-tot-amount']");   
+    // 할인금액 값은 보이지 않아서 우선 제외
+    // const rowProductDiscount = row.querySelector("[id^='']");
+    const rowMethodAmount = row.querySelector("[id^='product-method-amount']");
 
     // $cartTotProductAmount.innerText   = ;   
-    // $cartTotProductDiscount.innerText = ;
+    // 할인금액 값은 보이지 않아서 우선 제외
+    // $cartTotProductDiscount.innerText = ;    
     // $cartTotMethodAmount.innerText    = ;
     // $cartTotAmount.innerText          = ;
 }

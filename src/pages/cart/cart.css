@@ -20,7 +20,7 @@
 
 .cart-list {
   margin-top: clamp(14px, 4vw, 50px);
-  justify-items: center;
+  justify-items: center;  
 }
 
 /* 장바구니 리스트 시작 */
@@ -29,6 +29,8 @@
     border-collapse: separate;
     border-spacing: 0 10px;
     margin-bottom: clamp(40px, 6vw, 80px);
+    width: 100%;
+    height: 100%;
 }
 
 .cart-list-table caption {
@@ -66,6 +68,17 @@
     padding: 20px 10px;    
     text-align: center;
     vertical-align: middle;
+    border: 2px solid #E0E0E0;
+    border-right: none; /* 오른쪽 중복 제거 */
+    border-left: none;
+}
+
+tbody td:first-child {
+  border-left: 2px solid #E0E0E0;
+}
+
+tbody td:last-child {
+  border-right: 2px solid #E0E0E0;
 }
 
 .cart-list-table tbody tr:first-child td {
@@ -85,6 +98,7 @@
     border: 1px solid #21BF48;
     cursor: pointer;
     position: relative;
+    display: inline-block; 
 }
 
 .cart-list-table input[type="checkbox"]:checked {
@@ -107,6 +121,7 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    cursor: pointer;
 }
 
 .cart-list-table article img {
@@ -230,8 +245,10 @@
 .cart-list-table .cart-list-order {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    gap: 12px;
+    gap: 12px;    
+    height: 100%;
 }
 
 .cart-list-table output {
@@ -254,7 +271,7 @@
 /* 장바구니 리스트 끝 */
 
 /* 주문 요약 시작 */
-section.cart-summary {
+section.cart-summary {    
     padding: 30px;
     border-radius: 8px;
     margin-bottom: 30px;    
@@ -264,6 +281,7 @@ section.cart-summary {
 }
 
 section.cart-summary dl {
+    width: 100%;
     background-color: #f2f2f2;
     padding: 20px;
     border-radius: 8px;    
