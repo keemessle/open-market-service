@@ -152,26 +152,6 @@ export function createHeader() {
     }
   }
 
-  //   if (isLoggedIn) {
-  //     if (isBuyer) {
-  //       loadActionsList(actionsLoggedIn);
-  //       setupCart();
-  //       console.log("로그인 구매자");
-  //     } else if (isSeller) {
-  //       loadActionsList(actionsLoggedInSeller);
-  //       console.log("로그인 팬매자");
-  //     }
-  //     setupDropdown();
-  //     setupLogout();
-  //     console.log("로그인");
-  //   } else {
-  //     loadActionsList(actionsDefault);
-  //     setupCart();
-  //     resetSearchInput();
-  //     console.log("비로그인");
-  //   }
-  // }
-
   // DOM 생성
   function createDOM(headerHTML) {
     const $header = document.createElement("header");
