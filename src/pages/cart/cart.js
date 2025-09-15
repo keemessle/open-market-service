@@ -9,17 +9,17 @@ createHeader();
 createFooter();
 
 // 로그인 상태 가져오기
-const userSession            = new UserSession();
-let isLoggedIn               = userSession.isAuthed();
-let userRole                 = userSession.getRole();
+const userSession             = new UserSession();
+let isLoggedIn                = userSession.isAuthed();
+let userRole                  = userSession.getRole();
 let accessToken;
 
 /* 공통 영역 끝 */
 
 // 변수 선언
-const url                    = new URL(location.href);
-const API_URL                = "https://api.wenivops.co.kr/services/open-market";
-const CART_API_URL           = `${API_URL}/cart/`;
+const url                     = new URL(location.href);
+const API_URL                 = "https://api.wenivops.co.kr/services/open-market";
+const CART_API_URL            = `${API_URL}/cart/`;
 
 const $cartListBody           = document.getElementById("cart-list-body");
 const $selectAll              = document.getElementById("select-all");
@@ -34,17 +34,19 @@ let cartTotMethodAmount       = 0;
 let cartTotAmount             = 0;
 
 // API 호출
-// 장바구니 목록 호출
+/**
+ * 장바구니 조회 API
+ */
 async function getCartList() {
     if (userRole === "SELLER") {
             return alert("판매자는 이용하실 수 없습니다.");
     }        
 
     // 토큰 재발급.
-    accessToken     = await userSession.refreshAccessToken();
+    accessToken    = await userSession.refreshAccessToken();
     
     try {
-        const res = await fetch(CART_API_URL, {            
+        const res  = await fetch(CART_API_URL, {            
             method: "GET", 
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -56,26 +58,33 @@ async function getCartList() {
         const data = await res.json();
 
         createCartList(data["results"]);
-
         
     } catch (err) {
         alert("서버에서 오류가 발생하였습니다.");
     }
 }
 
-// 디테일 필요한가
+/**
+ * 장바구니 수량 수정 API
+ * @param   {HTMLElement} 현재 row
+ * @param   {Boolean}     수량 증가시 true, 수량 감소시 false
+ * @returns {Boolean}     API 호출 성공 시 true, 실패 시 false 반환
+ */
+async function modifyCart($row, state) {
+    const cartItemId           = parseInt($row.dataset.cartItemId);
+    const $tempProductQuantity = $row.querySelector("[id^='product-quantity']");            
+    let   productQuantity      = state ? parseInt($tempProductQuantity.value) + 1 : parseInt($tempProductQuantity.value) - 1;
 
-// 장바구니 수량 수정
-async function modifyCart(productId) {
-    let cartData        = new Object();    
-    // 수량만 추가
-    // cartData.quantity   = onlyNumber($productTotQuantity.innerText);
+    let cartData               = new Object();  
     
-    // 토큰 재발급.
-    accessToken     = await userSession.refreshAccessToken();
+    // 수량 추가
+    cartData.quantity          = productQuantity;
 
     try{
-        const response  = await fetch(`${CART_API_URL}/${onlyNumber(productId)}/`, {            
+        // 토큰 재발급.
+        accessToken                = await userSession.refreshAccessToken();
+            
+        const response         = await fetch(`${CART_API_URL}${cartItemId}/`, {            
             method: "PUT", 
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -88,20 +97,29 @@ async function modifyCart(productId) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
+        return true;
+
     } catch(err) {
         alert("서버에서 오류가 발생하였습니다.");
+        console.log(err);
+        return false;
     }    
 }
 
-// 장바구니 상품 삭제
-async function deleteCart(productId) {
+/**
+ * 장바구니 상품 삭제 API
+ * @param   {HTMLElement} 현재 row
+ * @returns {Boolean}     API 호출 성공 시 true, 실패 시 false 반환
+ */
+async function deleteCart($row) {
+    const cartItemId    = parseInt($row.dataset.cartItemId);
     let cartData        = new Object();    
     
     // 토큰 재발급.
-    accessToken     = await userSession.refreshAccessToken();
+    accessToken         = await userSession.refreshAccessToken();
 
     try{
-        const response  = await fetch(`${CART_API_URL}/${onlyNumber(productId)}/`, {            
+        const response  = await fetch(`${CART_API_URL}${cartItemId}/`, {            
             method: "DELETE", 
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -114,190 +132,226 @@ async function deleteCart(productId) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
+        return true;
+
     } catch(err) {
         alert("서버에서 오류가 발생하였습니다.");
+        console.log(err);
+        return false;
     }    
 }
 
-// 전부삭제 필요한가
+// 이벤트
+// 장바구니 전체 조회 API
+window.addEventListener("DOMContentLoaded", getCartList);
+
+// 테이블 상단 체크박스 클릭 이벤트
+$selectAll.addEventListener("click", function(e) {
+    const chkBoxList       = $cartListBody.querySelectorAll("input[type='checkbox']");    
+
+    chkBoxList.forEach((chkBox)=>{  
+        const $row         = chkBox.closest("tr");
+
+        if (e.target.checked !== true) {
+            chkBox.checked = false;
+        }
+        else {
+            chkBox.checked = true;            
+        }
+    });
+
+    calTotAmount();
+});
 
 
-// 상품 리스트 동적 생성
+// 기타 함수
+/**
+ * 상품 리스트 동적 생성
+ * @param {JSON} results 
+ */
 function createCartList(results) {
 
-    for(let i=0; i<results.length; i++){
-        let data = results[i];
+    for(let i=0; i<results.length; i++) {
+        let data                 = results[i];
 
         let productTotAmount                         = data.product.price * data.quantity;       
 
         // DOM 선언
-        let $tr = document.createElement("tr");
-        let $tdChkBox = document.createElement("td")
-        let $inputChkBox = document.createElement("input");
-        
-        let $tdArticle = document.createElement("td");
-        let $article = document.createElement("article");
-        let $img = document.createElement("img");
-        let $hgroup = document.createElement("hgroup");
-        let $productId = document.createElement("p");
-        let $brandName = document.createElement("p");
-        let $productName = document.createElement("h3");
-        let $productAmount = document.createElement("p");
-        let $productMethod = document.createElement("small");
-        let $productMethodAmount = document.createElement("small");
-
-        let $tdFieldset = document.createElement("td");
-        let $fieldset = document.createElement("fieldset");
-        let $btnDec = document.createElement("button");
-        let $productQuantity = document.createElement("input");
-        let $btnAdd = document.createElement("button");
-
-        let $tdOrder = document.createElement("td");
-        let $output = document.createElement("output");
-        let $btnBuy = document.createElement("button");
-
-        let $tdDelete = document.createElement("td");
-        let $btnDelete = document.createElement("button");
+        let $tr                      = document.createElement("tr");
+        let $tdChkBox                = document.createElement("td")
+        let $inputChkBox             = document.createElement("input");
+            
+        let $tdArticle               = document.createElement("td");
+        let $article                 = document.createElement("article");
+        let $img                     = document.createElement("img");
+        let $hgroup                  = document.createElement("hgroup");
+        let $productId               = document.createElement("p");
+        let $brandName               = document.createElement("p");
+        let $productName             = document.createElement("h3");
+        let $productAmount           = document.createElement("p");
+        let $productMethod           = document.createElement("small");
+        let $productMethodAmount     = document.createElement("small");
+    
+        let $tdFieldset              = document.createElement("td");
+        let $fieldset                = document.createElement("fieldset");
+        let $btnDec                  = document.createElement("button");
+        let $productQuantity         = document.createElement("input");
+        let $btnAdd                  = document.createElement("button");
+    
+        let $tdOrder                 = document.createElement("td");
+        let $output                  = document.createElement("output");
+        let $btnBuy                  = document.createElement("button");
+    
+        let $tdDelete                = document.createElement("td");
+        let $btnDelete               = document.createElement("button");
 
         // 속성 설정
         // row 데이터셋 설정 (상품ID)
-        $tr.dataset.productId = data.product.id;
+        $tr.dataset.productId        = data.product.id;
+        $tr.dataset.cartItemId       = data.id;
+   
+        $tdArticle.className         = "cart-list-detail";
 
-        $tdArticle.className = "cart-list-detail";
-
-        $tdArticle.addEventListener("click", function(e){
-            const $row = e.target.closest("tr");
-            const productId = parseInt($row.dataset.productId);
-
-            location.href = `./product-detail.html?id=${productId}`
+        $tdArticle.addEventListener("click", function(e) {
+            const $row               = e.target.closest("tr");
+            const productId          = parseInt($row.dataset.productId);
+   
+            location.href            = `./product-detail.html?id=${productId}`
         });
 
         // 체크박스
         $inputChkBox.setAttribute("type", "checkbox");
 
-        $inputChkBox.addEventListener("click", function(e){
-            const $row = e.target.closest("tr");            
+        $inputChkBox.addEventListener("click", function(e) {
+            const $row              = e.target.closest("tr");            
 
-            if(e.target.checked == false){
-                $selectAll.checked = false;
+            if (e.target.checked == false) {
+                $selectAll.checked     = false;
             }
             else {
-                const chkBoxList = $cartListBody.querySelectorAll("input[type='checkbox']");
-                let chkAllToken = true;
+                const chkBoxList       = $cartListBody.querySelectorAll("input[type='checkbox']");
+                let chkAllToken        = true;
                 chkBoxList.forEach((chkBox)=>{
-                    if(chkBox.checked === false){
-                        chkAllToken = false;
+                    if (chkBox.checked === false) {
+                        chkAllToken    = false;
                         return;
                     }
                 })
-                if(chkAllToken === true) {
+                if (chkAllToken === true) {
                     $selectAll.checked = true;
                 }
             }
 
-            calTotAmount($row, e.target.checked);
+            calTotAmount();
         })
 
         // 이미지
-        $img.src = data.product.image;
-        $img.alt = `${data.product.name} 상품 이미지`;
-        $img.id = `product-image${i}`;
-
-        // 상품ID
-        $productId.className = "hide";
-        $productId.id = `product-id${i}`;
-        $productId.innerText = data.product.id;
-
-        // 브랜드명
-        $brandName.id = `product-brand${i}`;
-        $brandName.innerText = data.product.seller.store_name;
-
-        // 상품명
-        $productName.id = `product-name${i}`;
-        $productName.innerText = data.product.name;
-
-        // 상품재고
-        $productId.className = "hide";
-        $productId.id = `product-stock${i}`;        
-        $productId.innerText = data.product.stock;
-
-        // 상품금액
-        $productAmount.id = `product-amount${i}`;
-        $productAmount.innerText = `${formatNumberWithComma(data.product.price)}`;
+        $img.src                                = data.product.image;
+        $img.alt                                = `${data.product.name} 상품 이미지`;
+        $img.id                                 = `product-image${i}`;
+     
+        // 상품ID     
+        $productId.className                    = "hide";
+        $productId.id                           = `product-id${i}`;
+        $productId.innerText                    = data.product.id;
+     
+        // 브랜드명     
+        $brandName.id                           = `product-brand${i}`;
+        $brandName.innerText                    = data.product.seller.store_name;
+     
+        // 상품명     
+        $productName.id                         = `product-name${i}`;
+        $productName.innerText                  = data.product.name;
+     
+        // 상품재고     
+        $productId.className                    = "hide";
+        $productId.id                           = `product-stock${i}`;        
+        $productId.innerText                    = data.product.stock;
+     
+        // 상품금액     
+        $productAmount.id                       = `product-amount${i}`;
+        $productAmount.innerText                = `${formatNumberWithComma(data.product.price)}`;
 
         // 배송방법
-        $productMethod.id = `product-method${i}`;
+        $productMethod.id                       = `product-method${i}`;
 
-        if(data.product.shipping_method === "PARCEL") {
-            $productMethod.innerText        = "택배배송";
+        if (data.product.shipping_method === "PARCEL") {
+            $productMethod.innerText            = "택배배송";
         }
         else {
-            $productMethod.innerText        = "직접배송"
+            $productMethod.innerText            = "직접배송"
         }
         
         // 배송료
-        $productMethodAmount.id = `product-method-amount${i}`;
+        $productMethodAmount.id                 = `product-method-amount${i}`;
 
-        if(data.product.shipping_fee === 0) {
-            $productMethodAmount.innerText = "무료배송";
+        if (data.product.shipping_fee === 0) {
+            $productMethodAmount.innerText      = "무료배송";
         }
         else {
-            $productMethodAmount.innerText = `${formatNumberWithComma(data.product.shipping_fee)}원`;
+            $productMethodAmount.innerText      = `${formatNumberWithComma(data.product.shipping_fee)}원`;
         }
 
         // 주문수량
-        $fieldset.className = "order-amount";
-
-        // 감소 버튼
-        $btnDec.className = "order-btn order-btn-decrease";
-        $btnDec.id = `btn-dec${i}`;
+        $fieldset.className                     = "order-amount";
+    
+        // 감소 버튼    
+        $btnDec.className                       = "order-btn order-btn-decrease";
+        $btnDec.id                              = `btn-dec${i}`;
         $btnDec.setAttribute("aria-label", "수량 감소");        
 
         // 수량 감소 버튼 클릭
-        $btnDec.addEventListener("click", function(e) {
-            const $row = e.target.closest("tr");
-            const productAmount = parseInt(onlyNumber($row.querySelector("[id^='product-amount']").innerText));
-            const $tempProductQuantity = $row.querySelector("[id^='product-quantity']");            
-            let   productQuantity = parseInt($tempProductQuantity.value);
-            const $tempProductTotAmount = $row.querySelector("[id^='product-tot-amount']");
-            const productStock = parseInt($row.querySelector("[id^='product-stock']").innerText);
+        $btnDec.addEventListener("click", async function(e) {
+            const $row                          = e.target.closest("tr");            
+            const productAmount                 = parseInt(onlyNumber($row.querySelector("[id^='product-amount']").innerText));
+            const $tempProductQuantity          = $row.querySelector("[id^='product-quantity']");            
+            let   productQuantity               = parseInt($tempProductQuantity.value);
+            const $tempProductTotAmount         = $row.querySelector("[id^='product-tot-amount']");
+            const productStock                  = parseInt($row.querySelector("[id^='product-stock']").innerText);
 
             if (!isNumber(productQuantity) || productQuantity<2) {        
                 return alert("물품 수량이 잘못 되었습니다.");
             }
 
-            $tempProductQuantity.value = --productQuantity;
+            let result = await modifyCart($row, false);
 
-            // 수량이 1개 이하일 경우, 감소 버튼 비활성화
-            validateProductQuantity($row, productQuantity, productStock);
+            if (result) {
 
-            // 총 갯수 및 금액 계산            
-            $tempProductTotAmount.innerText = `${formatNumberWithComma(productQuantity * productAmount)}원`;
+                $tempProductQuantity.value      = --productQuantity;
+
+                // 수량이 1개 이하일 경우, 감소 버튼 비활성화
+                validateProductQuantity($row, productQuantity, productStock);
+
+                // 총 갯수 및 금액 계산            
+                $tempProductTotAmount.innerText = `${formatNumberWithComma(productQuantity * productAmount)}원`;
+            
+                calTotAmount();    
+            }
         });
 
         // 감소 버튼 내부 텍스트 요소
-        let $orderTextMin = document.createElement("p");
-        $orderTextMin.className = "order-text-min";
-        $orderTextMin.textContent = "상품 수량을 더 이상 내릴 수 없습니다.";
+        let $orderTextMin                       = document.createElement("p");
+        $orderTextMin.className                 = "order-text-min";
+        $orderTextMin.textContent               = "상품 수량을 더 이상 내릴 수 없습니다.";
         $btnDec.appendChild($orderTextMin);
 
         // 주문 수량
-        $productQuantity.type = "number";
-        $productQuantity.id = `product-quantity${i}`;
-        $productQuantity.value = data.quantity;
-
-        // 증가 버튼
-        $btnAdd.className = "order-btn order-btn-increase";
-        $btnAdd.id = `btn-add${i}`;
+        $productQuantity.type                   = "number";
+        $productQuantity.id                     = `product-quantity${i}`;
+        $productQuantity.value                  = data.quantity;
+    
+        // 증가 버튼    
+        $btnAdd.className                       = "order-btn order-btn-increase";
+        $btnAdd.id                              = `btn-add${i}`;
         $btnAdd.setAttribute("aria-label", "수량 증가");
 
-        $btnAdd.addEventListener("click", function(e) {
-            const $row = e.target.closest("tr");
-            const productAmount = parseInt(onlyNumber($row.querySelector("[id^='product-amount']").innerText));
-            const $tempProductQuantity = $row.querySelector("[id^='product-quantity']");            
-            let   productQuantity = parseInt($tempProductQuantity.value);
-            const $tempProductTotAmount = $row.querySelector("[id^='product-tot-amount']");
-            const productStock = parseInt($row.querySelector("[id^='product-stock']").innerText);
+        $btnAdd.addEventListener("click", async function(e) {
+            const $row                          = e.target.closest("tr");
+            const productAmount                 = parseInt(onlyNumber($row.querySelector("[id^='product-amount']").innerText));
+            const $tempProductQuantity          = $row.querySelector("[id^='product-quantity']");            
+            let   productQuantity               = parseInt($tempProductQuantity.value);
+            const $tempProductTotAmount         = $row.querySelector("[id^='product-tot-amount']");
+            const productStock                  = parseInt($row.querySelector("[id^='product-stock']").innerText);
 
             if (!isNumber(productQuantity)) {        
                 return alert("물품 수량이 잘못 되었습니다.");
@@ -306,46 +360,64 @@ function createCartList(results) {
                 return alert("상품의 재고 수량을 초과하였습니다.");
             }
 
-            $tempProductQuantity.value = ++productQuantity;
+            let result = await modifyCart($row, true);
 
-            // 수량이 재고와 동일한 경우, 증가 버튼 비활성화
-            validateProductQuantity($row, productQuantity, productStock)
+            if (result) {
 
-            // 총 갯수 및 금액 계산            
-            $tempProductTotAmount.innerText   = `${formatNumberWithComma(productQuantity * productAmount)}원`;
+                $tempProductQuantity.value      = ++productQuantity;
+
+                // 수량이 재고와 동일한 경우, 증가 버튼 비활성화
+                validateProductQuantity($row, productQuantity, productStock)
+
+                // 총 갯수 및 금액 계산            
+                $tempProductTotAmount.innerText = `${formatNumberWithComma(productQuantity * productAmount)}원`; 
+            }
+
+            calTotAmount();
         });
 
         // 증가 버튼 내부 텍스트 요소
-        let $orderTextStock = document.createElement("p");
-        $orderTextStock.className = "order-text-stock";
+        let $orderTextStock         = document.createElement("p");
+        $orderTextStock.className   = "order-text-stock";
         $orderTextStock.textContent = "상품의 재고 수량을 초과할 수 없습니다.";
         $btnAdd.appendChild($orderTextStock);
 
-        $tdOrder.className = "cart-list-order";
+        $tdOrder.className          = "cart-list-order";
 
-        $output.id = `product-tot-amount${i}`;
+        $output.id                  = `product-tot-amount${i}`;
 
-        $btnBuy.className = "btn btn-s btn-left";
-        $btnBuy.textContent = "주문하기";
-        $btnBuy.addEventListener('click', function(e){
-            const $row = e.target.closest("tr");
-            const productId = parseInt($row.dataset.productId);
-            const productQuantity = parseInt($row.querySelector("[id^='product-quantity']").value);
+        $btnBuy.className           = "btn btn-s btn-left";
+        $btnBuy.textContent         = "주문하기";
+        $btnBuy.addEventListener('click', function(e) {
+            const $row              = e.target.closest("tr");
+            const productId         = parseInt($row.dataset.productId);
+            const productQuantity   = parseInt($row.querySelector("[id^='product-quantity']").value);
 
             addBuy(productId, productQuantity);
         });
 
-        $btnDelete.className = "btn-del";
+        $btnDelete.className        = "btn-del";
+        $btnDelete.addEventListener("click", async function(e) {
+            const $row              = e.target.closest("tr");            
+
+            let result              = await deleteCart($row);
+
+            if (result) {                
+                $row.remove();                
+            }
+
+            calTotAmount();
+        })
 
         if (data.product.stock === 0) {
-            $btnAdd.disabled                 = true;
-            $output.innerText      = 0;
-            $btnBuy.disabled                 = true;
+            $btnAdd.disabled        = true;
+            $output.innerText       = 0;
+            $btnBuy.disabled        = true;
         }
         else {
-            $productQuantity.value           = data.quantity;            
-            $output.innerText      = `${formatNumberWithComma(productTotAmount)}원`;
-            $btnBuy.disabled                 = false;            
+            $productQuantity.value  = data.quantity;            
+            $output.innerText       = `${formatNumberWithComma(productTotAmount)}원`;
+            $btnBuy.disabled        = false;            
         }
 
         // DOM 구조 조립
@@ -385,27 +457,6 @@ function createCartList(results) {
     };
 }
 
-
-// 이벤트
-// API 호출
-window.addEventListener("DOMContentLoaded", getCartList);
-
-$selectAll.addEventListener("click", function(e){
-    const chkBoxList = $cartListBody.querySelectorAll("input[type='checkbox']");
-    if(e.target.checked !== true) {
-        chkBoxList.forEach((chkBox)=>{
-            chkBox.checked = false;
-        })
-    }
-    else {
-        chkBoxList.forEach((chkBox)=>{
-            chkBox.checked = true;
-        })
-    }
-});
-
-
-// 기타 함수
 /**
  * 수량이 1보다 크고 재고 개수보다 적은지 확인한다.
  * 수량이 1이면 감소버튼을 비활성화한다.
@@ -433,7 +484,8 @@ function validateProductQuantity(row, quantity, productStock) {
 
 /**
  * 개별 주문하기 버튼 클릭 시, 구매목록을 로컬스토리지에 추가하고, 구매하기 페이지로 이동한다.
- * @param {Number} productId, @param {Number} productQuantity
+ * @param {Number} productId
+ * @param {Number} productQuantity
  */
 function addBuy(productId, productQuantity) {
     // 로컬스토리지 구매목록 초기화
@@ -452,22 +504,40 @@ function addBuy(productId, productQuantity) {
 }
 
 /**
- * 상품요약 전체 금액 계산.
+ * 상품요약 금액 계산.
  * 체크박스의 체크상태가 변경되거나, 체크 된 상품이 삭제되거나, 체크된 상품의 수량 변경 시 호출
- * @param {String} row 행 인덱스
- * @param {Boolean} state true 시 상품추가, false시 상품제거
  */
-function calTotAmount(row, state) {
-    const rowTotProductAmount = row.querySelector("[id^='product-tot-amount']");   
-    // 할인금액 값은 보이지 않아서 우선 제외
-    // const rowProductDiscount = row.querySelector("[id^='']");
-    const rowMethodAmount = row.querySelector("[id^='product-method-amount']");
+function calTotAmount() {
+    // 계산 값 초기화
+    cartTotProductAmount             = 0;
+    // 할인금액 값은 차후 적용
+    // cartTotProductDiscount = 0;    
+    cartTotMethodAmount              = 0;
+    cartTotAmount                    = 0;
 
-    // $cartTotProductAmount.innerText   = ;   
-    // 할인금액 값은 보이지 않아서 우선 제외
-    // $cartTotProductDiscount.innerText = ;    
-    // $cartTotMethodAmount.innerText    = ;
-    // $cartTotAmount.innerText          = ;
+    // 행 합계 변수 선언
+    let rowTotProductAmount          = 0;
+    let rowMethodAmount              = 0;
+
+    Array.from($cartListBody.children).forEach((row) => {
+        let rowChkBox                = row.querySelector("input[type='checkbox']")
+        if(rowChkBox && rowChkBox.checked) {
+            rowTotProductAmount      = onlyNumber(row.querySelector("[id^='product-tot-amount']").value);
+            // 할인금액 값은 차후 적용
+            // const rowProductDiscount = row.querySelector("[id^='']");
+            rowMethodAmount          = onlyNumber(row.querySelector("[id^='product-method-amount']").innerText);
+            
+            cartTotProductAmount    += rowTotProductAmount;
+            cartTotMethodAmount     += rowMethodAmount;
+        }
+    });    
+
+    cartTotAmount                    = cartTotProductAmount - cartTotProductDiscount + cartTotMethodAmount;
+    $cartTotProductAmount.innerText  = formatNumberWithComma(cartTotProductAmount);
+    // 할인금액 값은 차후 적용
+    //$cartTotProductDiscount    
+    $cartTotMethodAmount.innerText   = formatNumberWithComma(cartTotMethodAmount);
+    $cartTotAmount.innerText         = formatNumberWithComma(cartTotAmount);
 }
 
 // 공통 함수

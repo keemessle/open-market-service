@@ -51,6 +51,9 @@ const $tabArea = document.getElementById("tab-area");
 const $productInfo = document.getElementById("product-info");
 
 // API 호출
+/**
+ * 상품 상세 조회 API 호출
+ */
 async function getProductDetail() {
     try {
         const res = await fetch(DETAIL_API_URL);
@@ -102,6 +105,9 @@ async function getProductDetail() {
     }
 }
 
+/**
+ * 장바구니 추가 API 호출
+ */
 async function addCart() {
   let cartData = new Object();
   cartData.product_id = onlyNumber(productId);
@@ -135,7 +141,7 @@ async function addCart() {
 }
 
 // 이벤트
-// API 호출
+// 상품 상세 조회 API 호출
 window.addEventListener("DOMContentLoaded", getProductDetail);
 
 // 수량 감소 버튼 클릭
