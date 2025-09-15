@@ -17,9 +17,9 @@ export function createFooter() {
           <li><a href="">제휴문의</a></li>
         </ul>
         <ul class="footer-sns">
-          <li><a class="link-insta" href="" alt="인스타그램 바로가기"></a></li>
-          <li><a class="link-fb" href="" alt="페이스북 바로가기"></a></li>
-          <li><a class="link-yt" href="" alt="유튜브 바로가기"></a></li>
+          <li><a class="link-insta" href="https://www.instagram.com/" alt="인스타그램 바로가기"></a></li>
+          <li><a class="link-fb" href="https://www.facebook.com/" alt="페이스북 바로가기"></a></li>
+          <li><a class="link-yt" href="https://www.youtube.com/" alt="유튜브 바로가기"></a></li>
         </ul>
       </div>
       <div class="divider"></div>

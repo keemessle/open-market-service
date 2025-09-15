@@ -11,11 +11,11 @@ const defaultHeaderHTML = `
         </a>
       </h1>
       <form class="form-search" action="/search" method="get">
-        <a class="search-logo-wrap" href="#"><img class="search-logo" src="./assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
+        <a class="search-logo-wrap" href="./index.html"><img class="search-logo" src="./assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
         <label class="sr-only" for="search">검색</label>
         <input id="search" type="text" placeholder="상품을 검색해보세요!" />
-        <button type="button" class="btn-clear"></button>
-        <button type="submit" class="btn-search"></button>
+        <button type="button" class="btn-clear" aria-label="검색어 지우기"></button>
+        <button type="submit" class="btn-search" aria-label="검색"></button>
       </form>
       <ul class="actions-list">
       </ul>

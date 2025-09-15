@@ -93,7 +93,7 @@ function loadBanner(dataList) {
     swiperItem.innerHTML = `
       <p class="banner-title">${data.title}</p>
       <p class="banner-desc">${data.desc}</p>
-      <img src="${data.img}" />
+      <img src="${data.img}" alt="배너" />
   `;
 
     swiperWrap.append(swiperItem);
