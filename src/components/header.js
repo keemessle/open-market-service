@@ -10,12 +10,12 @@ const defaultHeaderHTML = `
           <span class="sr-only">HODU</span>
         </a>
       </h1>
-      <form class="form-search" action="/search" method="get">
+      <form class="form-search" id="form-search">
         <a class="search-logo-wrap" href="./index.html"><img class="search-logo" src="./assets/images/Logo-hodu-sm.png" alt="호두샵 로고" /></a>
         <label class="sr-only" for="search">검색</label>
         <input id="search" type="text" placeholder="상품을 검색해보세요!" />
         <button type="button" class="btn-clear" aria-label="검색어 지우기"></button>
-        <button type="submit" class="btn-search" aria-label="검색"></button>
+        <button type="submit" class="btn-search" id="btn-search" aria-label="검색"></button>
       </form>
       <ul class="actions-list">
       </ul>
@@ -213,6 +213,22 @@ export function createHeader() {
       $searchInput.focus();
     });
   }
+
+  // 상품 검색
+  document.getElementById("form-search").addEventListener("submit", async (e) => {
+    e.preventDefault(); // 페이지 이동 막기
+
+    const keyword = document.getElementById("search").value.trim();
+
+    if (window.location.pathname === "/" || window.location.pathname.endsWith("/index.html")) {
+      // index 페이지일 때 loadProductList 함수 import
+      const module = await import("../pages/index/index.js");
+      module.loadProductList(keyword);
+    } else {
+      // 다른 페이지면 index로 이동
+      location.href = `/?search=${encodeURIComponent(keyword)}`;
+    }
+  });
 
   // 마이페이지 드롭다운 active
   function setupDropdown() {

@@ -4,15 +4,23 @@ import { createFooter } from "../../components/footer.js";
 // section-list > product-list
 // API
 const BASE_URL = "https://api.wenivops.co.kr/services/open-market/";
-async function loadProductList() {
+export async function loadProductList(keyword=null) {
   // DOM
   const $sectionList = document.querySelector(".section-list");
   const $productList = document.createElement("ul");
   $productList.className = "list-product";
 
+  // 초기화
+  $sectionList.querySelectorAll('ul').forEach(ul => ul.remove());
+
   // fetch
   try {
-    const response = await fetch(`${BASE_URL}products`);
+    const url = new URL('products', BASE_URL);
+    if (keyword) {
+      url.searchParams.set('search', keyword);
+    }
+    const response = await fetch(url);
+
     if (!response.ok) throw new Error("Network response was not ok");
 
     const data = await response.json();
@@ -178,7 +186,15 @@ window.addEventListener("DOMContentLoaded", async () => {
   createHeader();
   createFooter();
 
-  await loadProductList();
+  const param = new URLSearchParams(window.location.search);
+  const keyword = decodeURIComponent(param.get("search"));
+
+  if (param.get("search")) {
+    await loadProductList(keyword);
+  }
+  else {
+    await loadProductList();
+  }  
   const bannerDataList = await loadBannerDatas();
   const updateSwiper = loadBanner(bannerDataList);
 
