@@ -28,6 +28,7 @@ const $cartTotProductAmount   = document.getElementById("cart-tot-product-amount
 const $cartTotProductDiscount = document.getElementById("cart-tot-product-discount");
 const $cartTotMethodAmount    = document.getElementById("cart-tot-method-amount");
 const $cartTotAmount          = document.getElementById("cart-tot-amount");
+const $cartSummaryBuy         = document.getElementById("cart-summary-buy");
 
 const $cartEmpty              = document.getElementById("cart-empty");
 
@@ -173,6 +174,11 @@ $selectAll.addEventListener("click", function(e) {
 
     calTotAmount();
 });
+
+// 하단 주문하기 버튼 클릭 이벤트
+$cartSummaryBuy.addEventListener("click", function(e) {
+    addBuy();
+})
 
 
 // 기타 함수
@@ -401,10 +407,7 @@ function createCartList(results) {
         $btnBuy.textContent         = "주문하기";
         $btnBuy.addEventListener('click', function(e) {
             const $row              = e.target.closest("tr");
-            const productId         = parseInt($row.dataset.productId);
-            const productQuantity   = parseInt($row.querySelector("[id^='product-quantity']").value);
-
-            addBuy(productId, productQuantity);
+            addBuy($row);
         });
 
         $btnDelete.className        = "btn-del";
@@ -505,23 +508,53 @@ function validateProductQuantity(row, quantity, productStock) {
 
 /**
  * 개별 주문하기 버튼 클릭 시, 구매목록을 로컬스토리지에 추가하고, 구매하기 페이지로 이동한다.
- * @param {Number} productId
- * @param {Number} productQuantity
+ * @param {HTMLElement} row
  */
-function addBuy(productId, productQuantity) {
+function addBuy($row=null) {
     // 로컬스토리지 구매목록 초기화
     window.localStorage.removeItem("buyProduct");
 
     // buyProduct 객체 생성
-    let buyData         = new Object();
-    buyData.PRODUCT_ID  = productId;
-    buyData.QUANTITY    = productQuantity;    
+    let buyDataList                    = [];
+    let buyData                        = new Object();
+
+    if ($row) {
+        // row 구매 클릭시
+        let productId                  = parseInt($row.dataset.productId);
+        let productQuantity            = parseInt($row.querySelector("[id^='product-quantity']").value);    
+        buyData.PRODUCT_ID             = productId;
+        buyData.QUANTITY               = productQuantity;
+        buyDataList.push(buyData);
+    }
+    else {
+        // 하단 구매 버튼 클릭 시
+        let cnt = 0;
+        Array.from($cartListBody.children).forEach((row) => {
+            let rowChkBox              = row.querySelector("input[type='checkbox']")
+            if(rowChkBox && rowChkBox.checked) {
+                let rowProductId       = parseInt(row.dataset.productId);
+                let rowProductQuantity = parseInt(row.querySelector("[id^='product-quantity']").value);
+                buyData.PRODUCT_ID     = rowProductId;
+                buyData.QUANTITY       = rowProductQuantity;
+                buyDataList.push(buyData);
+                cnt ++;
+            }
+            // 초기화
+            buyData = {};
+        });  
+
+        if (cnt === 0) {
+            alert("구매하실 상품을 체크해주세요.");
+            return $selectAll.focus();
+        }
+    }
+    
 
     // 로컬스토리지 구매목록 추가
-    window.localStorage.setItem("buyProduct", JSON.stringify(buyData));
+    window.localStorage.setItem("buyProduct", JSON.stringify(buyDataList));
 
     // 구매하기 페이지 이동
-    location.href = "./product-buy.html";
+    location.href                      = "./product-buy.html";
 }
 
 /**

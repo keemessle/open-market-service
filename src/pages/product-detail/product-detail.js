@@ -266,13 +266,16 @@ function addBuy() {
   window.localStorage.removeItem("buyProduct");
 
   // buyProduct 객체 생성
-  let buyData = new Object();
-  buyData.PRODUCT_ID = productId;
-  buyData.QUANTITY = onlyNumber($productTotQuantity.innerText);
-  buyData.TOTAL_PRICE = onlyNumber($productTotAmount.innerText);
+  let buyDataList     = [];
+  let buyData         = new Object();
+  
+  buyData.PRODUCT_ID  = productId;
+  buyData.QUANTITY    = parseInt(onlyNumber($productTotQuantity.innerText));
+  
+  buyDataList.push(buyData);
 
   // 로컬스토리지 구매목록 추가
-  window.localStorage.setItem("buyProduct", JSON.stringify(buyData));
+  window.localStorage.setItem("buyProduct", JSON.stringify(buyDataList));
 
   // 구매하기 페이지 이동
   location.href = "./product-buy.html";
