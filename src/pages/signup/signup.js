@@ -54,26 +54,25 @@ const SELLER_FIELD_ORDER = [
   $storeNameInput,
 ];
 
-// ================== 유틸 & 검증 함수 ==================
+// ================== 에러 메시지 상수 ==================
+const VALIDATION_ERROR = {
+  REQUIRED: "필수 정보입니다.",
+  INVALID_ID: "ID는 20자 이내의 영어 대·소문자, 숫자만 가능합니다.",
+  INVALID_PASSWORD: "비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.",
+  INVALID_PASSWORD_CONFIRM: "비밀번호가 일치하지 않습니다.",
+  PASSWORD_MATCH: "비밀번호가 일치합니다.",
+  INVALID_PHONE: "01*로 시작하는 10~11자리 숫자여야 합니다.",
+  INVALID_BIZ: "사업자등록번호는 10자리 숫자여야 합니다.",
+  BIZ_DUPLICATE: "이미 등록된 사업자등록번호입니다.",
+  BIZ_NEED_AUTH: "인증을 다시 진행해주세요.",
+  BIZ_AUTHED: "인증 완료된 번호입니다.",
+  ID_DUPLICATE: "이미 사용 중인 아이디입니다.",
+  ID_NEED_CHECK: "아이디 중복 확인해 주세요.",
+  ID_AVAILABLE: "사용 가능한 아이디입니다.",
+  BIZ_AVAILABLE: "사용 가능한 사업자등록번호입니다.",
+};
 
-function showMessage($input, message, type = "error") {
-  if (!$input) return;
-  const $msg = $input.closest(".form-group")?.querySelector(".message");
-  if (!$msg) return;
-  $msg.textContent = message || "";
-  $msg.classList.remove("message-error", "message-success");
-  if (message) {
-    $msg.classList.add(
-      type === "success" ? "message-success" : "message-error"
-    );
-  }
-}
-
-function clearMessage($input) {
-  showMessage($input, "");
-  $input.classList.remove("input-error");
-}
-
+// ================== 검증 함수 ==================
 function isValidPassword(password) {
   return PASSWORD_PATTERN.test(password || "");
 }
@@ -85,9 +84,8 @@ function isPhoneFilled() {
 function isFieldFilled($fieldElement) {
   if (!$fieldElement) return true;
 
-  // 전화번호 첫 번째 필드의 경우, 세 필드 모두 확인
   if ($fieldElement === $phone1) {
-    return $phone1.value && $phone2.value && $phone3.value;
+    return isPhoneFilled();
   }
 
   return $fieldElement.value.trim() !== "";
@@ -109,9 +107,8 @@ function checkPreviousFields($currentField) {
     const $previousField = fieldOrder[i];
     if (!isFieldFilled($previousField)) {
       // 비어있는 이전 필드에 오류 메시지 표시
-      console.log("비어있는 필드:", $previousField.id);
-      showMessage($previousField, "필수 정보입니다.");
-      allPrevFilled = false; // return하지 않고 계속 진행 → 비어있는 입력창 중 첫번째 창만 표시 (수정)
+      showMessage($previousField, VALIDATION_ERROR.REQUIRED);
+      allPrevFilled = false; // return하지 않고 계속 진행
     }
   }
   return allPrevFilled;
@@ -128,6 +125,17 @@ function clearAll() {
       $el.classList.remove("input-error");
       $el.value = "";
     });
+
+  const checkIcon = document.querySelector(".check-img");
+  const recheckIcon = document.querySelector(".recheck-img");
+
+  if (checkIcon) {
+    checkIcon.src = "../../assets/images/icons/icon-check-off.svg";
+  }
+
+  if (recheckIcon) {
+    recheckIcon.src = "../../assets/images/icons/icon-check-off.svg";
+  }
 }
 
 function toggleSellerSection() {
@@ -145,7 +153,7 @@ function toggleSellerSection() {
   }
 }
 
-// ================== 버튼 활성화 종합 판정 ==================
+// ================== 버튼 활성화 ==================
 function updateFormValidation() {
   const username = $idInput.value.trim();
   const pw = $passwordInput.value;
@@ -188,9 +196,8 @@ function updateFormValidation() {
 async function checkDuplicateId() {
   const username = $idInput.value.trim();
 
-  // 로컬 형식 검증
   if (!username) {
-    showMessage($idInput, "필수 정보입니다.");
+    showMessage($idInput, VALIDATION_ERROR.REQUIRED);
     isIdChecked = false;
     validatedId = null;
     updateFormValidation();
@@ -198,10 +205,7 @@ async function checkDuplicateId() {
   }
 
   if (!USERNAME_PATTERN.test(username)) {
-    showMessage(
-      $idInput,
-      "ID는 20자 이내의 영어 대·소문자, 숫자만 가능합니다."
-    );
+    showMessage($idInput, VALIDATION_ERROR.INVALID_ID);
     $idInput.classList.add("input-error");
     isIdChecked = false;
     validatedId = null;
@@ -210,6 +214,7 @@ async function checkDuplicateId() {
   }
 
   $idCheckBtn.disabled = true;
+
   try {
     const res = await fetch(`${BASE_URL}/accounts/validate-username/`, {
       method: "POST",
@@ -222,15 +227,15 @@ async function checkDuplicateId() {
       // 200
       showMessage(
         $idInput,
-        data.message || "사용 가능한 아이디입니다.",
+        data.message || VALIDATION_ERROR.ID_AVAILABLE,
         "success"
       );
       $idInput.classList.remove("input-error");
       isIdChecked = true;
       validatedId = username;
-      console.log(isIdChecked, validatedId); // 확인
+      // console.log(isIdChecked, validatedId); // 확인
     } else {
-      showMessage($idInput, data.error || "이미 사용 중인 아이디입니다.");
+      showMessage($idInput, data.error || VALIDATION_ERROR.ID_DUPLICATE);
       $idInput.classList.add("input-error");
       isIdChecked = false;
       validatedId = null;
@@ -252,14 +257,14 @@ async function checkBizNumber() {
   const bizNum = ($bizNumberInput?.value || "").trim();
 
   if (!bizNum) {
-    showMessage($bizNumberInput, "필수 정보입니다.");
+    showMessage($bizNumberInput, VALIDATION_ERROR.REQUIRED);
     isBizChecked = false;
     validatedBiz = null;
     updateFormValidation();
     return;
   }
   if (!BIZ_NUMBER_PATTERN.test(bizNum)) {
-    showMessage($bizNumberInput, "사업자등록번호는 10자리 숫자여야 합니다.");
+    showMessage($bizNumberInput, VALIDATION_ERROR.INVALID_BIZ);
     $bizNumberInput.classList.add("input-error");
     isBizChecked = false;
     validatedBiz = null;
@@ -282,7 +287,7 @@ async function checkBizNumber() {
       // 200
       showMessage(
         $bizNumberInput,
-        data.message || "사용 가능한 사업자등록번호입니다.",
+        data.message || VALIDATION_ERROR.BIZ_AVAILABLE,
         "success"
       );
       $bizNumberInput.classList.remove("input-error");
@@ -292,8 +297,8 @@ async function checkBizNumber() {
       const errMsg =
         data.error ||
         (res.status === 409
-          ? "이미 등록된 사업자등록번호입니다."
-          : "사업자등록번호를 다시 확인해주세요.");
+          ? VALIDATION_ERROR.BIZ_DUPLICATE
+          : VALIDATION_ERROR.BIZ_NEED_AUTH);
       showMessage($bizNumberInput, errMsg);
       $bizNumberInput.classList.add("input-error");
       isBizChecked = false;
@@ -332,8 +337,43 @@ async function createAccount(userData) {
   return data;
 }
 
+// ================== 공통 유틸 함수 ==================
+function showMessage($input, message, type = "error") {
+  if (!$input) return;
+  const $msg = $input.closest(".form-group")?.querySelector(".message");
+  if (!$msg) return;
+
+  $msg.textContent = message || "";
+  $msg.classList.remove("message-error", "message-success");
+  if (message) {
+    $msg.classList.add(
+      type === "success" ? "message-success" : "message-error"
+    );
+    if (type === "error") {
+      $input.classList.add("input-error");
+    } else {
+      $input.classList.remove("input-error");
+    }
+  }
+}
+
+function clearMessage($input) {
+  showMessage($input, "");
+}
+
+function handleNameInput($input) {
+  checkPreviousFields($input);
+
+  if (!$input.value.trim()) {
+    showMessage($input, VALIDATION_ERROR.REQUIRED);
+  } else {
+    clearMessage($input);
+  }
+  updateFormValidation();
+}
+
 // ================== 이벤트 리스너 ==================
-// ----- 탭 전환
+// 탭 전환
 $menuItems.forEach((menuItem) => {
   menuItem.addEventListener("click", () => {
     const btn = menuItem.querySelector("button[data-role]");
@@ -348,120 +388,115 @@ $menuItems.forEach((menuItem) => {
 
     toggleSellerSection();
     clearAll();
-
     updateFormValidation();
   });
 });
 
-// ----- 아이디 입력
-$idInput.addEventListener("input", () => {
-  const username = $idInput.value.trim();
+// 이벤트 위임
+$signupForm.addEventListener("input", (e) => {
+  const $el = e.target;
 
-  if (!username) {
-    isIdChecked = false;
-    validatedId = null;
-    showMessage($idInput, "필수 정보입니다.");
-  } else if (!USERNAME_PATTERN.test(username)) {
-    isIdChecked = false;
-    validatedId = null;
-    showMessage(
-      $idInput,
-      "ID는 20자 이내의 영어 대·소문자, 숫자만 가능합니다."
-    );
-    $idInput.classList.add("input-error");
-  } else if (username !== validatedId) {
-    isIdChecked = false;
-    showMessage($idInput, "아이디 중복 확인해 주세요.");
-    $idInput.classList.remove("input-error");
-  } else {
-    showMessage($idInput, "사용 가능한 아이디입니다.", "success");
-    $idInput.classList.remove("input-error");
+  // 아이디 입력
+  if ($el === $idInput) {
+    const username = $idInput.value.trim();
+
+    if (!username) {
+      isIdChecked = false;
+      validatedId = null;
+      showMessage($idInput, VALIDATION_ERROR.REQUIRED);
+    } else if (!USERNAME_PATTERN.test(username)) {
+      isIdChecked = false;
+      validatedId = null;
+      showMessage($idInput, VALIDATION_ERROR.INVALID_ID);
+      $idInput.classList.add("input-error");
+    } else if (username !== validatedId) {
+      isIdChecked = false;
+      showMessage($idInput, VALIDATION_ERROR.ID_NEED_CHECK);
+      $idInput.classList.remove("input-error");
+    } else {
+      showMessage($idInput, VALIDATION_ERROR.ID_AVAILABLE, "success");
+      $idInput.classList.remove("input-error");
+    }
+
+    updateFormValidation();
   }
 
-  updateFormValidation();
-});
-$idCheckBtn.addEventListener("click", checkDuplicateId);
+  // 비밀번호 입력
+  else if ($el === $passwordInput) {
+    checkPreviousFields($passwordInput);
 
-// ----- 비밀번호 입력
-$passwordInput.addEventListener("input", () => {
-  checkPreviousFields($passwordInput);
+    const password = $passwordInput.value;
+    const checkIcon = document.querySelector(".check-img");
 
-  const password = $passwordInput.value;
-  const checkIcon = document.querySelector(".check-img");
+    if (checkIcon)
+      checkIcon.src = isValidPassword(password)
+        ? "../../assets/images/icons/icon-check-on.svg"
+        : "../../assets/images/icons/icon-check-off.svg";
 
-  if (checkIcon)
-    checkIcon.src = isValidPassword(password)
-      ? "../../assets/images/icons/icon-check-off.svg"
-      : "../../assets/images/icons/icon-check-on.svg";
+    if (!password) {
+      showMessage($passwordInput, VALIDATION_ERROR.REQUIRED);
+    } else if (!isValidPassword(password)) {
+      showMessage($passwordInput, VALIDATION_ERROR.INVALID_PASSWORD);
+      $passwordInput.classList.add("input-error");
+    } else {
+      clearMessage($passwordInput);
+    }
 
-  if (!password) {
-    showMessage($passwordInput, "필수 정보입니다.");
-  } else if (!isValidPassword(password)) {
-    showMessage(
-      $passwordInput,
-      "비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다."
-    );
-    $passwordInput.classList.add("input-error");
-  } else {
-    clearMessage($passwordInput);
+    updateFormValidation();
   }
 
-  updateFormValidation();
-});
+  // 비밀번호 재확인
+  else if ($el === $passwordConfirmInput) {
+    checkPreviousFields($passwordConfirmInput);
 
-// ----- 비밀번호 재확인 입력
-$passwordConfirmInput.addEventListener("input", () => {
-  checkPreviousFields($passwordConfirmInput);
+    const password = $passwordInput.value;
+    const passwordConfirm = $passwordConfirmInput.value;
+    const isPasswordMatch =
+      isValidPassword(password) &&
+      passwordConfirm &&
+      password === passwordConfirm;
+    const recheckIcon = document.querySelector(".recheck-img");
 
-  const password = $passwordInput.value;
-  const passwordConfirm = $passwordConfirmInput.value;
-  const isPasswordMatch =
-    isValidPassword(password) &&
-    passwordConfirm &&
-    password === passwordConfirm;
-  const recheckIcon = document.querySelector(".recheck-img");
+    if (recheckIcon)
+      recheckIcon.src = isPasswordMatch
+        ? "../../assets/images/icons/icon-check-on.svg"
+        : "../../assets/images/icons/icon-check-off.svg";
 
-  if (recheckIcon)
-    recheckIcon.src = isPasswordMatch
-      ? "../../assets/images/icons/icon-check-on.svg"
-      : "../../assets/images/icons/icon-check-off.svg";
+    if (!passwordConfirm) {
+      showMessage($passwordConfirmInput, VALIDATION_ERROR.REQUIRED);
+    } else if (isPasswordMatch) {
+      showMessage(
+        $passwordConfirmInput,
+        VALIDATION_ERROR.PASSWORD_MATCH,
+        "success"
+      );
+      $passwordConfirmInput.classList.remove("input-error");
+    } else {
+      showMessage(
+        $passwordConfirmInput,
+        VALIDATION_ERROR.INVALID_PASSWORD_CONFIRM
+      );
+      $passwordConfirmInput.classList.add("input-error");
+    }
 
-  if (!passwordConfirm) {
-    showMessage($passwordConfirmInput, "필수 정보입니다.");
-  } else if (isPasswordMatch) {
-    showMessage($passwordConfirmInput, "비밀번호가 일치합니다.", "success");
-    $passwordConfirmInput.classList.remove("input-error");
-  } else {
-    showMessage($passwordConfirmInput, "비밀번호가 일치하지 않습니다.");
-    $passwordConfirmInput.classList.add("input-error");
+    updateFormValidation();
   }
 
-  updateFormValidation();
-});
-
-// ----- 이름 입력
-$nameInput.addEventListener("input", () => {
-  checkPreviousFields($nameInput);
-
-  if (!$nameInput.value.trim()) {
-    showMessage($nameInput, "필수 정보입니다.");
-  } else {
-    clearMessage($nameInput);
+  // 이름
+  else if ($el === $nameInput) {
+    handleNameInput($nameInput);
   }
-  updateFormValidation();
-});
 
-// ----- 핸드폰 번호 입력
-[$phone1, $phone2, $phone3].forEach(($el) => {
-  $el.addEventListener("input", () => {
+  // 핸드폰 번호
+  else if ([$phone1, $phone2, $phone3].includes($el)) {
     checkPreviousFields($phone1);
 
     const phoneNum = `${$phone1.value}${$phone2.value}${$phone3.value}`;
 
     if (!isFieldFilled) {
-      showMessage($phone1, "필수 정보입니다.");
+      showMessage($phone1, VALIDATION_ERROR.REQUIRED);
     } else if (!PHONE_PATTERN.test(phoneNum)) {
-      showMessage($phone1, "01*로 시작하는 10~11자리 숫자여야 합니다.");
+      showMessage($phone1, VALIDATION_ERROR.INVALID_PHONE);
       [$phone1, $phone2, $phone3].forEach((el) =>
         el.classList.add("input-error")
       );
@@ -472,53 +507,48 @@ $nameInput.addEventListener("input", () => {
       );
     }
     updateFormValidation();
-  });
-});
-
-// ----- 사업자번호 입력 (판매자)
-$bizNumberInput.addEventListener("input", () => {
-  checkPreviousFields($bizNumberInput);
-
-  const bizNum = $bizNumberInput.value;
-
-  if (!bizNum) {
-    showMessage($bizNumberInput, "필수 정보입니다.");
-    isBizChecked = false;
-    validatedBiz = null;
-  } else if (!BIZ_NUMBER_PATTERN.test(bizNum)) {
-    showMessage($bizNumberInput, "사업자등록번호는 10자리 숫자여야 합니다.");
-    $bizNumberInput.classList.add("input-error");
-    isBizChecked = false;
-    validatedBiz = null;
-  } else if (bizNum !== validatedBiz) {
-    showMessage($bizNumberInput, "인증을 다시 진행해주세요.");
-    $bizNumberInput.classList.add("input-error");
-    isBizChecked = false;
-    validatedBiz = null;
-  } else {
-    showMessage($bizNumberInput, "인증 완료된 번호입니다.", "success");
-    $bizNumberInput.classList.remove("input-error");
   }
-  updateFormValidation();
-});
-$bizCheckBtn?.addEventListener("click", checkBizNumber);
 
-// ----- 스토어 이름 (판매자)
-$storeNameInput.addEventListener("input", () => {
-  checkPreviousFields($storeNameInput);
+  // 사업자 번호
+  else if ($el === $bizNumberInput) {
+    checkPreviousFields($bizNumberInput);
 
-  if (!$storeNameInput.value.trim()) {
-    showMessage($storeNameInput, "필수 정보입니다.");
-  } else {
-    clearMessage($storeNameInput);
+    const bizNum = $bizNumberInput.value;
+
+    if (!bizNum) {
+      showMessage($bizNumberInput, VALIDATION_ERROR.REQUIRED);
+      isBizChecked = false;
+      validatedBiz = null;
+    } else if (!BIZ_NUMBER_PATTERN.test(bizNum)) {
+      showMessage($bizNumberInput, VALIDATION_ERROR.INVALID_BIZ);
+      $bizNumberInput.classList.add("input-error");
+      isBizChecked = false;
+      validatedBiz = null;
+    } else if (bizNum !== validatedBiz) {
+      showMessage($bizNumberInput, VALIDATION_ERROR.BIZ_NEED_AUTH);
+      $bizNumberInput.classList.add("input-error");
+      isBizChecked = false;
+      validatedBiz = null;
+    } else {
+      showMessage($bizNumberInput, VALIDATION_ERROR.BIZ_NEED_AUTH, "success");
+      $bizNumberInput.classList.remove("input-error");
+    }
+    updateFormValidation();
   }
-  updateFormValidation();
+
+  // 스토어 이름
+  else if ($el === $storeNameInput) {
+    handleNameInput($storeNameInput);
+  }
 });
 
-// ----- 약관 동의
+$idCheckBtn.addEventListener("click", checkDuplicateId);
+$bizCheckBtn.addEventListener("click", checkBizNumber);
+
+// 약관 동의
 $agreeBox.addEventListener("change", updateFormValidation);
 
-// ----- 제출
+// 제출
 $signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -528,12 +558,13 @@ $signupForm.addEventListener("submit", async (e) => {
   const phoneNum = `${$phone1.value}${$phone2.value}${$phone3.value}`;
 
   if (!(isIdChecked && username === validatedId)) {
-    showMessage($idInput, "아이디 중복 확인을 해주세요.");
+    showMessage($idInput, VALIDATION_ERROR.ID_NEED_CHECK);
     $idInput.focus();
     return;
   }
+
   if (!$agreeBox.checked) {
-    alert("약관에 동의해 주세요."); // 전역 안내는 alert/토스트가 직관적
+    alert("약관에 동의해 주세요.");
     return;
   }
 
@@ -559,8 +590,10 @@ $signupForm.addEventListener("submit", async (e) => {
   }
 
   $signupBtn.disabled = true;
+
   try {
     const result = await createAccount(userData);
+    console.log(result);
     alert("회원가입 완료!");
     setTimeout(() => (location.href = "../../login.html"), 800);
   } catch (err) {
@@ -578,7 +611,7 @@ $signupForm.addEventListener("submit", async (e) => {
   }
 });
 
-// ----- 초기화
+// 초기화
 document.addEventListener("DOMContentLoaded", () => {
   toggleSellerSection();
   clearAll();

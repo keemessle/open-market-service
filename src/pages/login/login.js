@@ -3,7 +3,7 @@ import { UserSession } from "../../services/UserSession.js";
 const $menuItems = document.querySelectorAll(".menu-item");
 const $loginForm = document.getElementById("login-form");
 const $loginBtn = document.querySelector(".login-btn");
-const $loginErr = document.getElementById("login-error");
+const $loginErr = document.querySelector(".message");
 const $idInput = document.getElementById("user-id");
 const $pwInput = document.getElementById("password");
 let currentRole = "BUYER"; // 기본값 -> 구매자
