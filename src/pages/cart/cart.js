@@ -298,7 +298,7 @@ function createCartList(results) {
         // 감소 버튼    
         $btnDec.className                       = "order-btn order-btn-decrease";
         $btnDec.id                              = `btn-dec${i}`;
-        $btnDec.setAttribute("aria-label", "수량 감소");        
+        $btnDec.setAttribute("aria-label", "수량 감소"); 
 
         // 수량 감소 버튼 클릭
         $btnDec.addEventListener("click", async function(e) {
@@ -454,6 +454,9 @@ function createCartList(results) {
 
         // 테이블에 추가
         $cartListBody.appendChild($tr);
+
+        // 버튼 비활성화
+        validateProductQuantity($tr, data.quantity, data.product.stock);
     };
 }
 
