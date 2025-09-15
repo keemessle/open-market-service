@@ -1,3 +1,4 @@
+import { createHeader } from "../../components/header.js";
 import { UserSession } from "../../services/UserSession.js";
 
 // ================== DOM ==================
@@ -12,11 +13,9 @@ const $stock = document.getElementById("product-stock");
 const $realUpload = document.querySelector(".real-upload");
 const $upload = document.querySelector(".upload");
 const $preview = document.querySelector(".img-preview");
-
 const $count = document.querySelector(".count");
 
 const loginSession = new UserSession();
-// const access = loginSession.getAccess();
 
 if (!loginSession.isAuthed() || !loginSession.isSeller()) {
   alert("이 작업을 수행할 권한(permission)이 없습니다.");
@@ -165,4 +164,8 @@ $form.addEventListener("submit", async (e) => {
     console.error(err);
     alert("상품 등록에 실패했습니다. 다시 시도해 주세요.");
   }
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  createHeader();
 });
