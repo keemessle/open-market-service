@@ -220,13 +220,15 @@ export function createHeader() {
 
     const keyword = document.getElementById("search").value.trim();
 
-    if (window.location.pathname === "/" || window.location.pathname.endsWith("/index.html")) {
+    if (window.location.pathname === "/" || 
+        window.location.pathname === "/open-market-service/" || 
+        window.location.pathname.endsWith("/index.html")) {
       // index 페이지일 때 loadProductList 함수 import
       const module = await import("../pages/index/index.js");
       module.loadProductList(keyword);
     } else {
       // 다른 페이지면 index로 이동
-      location.href = `/?search=${encodeURIComponent(keyword)}`;
+      location.href = `./?search=${encodeURIComponent(keyword)}`;
     }
   });
 
