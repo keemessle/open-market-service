@@ -102,8 +102,8 @@ export function createHeader() {
   const isBuyer = loginSession.isBuyer();
   const isSeller = loginSession.isSeller();
   const isSellerCenter =
-    window.location.pathname === "/seller-center.html" ||
-    window.location.pathname === "/make-product.html";
+    window.location.pathname.includes("seller-center") ||
+    window.location.pathname.includes("make-product");
 
   // header 없으면 생성
   let existHeader = document.querySelector("header");
