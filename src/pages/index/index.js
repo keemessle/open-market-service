@@ -26,8 +26,7 @@ async function loadProductList() {
           <a href="product-detail.html?id=${product.id}">
               <div class="product-img">
                 <img 
-                  
-                  src="${product.image}"
+                  src="${product.image.replace(/^http:/, "https:")}"
                   alt="${product.name}" 
                   loading="lazy"
                   onerror="this.src='./assets/images/product-default.png'"
@@ -93,7 +92,7 @@ function loadBanner(dataList) {
     swiperItem.innerHTML = `
       <p class="banner-title">${data.title}</p>
       <p class="banner-desc">${data.desc}</p>
-      <img src="${data.img}" />
+      <img src="${data.img}" alt="배너" />
   `;
 
     swiperWrap.append(swiperItem);

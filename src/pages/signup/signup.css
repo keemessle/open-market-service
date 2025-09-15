@@ -86,7 +86,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10rem auto;
   font-family: "SpokaHanSansNeo";
   font-weight: normal;
 }
@@ -107,11 +106,14 @@ a {
 /* =========================
    layout
    ========================= */
+header {
+  margin: 10rem auto 7rem;
+}
+
 h1 > a > img {
   width: 23.8rem;
   aspect-ratio: 238/74;
   object-fit: contain;
-  margin-bottom: 7rem;
 }
 
 .login-container {
@@ -298,12 +300,6 @@ option {
   margin-right: 1.2rem;
 }
 
-/* .agree-wrap input[type="checkbox"] {
-  accent-color: #fff;
-  color: var(--color-main);
-} */
-
-/* 체크박스 숨기고, 커스텀 박스와 체크 표시를 CSS로 만듭니다 */
 .agree input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -322,12 +318,11 @@ option {
 
 .agree input[type="checkbox"]:checked::after {
   content: "";
-  display: block;
   position: absolute;
-  left: 5px;
-  top: 3px;
-  width: 10px;
-  height: 10px;
+  left: 6px;
+  top: 0px;
+  width: 8px;
+  height: 15px;
   border: solid var(--color-main);
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
@@ -410,4 +405,142 @@ strong {
 /* 판매자 전용: 스토어 이름 */
 .form-group.store-name {
   margin-bottom: 0;
+}
+
+/* 반응형 */
+@media (max-width: 650px) {
+  header {
+    margin: 5rem 2rem;
+  }
+
+  .login-container {
+    width: 48rem;
+    box-sizing: border-box;
+  }
+
+  .input-wrap {
+    padding: 2rem 2rem;
+    margin-bottom: 2rem;
+    box-sizing: border-box;
+  }
+
+  .form-group {
+    width: 44rem;
+    margin-bottom: 1.2rem !important;
+  }
+
+  button {
+    font-size: 1.6rem;
+  }
+
+  label,
+  .message {
+    padding-left: 1rem;
+  }
+
+  input {
+    width: 100%;
+    height: 4.8rem;
+    font-size: 1.4rem;
+  }
+
+  #user-id {
+    width: 100%;
+  }
+
+  .id-check-btn {
+    width: 10rem;
+    height: 4.8rem;
+    font-size: 1.4rem;
+  }
+
+  .pw-input-wrap > img {
+    width: 2.4rem;
+  }
+}
+
+@media (max-width: 500px) {
+  #signup-form {
+    margin-bottom: 3rem;
+  }
+
+  .login-container {
+    width: 100%;
+    max-width: 36rem;
+    box-sizing: border-box;
+  }
+
+  .form-group,
+  .agree-wrap,
+  .message {
+    width: 100%;
+    max-width: none;
+  }
+
+  label,
+  legend {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  input {
+    height: 4.5rem;
+    padding: 0.8rem;
+  }
+
+  .id-input-wrap {
+    flex-direction: column;
+  }
+
+  .id-check-btn {
+    width: 100%;
+    height: 4.5rem;
+  }
+
+  .pw-input-wrap > img {
+    width: 2rem;
+    top: 1.1rem;
+  }
+
+  .phone-wrap input,
+  .phone-wrap select {
+    width: 100%;
+    flex: 1 1 0;
+    min-width: 0;
+    width: 100%;
+    font-size: 1.4rem;
+    box-sizing: border-box;
+  }
+
+  .phone-wrap {
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  .agree-wrap {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .agree input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+
+  .agree input[type="checkbox"]:checked::after {
+    top: -2px;
+    left: 5px;
+    width: 7px;
+    height: 14px;
+  }
+
+  .signup-btn,
+  .signup-btn:disabled {
+    width: 100%;
+    height: 5.5rem;
+  }
+
+  .message {
+    font-size: 1.4rem;
+  }
 }
