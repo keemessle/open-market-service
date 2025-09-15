@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/variables.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="./src/pages/product-detail/product-detail.css"
+    />
+    <title>상품상세 | 호두샵</title>
+  </head>
+  <body>
+    <main>
+      <!-- 상단부 -->
+      <section
+        class="product-container container"
+        id="product-abstract"
+        aria-label="상품구매정보"
+      >
+        <h2 class="sr-only">상품 정보</h2>
+        <!-- 상품이미지 -->
+        <div class="image-summary-container">
+          <div class="product-image-container">
+            <img
+              class="product-image"
+              id="product-image"
+              src=""
+              alt="상품 이미지"
+            />
+            <div class="product-image-soldout" id="product-image-soldout"></div>
+          </div>
+          <div class="product-summary-container">
+            <div class="summary-info">
+              <!-- 브랜드 -->
+              <p class="product-brand" id="product-brand">브랜드명</p>
+              <!-- 상품명 -->
+              <p class="product-name" id="product-name">상품명</p>
+              <!-- 금액 -->
+              <p class="product-amount price-l">
+                <span id="product-amount">0</span>원
+              </p>
+            </div>
+            <div class="summary-info-order">
+              <p class="order-shipping" id="product-shopping-method">
+                택배배송/무료배송
+              </p>
+              <div class="divider"></div>
+              <!-- 수량 -->
+              <div class="order-amount">
+                <button
+                  class="order-btn order-btn-decrease"
+                  id="btn-dec"
+                  aria-label="수량 감소"
+                  disabled
+                >
+                  <p class="order-text-min">
+                    상품 수량을 더 이상 내릴 수 없습니다.
+                  </p>
+                </button>
+                <label class="sr-only" for="product-quantity">수량</label>
+                <input type="number" id="product-quantity" value="0" readonly />
+                <button
+                  class="order-btn order-btn-increase"
+                  id="btn-add"
+                  aria-label="수량 증가"
+                >
+                  <p class="order-text-stock">
+                    상품의 재고 수량을 초과할 수 없습니다.
+                  </p>
+                </button>
+              </div>
+              <div class="divider"></div>
+              <div class="order-summary">
+                <p>총 상품 금액</p>
+                <div class="order-total-wrap">
+                  <p>
+                    총 수량&nbsp;
+                    <span class="tot-quantity" id="product-tot-quantity">0</span
+                    >개
+                  </p>
+                  <p class="price-l">
+                    <span id="product-tot-amount">0</span>원
+                  </p>
+                </div>
+              </div>
+              <!-- order-btn-container로 수정 -->
+              <div class="order-btn-container">
+                <!-- 재고 0 일 때 비활성화 수정 -->
+                <button class="btn-left btn btn-m" id="btn-buy">
+                  바로 구매
+                </button>
+                <button class="btn-right btn btn-m btn-dark" id="btn-cart">
+                  장바구니
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 하단부 -->
+      <section class="tab-container container" aria-label="상품 상세 탭">
+        <h2 class="sr-only">상품 정보 탭</h2>
+        <!-- 탭 -->
+        <nav class="product-tabs-nav" id="tab-area">
+          <button
+            class="product-tabs-tab-active"
+            id="product-tab-info"
+            data-target="#product-info"
+          >
+            상품 상세
+          </button>
+          <button id="product-tab-review" data-target="#product-review">
+            리뷰
+          </button>
+          <button id="product-tab-qna" data-target="#product-qna">Q&A</button>
+          <button id="product-tab-refund" data-target="#product-refund">
+            반품/교환정보
+          </button>
+        </nav>
+
+        <!-- 상품 상세 정보 -->
+        <div class="product-tabs-content" id="product-info"></div>
+
+        <!-- 리뷰 -->
+        <div class="product-tabs-content hide" id="product-review"></div>
+
+        <!-- Q&A -->
+        <div class="product-tabs-content hide" id="product-qna"></div>
+
+        <!-- 반품/교환정보 -->
+        <div class="product-tabs-content hide" id="product-refund"></div>
+      </section>
+    </main>
+
+    <script
+      type="module"
+      src="./src/pages/product-detail/product-detail.js"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+      name="description"
+      content="호두샵에서 다양한 굿즈를 만나보세요. 귀여운 디자인과 특별한 아이템으로 일상을 더 즐겁게!"
+    />
+    <meta name="author" content="호두샵" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="호두샵 - 굿즈 스토어" />
+    <meta
+      property="og:description"
+      content="호두샵에서 다양한 굿즈를 만나보세요. 귀여운 디자인과 특별한 아이템으로 일상을 더 즐겁게!"
+    />
+    <meta
+      property="og:image"
+      content="./assets/images/Logo-hodu-thumbnail.png"
+    />
+    <meta
+      property="og:url"
+      content="https://keemessle.github.io/open-market-service/"
+    />
+    <meta property="og:site_name" content="호두샵" />
+
+    <link rel="icon" href="./assets/images/favicon.svg" />
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/variables.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="./src/pages/cart/cart.css"
+    />
+    <title>장바구니 | 호두샵</title>
+</head>
+<body>
+    <main>
+    <!-- 장바구니 테이블 -->
+        <section class="cart-list container" aria-label="장바구니 상품 목록">
+            <h2 class="sr-only">장바구니</h2>
+            <table class="cart-list-table">
+                <caption>장바구니</caption>
+                <colgroup>
+                    <col width="5%" />
+                    <col width="50%" />
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="5%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <input type="checkbox" id="select-all">
+                        </th>
+                        <th scope="col">상품정보</th>
+                        <th scope="col">수량</th>
+                        <th scope="col" colspan="2">상품금액</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-list-body">
+                    <tr class="hidden cart-list-gap"></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 주문 요약 -->
+        <section class="cart-summary container" id="cart-summary" aria-label="주문 요약">
+            <dl>
+                <dt>총 상품금액</dt>
+                <dd><span class="cart-summary-amount" id="cart-tot-product-amount">0</span>원</dd>
+                
+                <dt>상품 할인</dt>
+                <dd><span class="cart-summary-amount" id="cart-tot-product-discount">0</span>원</dd>
+
+                <dt>배송비</dt>
+                <dd><span class="cart-summary-amount" id="cart-tot-method-amount">0</span>원</dd>
+                
+                <dt>결제 예정 금액</dt>
+                <dd><span class="cart-summary-tot-amount" id="cart-tot-amount">0</span>원</dd>
+            </dl>            
+            <button class="btn btn-lg" id="cart-summary-buy">주문하기</button>
+        </section>
+
+        <!-- 빈 장바구니 상태 -->
+        <section class="hide cart-empty container" id="cart-empty" aria-label="빈 장바구니">
+            <p>장바구니에 담긴 상품이 없습니다.</p>
+            <small>원하는 상품을 장바구니에 담아보세요!</small>
+        </section>
+    </main>
+    <script
+      type="module"
+      src="./src/pages/cart/cart.js"
+    ></script>
+</body>
+</html>

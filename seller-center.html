@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/variables.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/pages/seller-center/seller-center.css" />
+    <script
+      type="module"
+      src="./src/pages/seller-center/seller-center.js"
+    ></script>
+
+    <title>대시보드 | 호두샵 - 판매자 센터</title>
+  </head>
+  <body>
+    <main>
+      <section class="section seller-container">
+        <h2 class="sr-only">판매자 센터 대시보드</h2>
+        <div class="title-btn-container">
+          <div class="title-wrap">
+            <p class="title">대시보드</p>
+            <p class="title-seller" id="seller-name"></p>
+          </div>
+          <!-- prettier-ignore -->
+          <a class="btn btn-icon" href="./make-product.html">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <circle cx="15" cy="15" r="14" stroke="white" stroke-width="2"/>
+              <path d="M6.66602 14.5831H23.3327" stroke="white" stroke-width="2"/>
+              <path d="M15 23.3333L15 6.66658" stroke="white" stroke-width="2"/>
+            </svg>
+            상품 업로드
+          </a>
+        </div>
+        <div class="store-info-container">
+          <nav class="tab-list">
+            <button class="tab-menu active" data-tabname="onsale">
+              <div>판매중인 상품 <span id="count-onsale"></span></div>
+              <span class="badge"></span>
+            </button>
+            <button class="tab-menu" data-tabname="order">
+              주문/배송<span class="badge"></span>
+            </button>
+            <button class="tab-menu" data-tabname="feedback">
+              문의/리뷰
+              <span class="badge"></span>
+            </button>
+            <button class="tab-menu" data-tabname="stats">
+              통계
+              <span class="badge"></span>
+            </button>
+            <button class="tab-menu" data-tabname="settings">
+              스토어 설정
+            </button>
+          </nav>
+
+          <div class="tab-panels">
+            <div class="panel-table active" data-tabname="onsale">
+              <div class="table-head">
+                <div class="head-col">상품정보</div>
+                <div class="head-col">판매가격</div>
+                <div class="head-col">수정</div>
+                <div class="head-col">삭제</div>
+              </div>
+              <ul class="table-list" id="list-onsale"></ul>
+            </div>
+
+            <div class="panel-table" data-tabname="order">
+              <div class="table-head">
+                <div class="head-col">상품정보</div>
+                <div class="head-col">배송현황</div>
+                <div class="head-col">수정</div>
+                <div class="head-col">삭제</div>
+              </div>
+              <ul class="table-list item-none" id="list-order">
+                주문/배송 상품이 없습니다.
+              </ul>
+            </div>
+
+            <div class="panel-table" data-tabname="feedback">
+              <div class="table-head">
+                <div class="head-col">상품정보</div>
+                <div class="head-col">문의/리뷰</div>
+                <div class="head-col">수정</div>
+                <div class="head-col">삭제</div>
+              </div>
+              <ul class="table-list" id="list-feedback"></ul>
+            </div>
+
+            <div class="panel-table" data-tabname="stats">
+              <p>통계</p>
+            </div>
+
+            <div class="panel-table" data-tabname="settings">
+              <p>스토어 설정</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

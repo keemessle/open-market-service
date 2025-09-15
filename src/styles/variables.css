@@ -1,0 +1,89 @@
+:root {
+  /* color */
+  --color-main: #21bf48;
+  --color-main-dark: #1a993a;
+  --color-red: #eb5757;
+  --gray-dark: #767676;
+  --gray-light: #c4c4c4;
+  --gray-bg: #f2f2f2;
+
+  /* font-size */
+  --fs-xs: 12px;
+  --fs-sm: 14px;
+  --fs-md: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 20px;
+  --fs-2xl: 24px;
+  --fs-3xl: 30px;
+  --fs-4xl: 36px;
+
+  /* transition */
+  --trans: 0.2s ease;
+}
+
+/* 로드시 fadeIn 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* font-face */
+/* Thin */
+@font-face {
+  font-family: "SpoqaHanSansNeo";
+  src: url("../../assets/fonts/SpoqaHanSansNeo-Thin.woff2") format("woff2"),
+    url("../../assets/fonts/SpoqaHanSansNeo-Thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+  ascent-override: 100%;
+}
+
+/* Light */
+@font-face {
+  font-family: "SpoqaHanSansNeo";
+  src: url("../../assets/fonts/SpoqaHanSansNeo-Light.woff2") format("woff2"),
+    url("../../assets/fonts/SpoqaHanSansNeo-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  ascent-override: 100%;
+}
+
+/* Regular */
+@font-face {
+  font-family: "SpoqaHanSansNeo";
+  src: url("../../assets/fonts/SpoqaHanSansNeo-Regular.woff2") format("woff2"),
+    url("../../assets/fonts/SpoqaHanSansNeo-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  ascent-override: 100%;
+}
+
+/* Medium */
+@font-face {
+  font-family: "SpoqaHanSansNeo";
+  src: url("../../assets/fonts/SpoqaHanSansNeo-Medium.woff2") format("woff2"),
+    url("../../assets/fonts/SpoqaHanSansNeo-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  ascent-override: 100%;
+}
+
+/* Bold */
+@font-face {
+  font-family: "SpoqaHanSansNeo";
+  src: url("../../assets/fonts/SpoqaHanSansNeo-Bold.woff2") format("woff2"),
+    url("../../assets/fonts/SpoqaHanSansNeo-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  ascent-override: 100%;
+}
+
+body {
+  font-family: "SpoqaHanSansNeo", system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  animation: fadeIn 1s forwards;
+}

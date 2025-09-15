@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="호두샵에서 다양한 굿즈를 만나보세요. 귀여운 디자인과 특별한 아이템으로 일상을 더 즐겁게!"
+    />
+    <meta name="author" content="호두샵" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="호두샵 - 굿즈 스토어" />
+    <meta
+      property="og:description"
+      content="호두샵에서 다양한 굿즈를 만나보세요. 귀여운 디자인과 특별한 아이템으로 일상을 더 즐겁게!"
+    />
+    <meta
+      property="og:image"
+      content="./assets/images/Logo-hodu-thumbnail.png"
+    />
+    <meta
+      property="og:url"
+      content="https://keemessle.github.io/open-market-service/"
+    />
+    <meta property="og:site_name" content="호두샵" />
+
+    <link rel="icon" href="./assets/images/favicon.svg" />
+
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/variables.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/pages/index/index.css" />
+    <script type="module" src="./src/pages/index/index.js" defer></script>
+
+    <title>호두샵</title>
+  </head>
+  <body class="fade-in">
+    <main>
+      <section class="section-banner">
+        <h2 class="sr-only">배너</h2>
+        <div class="swiper-wrap"></div>
+        <ul class="pagination-list"></ul>
+        <div class="btn-container">
+          <button class="btn-left" aria-label="배너 다음으로 이동"></button>
+          <button class="btn-right" aria-label="배너 이전으로 이동"></button>
+        </div>
+      </section>
+      <section class="section-list container">
+        <h2 class="sr-only">상품 목록</h2>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입 | 호두샵</title>
+    <link
+      rel="shortcut icon"
+      href="./assets/images/favicon.svg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/variables.css" />
+    <link rel="stylesheet" href="./src/pages/signup/signup.css" />
+    <script type="module" src="./src/pages/signup/signup.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>
+        <a href="./index.html">
+          <img src="./assets/images/Logo-hodu.png" alt="호두 사이트 로고" />
+        </a>
+      </h1>
+    </header>
+
+    <main>
+      <section class="login-container">
+        <h2 class="sr-only">회원가입 화면</h2>
+        <ul class="menu-wrap">
+          <li class="menu-item buyer-menu on">
+            <button type="button" id="buyer-login" data-role="BUYER">
+              구매회원가입
+            </button>
+          </li>
+          <li class="menu-item seller-menu">
+            <button type="button" id="seller-login" data-role="SELLER">
+              판매회원가입
+            </button>
+          </li>
+        </ul>
+
+        <!-- 회원가입 폼 (구매자) -->
+        <form id="signup-form" autocomplete="on">
+          <div class="input-wrap">
+            <!-- 아이디 -->
+            <fieldset class="form-group id">
+              <label for="user-id">아이디</label>
+              <div class="id-input-wrap">
+                <input
+                  type="text"
+                  id="user-id"
+                  name="username"
+                  maxlength="20"
+                />
+                <button type="button" class="id-check-btn">중복확인</button>
+              </div>
+              <p class="message" aria-live="polite"></p>
+            </fieldset>
+
+            <!-- 비밀번호 -->
+            <fieldset class="form-group pw">
+              <label for="password">비밀번호</label>
+              <div class="pw-input-wrap">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  minlength="8"
+                />
+                <img
+                  src="./assets/images/icons/icon-check-off.svg"
+                  alt=""
+                  class="check-img"
+                  aria-hidden="true"
+                />
+              </div>
+              <p class="message" aria-live="polite"></p>
+            </fieldset>
+
+            <fieldset class="form-group pwc">
+              <label for="pw-check">비밀번호 재확인</label>
+              <div class="pw-input-wrap">
+                <input
+                  type="password"
+                  id="password-confirm"
+                  name="passwordConfirm"
+                />
+                <img
+                  src="./assets/images/icons/icon-check-off.svg"
+                  alt=""
+                  class="recheck-img"
+                  aria-hidden="true"
+                />
+              </div>
+              <p class="message" aria-live="polite"></p>
+            </fieldset>
+
+            <!-- 이름 -->
+            <fieldset class="form-group name">
+              <label for="user-name">이름</label>
+              <input type="text" id="user-name" name="name" />
+              <p class="message" aria-live="polite"></p>
+            </fieldset>
+
+            <!-- 휴대폰번호 -->
+            <fieldset class="form-group phone-num">
+              <legend>핸드폰번호</legend>
+              <div class="phone-wrap">
+                <label for="phone1" class="sr-only">통신사 앞자리</label>
+                <select name="phone1" id="phone1">
+                  <option value="010">010</option>
+                  <option value="011">011</option>
+                  <option value="016">016</option>
+                  <option value="017">017</option>
+                </select>
+
+                <label for="phone2" class="sr-only">중간번호</label>
+                <input
+                  type="tel"
+                  id="phone2"
+                  pattern="[0-9]{3,4}"
+                  maxlength="4"
+                />
+
+                <label for="phone3" class="sr-only">끝번호</label>
+                <input
+                  type="tel"
+                  id="phone3"
+                  pattern="[0-9]{4}"
+                  maxlength="4"
+                />
+              </div>
+              <p class="message" aria-live="polite"></p>
+            </fieldset>
+
+            <!-- 판매자 회원가입란 -->
+            <div class="seller-only" data-role-visible="SELLER" hidden>
+              <!-- 사업자 등록번호 -->
+              <fieldset class="form-group biz-num">
+                <label for="biz-num">사업자 등록번호</label>
+                <div class="biz-input-wrap">
+                  <input
+                    type="text"
+                    id="biz-num"
+                    name="business_number"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                  />
+                  <button type="button" class="biz-check-btn">인증</button>
+                </div>
+                <p class="message" aria-live="polite"></p>
+              </fieldset>
+
+              <!-- 스토어 이름 -->
+              <fieldset class="form-group store-name">
+                <label for="store-name">스토어 이름</label>
+                <input type="text" id="store-name" name="store-name" />
+                <p class="message" aria-live="polite"></p>
+              </fieldset>
+            </div>
+          </div>
+
+          <!-- 약관 동의 -->
+          <fieldset class="agree-wrap">
+            <legend class="sr-only">약관 동의</legend>
+            <label class="agree">
+              <input type="checkbox" id="agree-box" name="agree" required />
+              <span class="agree-text">
+                호두샵의
+                <strong>이용약관</strong> 및
+                <strong>개인정보처리방침</strong>
+                에 대한 내용을 확인하였고 동의합니다.
+              </span>
+            </label>
+          </fieldset>
+
+          <button class="signup-btn" type="submit" disabled="true">
+            가입하기
+          </button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

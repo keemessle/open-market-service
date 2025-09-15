@@ -1,0 +1,240 @@
+:root {
+  /* color */
+  --color-error: var(--color-red);
+  --color-gray: var(--gray-bg);
+  --color-border: var(--gray-light);
+  --color-font: var(--gray-dark);
+}
+
+/* =========================
+   util
+   ========================= */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0); /* 구형 브라우저를 위해 사용 */
+  clip-path: polygon(0 0, 0 0, 0 0); /* inset(50%) 와 동일한 표현 */
+  border: 0;
+}
+
+/* =========================
+   base
+   ========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 10px;
+  width: 100%;
+}
+
+body {
+  font-size: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  font-size: 1.8rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+/* =========================
+   layout
+   ========================= */
+
+header {
+  margin: 10rem auto 7rem;
+}
+
+h1 > a > img {
+  width: 23.8rem;
+  aspect-ratio: 238/74;
+  object-fit: contain;
+}
+
+.login-container {
+  width: 55rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.menu-wrap {
+  width: 100%;
+  display: flex;
+  table-layout: fixed;
+}
+
+.menu-item {
+  flex: 1;
+  position: relative;
+  height: 8rem;
+  vertical-align: top;
+  padding: 2rem;
+  text-align: center;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem 1rem 0 0;
+  background-color: var(--color-gray);
+}
+
+/* 탭 활성화시 */
+.on {
+  border-bottom: transparent;
+  color: #000;
+  background-color: #fff;
+  z-index: 5;
+}
+
+.buyer-menu.on {
+  border-right: transparent;
+}
+
+.seller-menu.on {
+  border-left: transparent;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3.6rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background-color: #fff;
+  position: relative;
+  z-index: 3;
+  margin-top: -1rem;
+}
+
+input,
+.login-btn {
+  width: 48rem;
+  height: 6rem;
+  border: none;
+}
+
+input {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 1.6rem;
+}
+
+input:focus-visible {
+  border-bottom: 1px solid var(--color-main);
+  outline: none;
+}
+
+input:first-of-type {
+  margin-bottom: 0.6rem;
+}
+
+input:last-of-type {
+  margin-bottom: 3.6rem;
+}
+
+/* 에러 메세지 */
+.message {
+  width: 48rem;
+  font-size: 1.6rem;
+  margin-bottom: 2.6rem;
+  color: var(--color-error);
+}
+
+.login-btn {
+  font-weight: 700;
+  color: #fff;
+  background-color: var(--color-main);
+  border-radius: 0.5rem;
+}
+
+.others-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 3rem auto;
+}
+
+.signup,
+.find {
+  color: var(--color-gray-1);
+  padding: 1.4rem;
+}
+
+.others-wrap > li:nth-of-type(2)::before {
+  content: "|";
+}
+
+@media (max-width: 650px) {
+  header {
+    margin: 5rem 2rem;
+  }
+
+  .login-container {
+    width: 48rem;
+    box-sizing: border-box;
+  }
+
+  #login-form {
+    padding: 2rem 2rem;
+    margin-bottom: 2rem;
+    box-sizing: border-box;
+  }
+
+  input,
+  .login-btn {
+    width: 44rem;
+    height: 6rem;
+  }
+
+  input:last-of-type {
+    margin-bottom: 2rem;
+  }
+
+  .message {
+    width: 44rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .login-container {
+    width: 100%;
+    max-width: 36rem;
+    box-sizing: border-box;
+  }
+
+  button {
+    font-size: 1.6rem;
+  }
+
+  input,
+  .login-btn,
+  .message {
+    width: 100%;
+    max-width: none;
+    font-size: 1.4rem;
+  }
+
+  .signup,
+  .find {
+    font-size: 1.4rem;
+  }
+}

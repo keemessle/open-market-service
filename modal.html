@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>모달 파일</title>
+    <style>
+      dialog {
+        all: unset;
+        display: none;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      dialog[open] {
+        display: block;
+      }
+
+      .modal {
+        width: auto;
+        height: auto;
+        border: 1px solid var(--gray-light);
+        background-color: #fff;
+        padding: 50px 78px 40px;
+      }
+
+      .modal-content {
+        width: 100%;
+        height: auto;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 30px;
+
+        text-align: center;
+        white-space: nowrap;
+        line-height: normal;
+      }
+
+      .btn-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .btn-container .btn {
+        flex: 1 0 auto;
+      }
+
+      .btn-close {
+        width: 22px;
+        aspect-ratio: 1;
+        position: absolute;
+        top: 18px;
+        right: 18px;
+      }
+
+      @media (max-width: 640px) {
+        .modal {
+          padding: 50px 40px 34px;
+        }
+
+        .modal-content {
+          font-size: var(--fs-sm);
+          gap: 24px;
+        }
+
+        .btn-close {
+          width: 20px;
+          top: 14px;
+          right: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <dialog id="modal" class="modal">
+      <h2 class="sr-only">모달 창</h2>
+      <div class="modal-content">
+        <p id="modal-notice"></p>
+        <div class="btn-container">
+          <button id="btn-no" class="btn btn-s btn-white">아니오</button>
+          <button id="btn-yes" class="btn btn-s">예</button>
+        </div>
+      </div>
+      <button id="btn-close" class="btn-close">
+        <img src="./assets/images/icons/icon-delete.svg" alt="모달창 닫기" />
+      </button>
+    </dialog>
+  </body>
+</html>
