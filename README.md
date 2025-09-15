@@ -1,8 +1,11 @@
-# open-market-service
-## 호두샵(Open Market Service)
+# 호두샵 (Open Market Service)
+
+<a href="https://keemessle.github.io/open-market-service/" title="호두샵 프로젝트 페이지로 이동">
+  <img alt="호두샵 썸네일" src="https://github.com/user-attachments/assets/12e3fd35-b6a6-4822-a2ed-d1eee870d155" />
+</a>
 
 팀 프로젝트로 구현한 오픈마켓 서비스의 프론트엔드 레포지토리입니다. <br>
-순수 HTML/CSS/JavaScript로 SPA가 아닌 멀티 페이지 구조로 제작했으며, <br>
+순수 HTML/CSS/JavaScript로 멀티 페이지 구조(MPA)로 제작했으며, <br>
 공용 컴포넌트(`header`, `footer`, `modal`)와 페이지별 스크립트를 분리하여 유지보수성을 높였습니다. <br>
 외부 공개 API를 사용해 상품 목록/상세/장바구니/회원 기능을 동작시키고, 판매자 권한으로 상품 등록과 대시보드를 제공합니다.
 
@@ -12,7 +15,7 @@
 - **여훈**: 상품 상세 페이지 + 모달창 + 장바구니 기능 및 UI 구현
 - **민주**: 메인 페이지(상품 목록), GNB(Header) + 판매자 대시보드 기능 및 UI, 공통 CSS 작업
 
-### 데모 페이지 구조
+### 페이지 구조
 
 - `index.html`: 메인(상품 목록 + 배너)
 - `login.html`: 로그인
@@ -33,15 +36,71 @@
 ### 디렉토리 구조
 
 ```text
-/assets           정적 리소스(폰트, 이미지)
-/src/components   공용 컴포넌트(header, footer, modal)
-/src/pages        페이지별 CSS/JS
-/src/services     세션 및 인증 유틸(UserSession)
-/src/styles       공통 CSS(리셋/변수/메인)
-/*.html           라우트별 정적 페이지
+📂
+├─ 404.html
+├─ cart.html
+├─ index.html
+├─ login.html
+├─ make-product.html
+├─ modal.html
+├─ product-detail.html
+├─ seller-center.html
+├─ signup.html
+│
+├─ assets (정적 리소스 - 폰트, 이미지)
+│   ├─ fonts
+│   └─ images
+│       └─ icons
+│
+└─ src
+    ├─ components (공용 컴포넌트)
+    │   ├─ footer.js
+    │   ├─ header.js
+    │   └─ modal.js
+    │
+    ├─ pages (페이지별 CSS/JS)
+    │   ├─ 404
+    │   │   └─ 404.css
+    │   │
+    │   ├─ cart
+    │   │   ├─ cart.css
+    │   │   └─ cart.js
+    │   │
+    │   ├─ index
+    │   │   ├─ index.css
+    │   │   └─ index.js
+    │   │
+    │   ├─ login
+    │   │   ├─ login.css
+    │   │   └─ login.js
+    │   │
+    │   ├─ make-product
+    │   │   ├─ make-product.css
+    │   │   └─ make-product.js
+    │   │
+    │   ├─ product-detail
+    │   │   ├─ product-detail.css
+    │   │   └─ product-detail.js
+    │   │
+    │   ├─ seller-center
+    │   │   ├─ seller-center.css
+    │   │   └─ seller-center.js
+    │   │
+    │   └─ signup
+    │       ├─ signup.css
+    │       └─ signup.js
+    │
+    ├─ services (세션 및 인증 유틸)
+    │   └─ UserSession.js
+    │
+    └─ styles (공통 CSS)
+        ├─ main.css
+        ├─ reset.css
+        └─ variables.css
 ```
+<br>
 
-### 주요 기능 요약
+## 주요 기능 요약
 
 - **인증/회원**
 
@@ -74,23 +133,6 @@
   - `POST /accounts/login/` 로그인, `POST /accounts/{buyer|seller}/signup/` 회원가입
   - `POST /accounts/validate-username/` 아이디 중복 확인, `POST /accounts/seller/validate-registration-number/` 사업자등록번호 검증
 
-### 실행 방법(로컬)
-
-정적 사이트이므로 간단한 정적 서버로 열 수 있습니다.
-
-1. VS Code 확장 Live Server 사용
-
-- `index.html`에서 “Open with Live Server” 실행
-
-2. Node http-server 사용(예시)
-
-```bash
-npm i -g http-server
-http-server -p 5173 .
-# 브라우저에서 http://localhost:5173 접속
-```
-
-주의: 일부 브라우저는 `file://` 스킴 접근 시 `fetch`가 차단될 수 있으므로 반드시 로컬 서버를 사용하세요.
 
 ### 인증/권한 테스트 팁
 
@@ -103,6 +145,116 @@ http-server -p 5173 .
 - 배너 스와이퍼는 클론 슬라이드로 루프 구현 및 리사이즈 시 트랜지션 비활성 처리로 깜빡임 최소화
 - 키보드 ESC/외부 클릭으로 모달 닫힘 지원, 스크린 리더 대체 텍스트 제공
 
-### 라이선스
+<br>
 
-이 레포지토리는 교육 목적의 팀 프로젝트 결과물로, 별도의 라이선스를 명시하지 않았습니다. 학습 및 포트폴리오 용도로 활용 가능합니다.
+## 에러와 에러 해결
+
+### 1. 글로벌 내비게이션바 (GNB)
+
+#### 1-1. 로그인 상태별 액션 처리
+
+- **문제:** 로그인 상태에 따라 액션 리스트와 기능이 달라야 함
+
+- **해결:**
+  - 상태별 액션 배열 생성 후 조건에 맞게 로드
+  - 로그인 상태에 따라 각 기능(장바구니, 마이페이지 드롭다운, 로그아웃, 검색어 초기화)을 나누어 호출
+
+```js
+const actionsDefault = [actionCart, actionLogin];
+const actionsLoggedIn = [actionCart, actionMypage];
+const actionsLoggedInSeller = [actionMypage, actionSeller];
+
+let role = !isLoggedIn
+  ? "guest"
+  : isBuyer
+  ? "buyer"
+  : isSeller
+  ? "seller"
+  : "guest";
+
+if (isSellerCenter) {
+  $header = createDOM(sellerHeaderHTML);
+} else {
+  $header = createDOM(defaultHeaderHTML);
+
+  switch (role) {
+    case "guest":
+      loadActionsList(actionsDefault);
+      resetSearchInput();
+      setupCart();
+      break;
+
+    case "buyer":
+      loadActionsList(actionsLoggedIn);
+      resetSearchInput();
+      setupCart();
+      setupDropdown();
+      setupLogout();
+      break;
+
+    case "seller":
+      loadActionsList(actionsLoggedInSeller);
+      resetSearchInput();
+      setupDropdown();
+      setupLogout();
+      break;
+  }
+}
+```
+
+#### 1-2. 마이페이지 드롭박스 위치 조절
+
+- **문제:** 화면이 작을 때 드롭박스가 화면 밖으로 나감
+
+- **해결:**
+
+  - JS에서 드롭박스 위치를 계산하여 화면 밖이면 `overflow` 클래스 추가
+  - CSS에서 `overflow` 클래스가 적용되면 적절히 `left` 값이 조정됨
+  - `resize` 이벤트 시마다 위치 조정
+
+![드롭다운 비교 설명](https://github.com/user-attachments/assets/98835bd9-1f2a-4bf2-96b4-d8404d01de2f)
+
+```js
+function setDropdownPos() {
+  const $mypageDropdown = document.querySelector(".dropdown-mypage");
+  const dropdownRect = $mypageDropdown.getBoundingClientRect();
+  const padding = dropdownRect.width / 2;
+  if (dropdownRect.right > window.innerWidth - padding) {
+    $mypageDropdown.classList.add("overflow");
+  } else {
+    $mypageDropdown.classList.remove("overflow");
+  }
+}
+
+window.addEventListener("resize", () => {
+  if (document.querySelector(".dropdown-mypage")) {
+    setDropdownPos();
+  }
+});
+```
+
+### 2. 판매자 센터
+
+#### 2-1. 스크롤바 영역 문제
+
+- **문제:** 탭 패널 리스트에 스크롤바가 생길 때 리스트 헤드 영역과 위치가 맞지 않음
+
+- **해결:** `scrollbar-gutter: stable`을 사용하여 헤드와 리스트 폭 일치
+
+![판매자센터 리스트 설명](https://github.com/user-attachments/assets/07fe2b59-d00e-4694-ad94-0d027ca2a85d)
+
+```css
+.table-head {
+  flex: 0 0 60px;
+  height: 60px;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+```
+
+<br> 
+
+## 프로젝트 회고 (한줄평)
+- 김민주
+  - 신경 쓸 게 너무 많다..
+  - 분업시 공통 요소를 관리하기 어렵다..
