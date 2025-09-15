@@ -70,6 +70,8 @@ const VALIDATION_ERROR = {
   ID_NEED_CHECK: "아이디 중복 확인해 주세요.",
   ID_AVAILABLE: "사용 가능한 아이디입니다.",
   BIZ_AVAILABLE: "사용 가능한 사업자등록번호입니다.",
+  SIGNUP_FAIL: "회원가입에 실패했습니다. 다시 시도해 주세요.",
+  SEVER_ERR: "확인 중 오류가 발생했습니다.",
 };
 
 // ================== 검증 함수 ==================
@@ -126,16 +128,8 @@ function clearAll() {
       $el.value = "";
     });
 
-  const checkIcon = document.querySelector(".check-img");
-  const recheckIcon = document.querySelector(".recheck-img");
-
-  if (checkIcon) {
-    checkIcon.src = "../../assets/images/icons/icon-check-off.svg";
-  }
-
-  if (recheckIcon) {
-    recheckIcon.src = "../../assets/images/icons/icon-check-off.svg";
-  }
+  updateCheckIcon(".check-img", false);
+  updateCheckIcon(".recheck-img", false);
 }
 
 function toggleSellerSection() {
@@ -241,10 +235,7 @@ async function checkDuplicateId() {
       validatedId = null;
     }
   } catch {
-    showMessage(
-      $idInput,
-      "아이디 확인 중 오류가 발생했습니다. 다시 시도해주세요."
-    );
+    showMessage($idInput, VALIDATION_ERROR.SEVER_ERR);
     isIdChecked = false;
     validatedId = null;
   } finally {
@@ -305,7 +296,7 @@ async function checkBizNumber() {
       validatedBiz = null;
     }
   } catch {
-    showMessage($bizNumberInput, "사업자등록번호 확인 중 오류가 발생했습니다.");
+    showMessage($bizNumberInput, VALIDATION_ERROR.SEVER_ERR);
     isBizChecked = false;
     validatedBiz = null;
   } finally {
@@ -329,8 +320,7 @@ async function createAccount(userData) {
     if (data.phone_number) {
       throw { field: "phone", message: pick(data.phone_number) };
     } else {
-      const errMsg =
-        data.error || "회원가입에 실패했습니다. 다시 시도해주세요.";
+      const errMsg = data.error || VALIDATION_ERROR.SIGNUP_FAIL;
       throw new Error(errMsg);
     }
   }
@@ -354,11 +344,22 @@ function showMessage($input, message, type = "error") {
     } else {
       $input.classList.remove("input-error");
     }
+  } else {
+    $input.classList.remove("input-error");
   }
 }
 
 function clearMessage($input) {
   showMessage($input, "");
+}
+
+function updateCheckIcon(selector, isActive) {
+  const icon = document.querySelector(selector);
+
+  if (icon) {
+    const iconState = isActive ? "on" : "off";
+    icon.src = `./assets/images/icons/icon-check-${iconState}.svg`;
+  }
 }
 
 function handleNameInput($input) {
@@ -392,7 +393,6 @@ $menuItems.forEach((menuItem) => {
   });
 });
 
-// 이벤트 위임
 $signupForm.addEventListener("input", (e) => {
   const $el = e.target;
 
@@ -426,12 +426,13 @@ $signupForm.addEventListener("input", (e) => {
     checkPreviousFields($passwordInput);
 
     const password = $passwordInput.value;
-    const checkIcon = document.querySelector(".check-img");
+    const passwordConfirm = $passwordConfirmInput.value;
+    const isPasswordMatch =
+      isValidPassword(password) &&
+      passwordConfirm &&
+      password === passwordConfirm;
 
-    if (checkIcon)
-      checkIcon.src = isValidPassword(password)
-        ? "../../assets/images/icons/icon-check-on.svg"
-        : "../../assets/images/icons/icon-check-off.svg";
+    updateCheckIcon(".check-img", isValidPassword(password));
 
     if (!password) {
       showMessage($passwordInput, VALIDATION_ERROR.REQUIRED);
@@ -440,6 +441,29 @@ $signupForm.addEventListener("input", (e) => {
       $passwordInput.classList.add("input-error");
     } else {
       clearMessage($passwordInput);
+    }
+
+    if (passwordConfirm) {
+      updateCheckIcon(".recheck-img", isPasswordMatch);
+
+      if (isPasswordMatch) {
+        showMessage(
+          $passwordConfirmInput,
+          VALIDATION_ERROR.PASSWORD_MATCH,
+          "success"
+        );
+        $passwordConfirmInput.classList.remove("input-error");
+      } else {
+        showMessage(
+          $passwordConfirmInput,
+          VALIDATION_ERROR.INVALID_PASSWORD_CONFIRM
+        );
+        $passwordConfirmInput.classList.add("input-error");
+      }
+    } else {
+      // 재확인 input이 비어있으면 메시지/에러 제거
+      clearMessage($passwordConfirmInput);
+      updateCheckIcon(".recheck-img", false);
     }
 
     updateFormValidation();
@@ -455,12 +479,8 @@ $signupForm.addEventListener("input", (e) => {
       isValidPassword(password) &&
       passwordConfirm &&
       password === passwordConfirm;
-    const recheckIcon = document.querySelector(".recheck-img");
 
-    if (recheckIcon)
-      recheckIcon.src = isPasswordMatch
-        ? "../../assets/images/icons/icon-check-on.svg"
-        : "../../assets/images/icons/icon-check-off.svg";
+    updateCheckIcon(".recheck-img", isPasswordMatch);
 
     if (!passwordConfirm) {
       showMessage($passwordConfirmInput, VALIDATION_ERROR.REQUIRED);
@@ -595,15 +615,14 @@ $signupForm.addEventListener("submit", async (e) => {
     const result = await createAccount(userData);
     console.log(result);
     alert("회원가입 완료!");
-    setTimeout(() => (location.href = "../../login.html"), 800);
+    setTimeout(() => (location.href = "./login.html"), 800);
   } catch (err) {
     console.log(err);
 
     if (err.field === "phone") {
       showMessage($phone1, err.message);
     } else {
-      const errMsg =
-        err.message || "회원가입에 실패했습니다. 다시 시도해 주세요.";
+      const errMsg = err.message || VALIDATION_ERROR.SIGNUP_FAIL;
       alert(errMsg);
     }
   } finally {
