@@ -60,12 +60,12 @@ const SELLER_FIELD_ORDER = [
 // ================== 에러 메시지 ==================
 const VALIDATION_ERROR = {
   REQUIRED: "필수 정보입니다.",
-  INVALID_ID: "ID는 20자 이내의 영어 대·소문자, 숫자만 가능합니다.",
-  INVALID_PASSWORD: "비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.",
+  INVALID_ID: "아이디는 20자 이내의 영문 또는 숫자만 사용할 수 있습니다.",
+  INVALID_PASSWORD: "비밀번호는 8자 이상, 영문과 숫자를 모두 포함해야 합니다.",
   INVALID_PASSWORD_CONFIRM: "비밀번호가 일치하지 않습니다.",
   PASSWORD_MATCH: "비밀번호가 일치합니다.",
-  INVALID_PHONE: "01*로 시작하는 10~11자리 숫자여야 합니다.",
-  INVALID_BIZ: "사업자등록번호는 10자리 숫자여야 합니다.",
+  INVALID_PHONE: "핸드폰 번호는 10~11자리 숫자여야 합니다.",
+  INVALID_BIZ: "사업자등록번호는 숫자 10자리로 입력해 주세요.",
   BIZ_DUPLICATE: "이미 등록된 사업자등록번호입니다.",
   BIZ_NEED_AUTH: "인증을 다시 진행해주세요.",
   BIZ_AUTHED: "인증 완료된 번호입니다.",
@@ -74,7 +74,7 @@ const VALIDATION_ERROR = {
   ID_AVAILABLE: "사용 가능한 아이디입니다.",
   BIZ_AVAILABLE: "사용 가능한 사업자등록번호입니다.",
   SIGNUP_FAIL: "회원가입에 실패했습니다. 다시 시도해 주세요.",
-  SEVER_ERR: "확인 중 오류가 발생했습니다.",
+  SEVER_ERR: "오류가 발생했습니다. 잠시 후 다시 시도해 주세요.",
 };
 
 // ================== 검증 함수 ==================
