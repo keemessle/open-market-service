@@ -100,10 +100,6 @@ async function getProductDetail() {
         // 에러 페이지 이동
         location.href = "./404.html";
     }
-  } catch (err) {
-    // 에러 페이지 이동
-    location.href = "./404.html";
-  }
 }
 
 async function addCart() {
