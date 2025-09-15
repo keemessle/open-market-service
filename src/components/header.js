@@ -214,23 +214,26 @@ export function createHeader() {
     });
   }
 
-  // 상품 검색
-  document.getElementById("form-search").addEventListener("submit", async (e) => {
-    e.preventDefault(); // 페이지 이동 막기
+  // 상품 검색  
+  if(!window.location.pathname.includes("seller-center") &&
+     !window.location.pathname.includes("make-product")){
+    document.getElementById("form-search").addEventListener("submit", async (e) => {
+      e.preventDefault(); // 페이지 이동 막기
 
-    const keyword = document.getElementById("search").value.trim();
+      const keyword = document.getElementById("search").value.trim();
 
-    if (window.location.pathname === "/" || 
-        window.location.pathname === "/open-market-service/" || 
-        window.location.pathname.endsWith("/index.html")) {
-      // index 페이지일 때 loadProductList 함수 import
-      const module = await import("../pages/index/index.js");
-      module.loadProductList(keyword);
-    } else {
-      // 다른 페이지면 index로 이동
-      location.href = `./?search=${encodeURIComponent(keyword)}`;
-    }
-  });
+      if (window.location.pathname === "/" || 
+          window.location.pathname === "/open-market-service/" || 
+          window.location.pathname.endsWith("/index.html")) {
+        // index 페이지일 때 loadProductList 함수 import
+        const module = await import("../pages/index/index.js");
+        module.loadProductList(keyword);
+      } else {
+        // 다른 페이지면 index로 이동
+        location.href = `./?search=${encodeURIComponent(keyword)}`;
+      }
+    });
+  }
 
   // 마이페이지 드롭다운 active
   function setupDropdown() {
