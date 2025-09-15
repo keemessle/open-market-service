@@ -775,6 +775,16 @@ footer .divider {
     font-size: var(--fs-sm);
   }
 
+  .actions-list .btn-icon {
+    flex-direction: column;
+    padding: 4px 6.8px;
+    margin-left: 12px;
+  }
+
+  .actions-list .btn-icon span {
+    display: none;
+  }
+
   /* footer */
   .footer-container {
     font-size: var(--fs-xs);
