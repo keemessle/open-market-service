@@ -1,51 +1,9 @@
-@font-face {
-  font-family: "SpokaHanSansNeo";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Thin.woff")
-    format("woff");
-  font-weight: 100;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SpokaHanSansNeo";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Light.woff")
-    format("woff");
-  font-weight: 300;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SpokaHanSansNeo";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff")
-    format("woff");
-  font-weight: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SpokaHanSansNeo";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Medium.woff")
-    format("woff");
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SpokaHanSansNeo";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff")
-    format("woff");
-  font-weight: 700;
-  font-display: swap;
-}
-
 :root {
   /* color */
-  --color-main: #21bf48;
-  --color-error: #eb5757;
-  --color-gray: #f2f2f2;
-  --color-gray-1: #333333;
-  --color-border: #c4c4c4;
-  --color-font: #767676;
+  --color-error: var(--color-red);
+  --color-gray: var(--gray-bg);
+  --color-border: var(--gray-light);
+  --color-font: var(--gray-dark);
 }
 
 /* =========================
@@ -84,7 +42,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "SpokaHanSansNeo";
 }
 
 button {
@@ -123,13 +80,13 @@ h1 > a > img {
 
 .menu-wrap {
   width: 100%;
-  display: table;
+  display: flex;
   table-layout: fixed;
 }
 
 .menu-item {
+  flex: 1;
   position: relative;
-  display: table-cell;
   height: 8rem;
   vertical-align: top;
   padding: 2rem;

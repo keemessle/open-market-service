@@ -85,4 +85,5 @@
 body {
   font-family: "SpoqaHanSansNeo", system-ui, -apple-system, sans-serif;
   font-weight: 400;
+  animation: fadeIn 1s forwards;
 }

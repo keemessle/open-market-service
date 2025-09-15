@@ -19,8 +19,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
-  animation: fadeIn 1s forwards;
 }
 
 img {

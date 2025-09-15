@@ -41,8 +41,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  animation: fadeIn 1s forwards;
 }
 
 button {
@@ -92,7 +90,6 @@ main {
 .menu-item {
   flex: 1;
   position: relative;
-  display: table-cell;
   vertical-align: top;
   padding: 2rem;
   padding-bottom: 3rem;
