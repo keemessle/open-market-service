@@ -298,7 +298,7 @@ function createCartList(results) {
         // 감소 버튼    
         $btnDec.className                       = "order-btn order-btn-decrease";
         $btnDec.id                              = `btn-dec${i}`;
-        $btnDec.setAttribute("aria-label", "수량 감소"); 
+        $btnDec.setAttribute("aria-label", "수량 감소");
 
         // 수량 감소 버튼 클릭
         $btnDec.addEventListener("click", async function(e) {
