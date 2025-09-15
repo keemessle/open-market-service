@@ -6,39 +6,39 @@
 
 ## 📑 목차
 
-1. [프로젝트 개요](#프로젝트-개요)  
+1. [프로젝트 개요](#1-프로젝트-개요)  
    - [목표](#목표)  
    - [기술 스택](#기술-스택)  
    - [팀 구성 및 역할](#팀-구성-및-역할)  
 
-2. [API 및 배포 환경](#api-및-배포-환경)  
+2. [API 및 배포 환경](#2-api-및-배포-환경)  
    - [배포 주소](#배포-주소)  
    - [테스트 계정](#테스트-계정)  
    - [API 기본 정보](#api-기본-정보)  
 
-3. [디렉토리 구조](#디렉토리-구조)  
-   - [프로젝트 폴더 구조](#디렉토리-구조)  
+3. [디렉토리 구조](#3-디렉토리-구조)  
+   - [프로젝트 폴더 구조](#프로젝트-폴더-구조)  
    - [페이지 구조](#페이지-구조)  
 
-4. [요구사항 및 기능 명세](#요구사항-및-기능-명세)  
+4. [요구사항 및 기능 명세](#4-요구사항-및-기능-명세)  
 
-5. [주요 기능 요약](#주요-기능-요약)  
+5. [주요 기능 요약](#5-주요-기능-요약)  
    - [인증/회원](#인증회원)  
    - [상품/구매 플로우](#상품구매-플로우)  
    - [판매자 기능](#판매자-기능)  
    - [공용 UIUX](#공용-uiux)  
    - [접근성/성능](#접근성-성능)  
 
-6. [에러와 에러 해결](#에러와-에러-해결)
-   - [글로벌 내비게이션바(GNB)](#글로벌-내비게이션바-gnb)  
-     - [로그인 상태별 액션 처리](#로그인-상태별-액션-처리)  
-     - [마이페이지 드롭다운 위치 조절](#마이페이지-드롭박스-위치-조절)  
-   - [판매자 센터](#판매자-센터)  
-     - [스크롤바 영역 문제](#스크롤바-영역-문제)  
+6. [에러와 에러 해결](#6-에러와-에러-해결)
+   - [글로벌 내비게이션바(GNB)](#1-글로벌-내비게이션바-gnb)  
+     - [로그인 상태별 액션 처리](#1-1-로그인-상태별-액션-처리)  
+     - [마이페이지 드롭다운 위치 조절](#1-2-마이페이지-드롭박스-위치-조절)  
+   - [판매자 센터](#2-판매자-센터)  
+     - [스크롤바 영역 문제](#2-1-스크롤바-영역-문제)  
 
-7. [프로젝트 회고 (한줄평)](#프로젝트-회고-한줄평)  
+7. [프로젝트 회고 (한줄평)](#7-프로젝트-회고-한줄평)  
 
-8. [라이선스](#라이선스)  
+8. [라이선스](#8-라이선스)  
 
 <br>
 
@@ -96,17 +96,68 @@
 
 ### 프로젝트 폴더 구조
 
-```text
-📦open-market-service
- ┣ 📂assets ➡️ 정적 리소스(폰트, 이미지)
- ┣ 📂src
- ┃ ┣ 📂components ➡️ 공용 컴포넌트(header, footer, modal)
- ┃ ┣ 📂pages ➡️ 페이지별 CSS/JS
- ┃ ┣ 📂services ➡️ 세션 및 인증 유틸(UserSession)
- ┃ ┗ 📂styles ➡️ 공통 CSS(reset, variable, main)
- ┣ 📜*.html ➡️ 라우트별 정적 페이지
- ┣ 📜.gitignore
- ┗ 📜README.md
+```
+📂
+├─ 404.html
+├─ cart.html
+├─ index.html
+├─ login.html
+├─ make-product.html
+├─ modal.html
+├─ product-detail.html
+├─ seller-center.html
+├─ signup.html
+│
+├─ assets (정적 리소스 - 폰트, 이미지)
+│   ├─ fonts
+│   └─ images
+│       └─ icons
+│
+└─ src
+    ├─ components (공용 컴포넌트)
+    │   ├─ footer.js
+    │   ├─ header.js
+    │   └─ modal.js
+    │
+    ├─ pages (페이지별 CSS/JS)
+    │   ├─ 404
+    │   │   └─ 404.css
+    │   │
+    │   ├─ cart
+    │   │   ├─ cart.css
+    │   │   └─ cart.js
+    │   │
+    │   ├─ index
+    │   │   ├─ index.css
+    │   │   └─ index.js
+    │   │
+    │   ├─ login
+    │   │   ├─ login.css
+    │   │   └─ login.js
+    │   │
+    │   ├─ make-product
+    │   │   ├─ make-product.css
+    │   │   └─ make-product.js
+    │   │
+    │   ├─ product-detail
+    │   │   ├─ product-detail.css
+    │   │   └─ product-detail.js
+    │   │
+    │   ├─ seller-center
+    │   │   ├─ seller-center.css
+    │   │   └─ seller-center.js
+    │   │
+    │   └─ signup
+    │       ├─ signup.css
+    │       └─ signup.js
+    │
+    ├─ services (세션 및 인증 유틸)
+    │   └─ UserSession.js
+    │
+    └─ styles (공통 CSS)
+        ├─ main.css
+        ├─ reset.css
+        └─ variables.css
 ```
 
 <br>
@@ -306,13 +357,130 @@ window.addEventListener("resize", () => {
 }
 ```
 
+<br>
+
+### 3. 배포서버 도메인 경로 문제
+#### 3-1. 오류 정의
+ - 배포 후 페이지 이동 시 404 에러가 빈번하게 발생하여 사용자가 정상적으로 서비스를 이용할 수 없는 상황
+
+#### 3-2. 정보 수집
+ - 로컬 환경: http://localhost/ (루트 경로가 프로젝트 최상위)
+ - 배포 환경: https://keemessle.github.io/open-market-service/ (서브 디렉토리 구조)
+ - 에러 패턴: 특정 페이지에서 다른 페이지로 이동할 때 404 에러 발생
+ - 로컬에서는 문제없이 동작: 동일한 코드가 로컬에서는 정상 작동
+
+#### 3-3. 발생 원인
+```js // 문제가 되는 코드 패턴
+    window.location.href = "../login.html";  // 상대경로를 상위폴더로 적음.
+```
+
+ - 분석 결과:
+   - 로컬: ../product-detail.html → http://localhost/product-detail.html
+   - 배포: ../product-detail.html → https://keemessle.github.io/product-detail.html 
+   - 실제 경로: https://keemessle.github.io/open-market-service/product-detail.html
+
+#### 3-4. 문제 해결 방안
+```js // 상대경로로 변경
+    window.location.href = "./login.html";  // 현재 디렉토리 기준
+```
+
+ - 결과: 당장의 문제 해결
+
+#### 3-5. 차후 적용 방안
+```js // 환경별 기준 경로 설정
+    const BASE_PATH = window.location.hostname === 'localhost' ? '/' : '/open-market-service/';
+    // 페이지 이동 예시
+    window.location.href = BASE_PATH + 'login.html';
+```
+
+ - 예상 결과 : 서브 디렉토리 상대경로 오타 등 자잘한 문제가 생길 가능성도 배제할 수 있음.
+
+#### 3-6. 학습 포인트
+ - 배포 환경과 로컬 환경의 차이점 이해: 경로 구조가 다를 수 있음을 항상 고려
+ - 환경별 설정 분리: 개발/배포 환경에 따른 동적 경로 설정을 하여 근본적인 원인을 차단할 것.
+
+
+### 4. 구매자-판매자 기능 공유 문제
+#### 4-1. 오류 정의
+ - 구매자 페이지의 검색 기능을 추가했더니 판매자센터에서 JavaScript 에러가 발생하여 판매자가 대시보드를 이용할 수 없는 상황
+
+#### 4-2. 정보 수집
+ - 공통 헤더 컴포넌트: 검색 기능이 포함된 헤더를 구매자/판매자 페이지에서 공유
+ - 페이지별 헤더 구조 차이:
+
+ - 구매자 페이지/판매자 페이지: 검색바 포함된 헤더 존재
+ - 판매자센터: 검색바가 없는 간소화된 헤더
+
+ - 에러 발생 패턴: 판매자센터 접속 시 콘솔에 JavaScript 에러 발생
+ - 기능 영향도: 에러로 인해 판매자센터의 다른 기능들도 동작하지 않음
+
+#### 4-3. 발생 원인
+ - id가 form-search인 컴포넌트가 판매자센터에서는 없음
+
+```js 모든 페이지에서 실행되는 공통 스크립트
+    document.getElementById("form-search").addEventListener("submit", async (e) => {
+        // 검색 처리
+    });
+```
+
+ - 에러 분석: TypeError: Cannot read property 'addEventListener' of null
+ - 원인: getElementById가 null을 반환했는데 addEventListener를 호출
+ - 발생 위치: 판매자센터 페이지 (검색 요소가 존재하지 않음)
+
+#### 4-4. 문제 해결 방안
+ - 방안 1: "요소 존재 여부를 확인하면 될 것이다"
+
+```js
+    if(document.getElementById("form-search")){
+        document.getElementById("form-search").addEventListener("submit", async (e) => {
+        // 검색처리
+    }
+```
+
+ - 결과: 당장 에러는 해결되지만 id 중복 문제 우려 됨.
+
+ - 방안 2: "URL 패턴 기반으로 조건부 실행한다."
+
+``` js 현재 적용 방법
+    if(!window.location.pathname.includes("seller-center") &&
+        !window.location.pathname.includes("make-product")){
+        // 검색 처리
+    }
+```
+
+ - - 결과: 에러와 id 중복문제는 해결되지만, 예외 url이 늘어날수록 관리가 어렵고 코드가 복잡해짐
+
+#### 4-5. 차후 적용 방안
+```js 설정 파일로 페이지 타입 관리
+    const PAGE_CONFIG = {
+    buyer: {
+        paths: ['/', '/product-detail/', '/cart/', ...],
+        features: ['search', 'cart', ...]
+    },
+    seller: {
+        paths: ['/seller-center/', '/make-product/', ...],
+        features: [....]
+    }
+    };
+```
+
+ - 예상 결과 : 페이지타입을 설정 파일에서 관리하여, 코드가 단순하고 확장성이 늘어남.
+
+#### 4-6. 학습 포인트
+ - 공통 컴포넌트의 조건부 실행: 모든 페이지에서 동일한 요소가 존재한다고 가정하면 안됨
+ - URL 기반 페이지 타입 판단: 페이지별 다른 동작이 필요할 때 효과적인 패턴
+ - 방어적 프로그래밍: null 체크와 예외 처리의 중요성
+ - 확장성 고려: 새로운 페이지 타입이 추가되어도 쉽게 대응할 수 있는 구조
+
 <br> 
 
 ## 8. 프로젝트 회고 (한줄평)
 - 민주
   - 신경 쓸 게 너무 많다..
   - 분업시 공통 요소를 관리하기 어렵다..
-- 여훈 : HTML 구조 잡기와 CSS UI 구현이 많이 어려웠다...
+- 여훈
+  - HTML 구조 잡기와 CSS UI 구현이 많이 어려웠다.
+  - js는 생각했던 그대로.
 - 예슬 : 로그인, 회원가입 로직은 상당히 까다롭다...
 
 <br>
