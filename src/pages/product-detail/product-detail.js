@@ -52,49 +52,53 @@ const $productInfo = document.getElementById("product-info");
 
 // API 호출
 async function getProductDetail() {
-  try {
-    const res = await fetch(DETAIL_API_URL);
-    if (!res.ok) throw new Error("오류 발생!", res.status);
-    const data = await res.json();
-    createMeta(data);
+    try {
+        const res = await fetch(DETAIL_API_URL);
+        if (!res.ok) throw new Error('오류 발생!', res.status);
+        const data = await res.json();
 
-    const imageSrc = data.image.replace(/^http:/, "https:");
-    $productImage.setAttribute("src", imageSrc);
-    $productBrand.innerText = data.seller.store_name;
-    $productName.innerText = data.name;
-    $productAmount.innerText = `${formatNumberWithComma(data.price)}`;
-    productAmount = data.price;
-    productDeliveryFee = data.shipping_fee;
-    productStock = data.stock;
-    $productInfo.innerHTML = data.info;
+        createMeta(data);
 
-    if (productDeliveryFee === 0) {
-      $productShoppingMethod.innerText = "무료배송";
-    } else {
-      $productShoppingMethod.innerText = `택배배송 (배송료 ${formatNumberWithComma(
-        productDeliveryFee
-      )}원)`;
-    }
+        const imageSrc = data.image.replace(/^http:/, "https:");
+        $productImage.setAttribute("src",data.image);
+        $productBrand.innerText              = data.seller.store_name;
+        $productName.innerText               = data.name;
+        $productAmount.innerText             = `${formatNumberWithComma(data.price)}`;
+        productAmount                        = data.price;
+        productDeliveryFee                   = data.shipping_fee;
+        productStock                         = data.stock;
+        $productInfo.innerHTML               = data.info;
+        
+        if (productDeliveryFee === 0) {
+            $productShoppingMethod.innerText = "무료배송";
+        }
+        else {
+            $productShoppingMethod.innerText = `택배배송 (배송료 ${formatNumberWithComma(productDeliveryFee)}원)`;
+        }
 
-    if (userRole === "SELLER") {
-      $btnAdd.disabled = true;
-      $btnDec.disabled = true;
-      $btnBuy.disabled = true;
-      $btnCart.disabled = true;
-    } else if (productStock === 0) {
-      $btnAdd.disabled = true;
-      $productTotAmount.innerText = 0;
-      $productImageSoldout.classList.add("product-image-soldout-active");
-      $btnBuy.disabled = true;
-      $btnCart.disabled = true;
-    } else {
-      $productQuantity.value = 1;
-      $productTotQuantity.innerText = 1;
-      $productTotAmount.innerText = formatNumberWithComma(
-        productAmount + productDeliveryFee
-      );
-      $btnBuy.disabled = false;
-      $btnCart.disabled = false;
+        if (userRole === "SELLER") {
+            $btnAdd.disabled                 = true;
+            $btnDec.disabled                 = true;
+            $btnBuy.disabled                 = true;
+            $btnCart.disabled                = true;
+        }
+        else if (productStock === 0) {
+            $btnAdd.disabled                 = true;
+            $productTotAmount.innerText      = 0;
+            $productImageSoldout.classList.add("product-image-soldout-active");
+            $btnBuy.disabled                 = true;
+            $btnCart.disabled                = true;
+        }
+        else {
+            $productQuantity.value           = 1;
+            $productTotQuantity.innerText    = 1;
+            $productTotAmount.innerText      = formatNumberWithComma(productAmount);
+            $btnBuy.disabled                 = false;
+            $btnCart.disabled                = false;
+        }
+    } catch (err) {
+        // 에러 페이지 이동
+        location.href = "./404.html";
     }
   } catch (err) {
     // 에러 페이지 이동
@@ -151,11 +155,11 @@ $btnDec.addEventListener("click", function (e) {
   // 수량이 1개 이하일 경우, 감소 버튼 비활성화
   validateProductQuantity(productQuantity);
 
+
   // 총 갯수 및 금액 계산
   $productTotQuantity.innerText = formatNumberWithComma(productQuantity);
-  $productTotAmount.innerText = formatNumberWithComma(
-    productQuantity * productAmount + productDeliveryFee
-  );
+  $productTotAmount.innerText = formatNumberWithComma(productQuantity * productAmount);
+
 });
 
 // 수량 증가 버튼 클릭
@@ -175,9 +179,8 @@ $btnAdd.addEventListener("click", function (e) {
 
   // 총 갯수 및 금액 계산
   $productTotQuantity.innerText = formatNumberWithComma(productQuantity);
-  $productTotAmount.innerText = formatNumberWithComma(
-    productQuantity * productAmount + productDeliveryFee
-  );
+  $productTotAmount.innerText   = formatNumberWithComma(productQuantity * productAmount);
+
 });
 
 // 바로 구매 버튼 클릭
@@ -193,16 +196,15 @@ $btnBuy.addEventListener("click", function (e) {
 });
 
 // 장바구니 버튼 클릭
-$btnCart.addEventListener("click", function (e) {
-  if (!isLoggedIn) {
-    let modalNotice = "로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?";
-    showModal(e, modalNotice, callbackLoginModal);
-    return;
-  }
+$btnCart.addEventListener("click", function(e) {
+    if(!isLoggedIn) {
+        let modalNotice = "로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?";
+        showModal(e, modalNotice, callbackLoginModal);
+        return;
+    }
 
-  // 장바구니 물건 넣기
-  addCart();
-  // 임시페이지 연결
+    // 장바구니 물건 넣기
+    addCart();
 });
 
 // 탭 버튼 클릭
