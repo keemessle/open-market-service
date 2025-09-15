@@ -26,8 +26,7 @@ async function loadProductList() {
           <a href="product-detail.html?id=${product.id}">
               <div class="product-img">
                 <img 
-                  
-                  src="${product.image}"
+                  src="${product.image.replace(/^http:/, "https:")}"
                   alt="${product.name}" 
                   loading="lazy"
                   onerror="this.src='./assets/images/product-default.png'"
