@@ -4,6 +4,48 @@
   <img alt="호두샵 썸네일" src="https://github.com/user-attachments/assets/12e3fd35-b6a6-4822-a2ed-d1eee870d155" />
 </a>
 
+## 📑 목차
+
+1. [프로젝트 개요](#프로젝트-개요)  
+   - [목표](#목표)  
+   - [기술 스택](#기술-스택)  
+   - [팀 구성 및 역할](#팀-구성-및-역할)  
+
+2. [API 및 배포 환경](#api-및-배포-환경)  
+   - [배포 주소](#배포-주소)  
+   - [테스트 계정](#테스트-계정)  
+   - [API 기본 정보](#api-기본-정보)  
+
+3. [디렉토리 구조](#디렉토리-구조)  
+   - [프로젝트 폴더 구조](#디렉토리-구조)  
+   - [페이지 구조](#페이지-구조)  
+
+4. [요구사항 및 기능 명세](#요구사항-및-기능-명세)  
+
+5. [주요 기능 요약](#주요-기능-요약)  
+   - [인증/회원](#인증회원)  
+   - [상품/구매 플로우](#상품구매-플로우)  
+   - [판매자 기능](#판매자-기능)  
+   - [공용 UIUX](#공용-uiux)  
+   - [접근성/성능](#접근성-성능)  
+
+6. [에러와 에러 해결](#에러와-에러-해결)
+   - [글로벌 내비게이션바(GNB)](#글로벌-내비게이션바-gnb)  
+     - [로그인 상태별 액션 처리](#로그인-상태별-액션-처리)  
+     - [마이페이지 드롭다운 위치 조절](#마이페이지-드롭박스-위치-조절)  
+   - [판매자 센터](#판매자-센터)  
+     - [스크롤바 영역 문제](#스크롤바-영역-문제)  
+
+7. [프로젝트 회고 (한줄평)](#프로젝트-회고-한줄평)  
+
+8. [라이선스](#라이선스)  
+
+<br>
+
+
+## 1. 프로젝트 개요
+
+### 목표
 팀 프로젝트로 구현한 오픈마켓 서비스의 프론트엔드 레포지토리입니다. <br>
 순수 HTML/CSS/JavaScript로 멀티 페이지 구조(MPA)로 제작했으며, <br>
 공용 컴포넌트(`header`, `footer`, `modal`)와 페이지별 스크립트를 분리하여 유지보수성을 높였습니다. <br>
@@ -11,15 +53,61 @@
 
 <br>
 
+### 기술 스택
+
+- ![](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white) ![](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white)
+  - 모듈화된 공통 스타일: `reset.css`, `variables.css`, `main.css`
+- ![](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white)
+- REST API 연동: `https://api.wenivops.co.kr/services/open-market`
+
+<br>
+
 ### 팀 구성 및 역할
 
-#### 일억조 💸
+- **팀명: 일억조 💸**
 
 |      이름      |                    역할                                               |
 |  -----------  |  -----------------------------------------------------------------   | 
 |      예슬      |  로그인, 회원가입 + 판매자 상품 등록 기능 및 UI 구현                            |
 |      여훈      |  상품 상세 페이지 + 모달창 + 장바구니 기능 및 UI 구현                           |
 |      민주      |  메인 페이지(상품 목록), GNB(Header) + 판매자 대시보드 기능 및 UI, 공통 CSS 작업  |
+
+<br>
+
+## 2. API 및 배포 환경 정보
+
+### 배포 주소:
+### 테스트 계정
+  ```markdown
+    id: ahundredmillion1(구매자), ahundredmillion2(판매자)
+    pw: weniv1234
+  ```
+### API 기본 정보
+  - Base URL: `https://api.wenivops.co.kr/services/open-market`
+  - 주요 엔드포인트 예시
+    - `GET /products` 목록, `GET /products/{id}` 상세
+    - `POST /cart/` 담기, `GET /cart/` 조회, `DELETE /cart/{id}/` 삭제
+    - `POST /accounts/login/` 로그인, `POST /accounts/{buyer|seller}/signup/` 회원가입
+    - `POST /accounts/validate-username/` 아이디 중복 확인, `POST /accounts/seller/validate-registration-number/` 사업자등록번호 검증
+
+<br>
+
+## 3. 디렉토리 구조
+
+### 프로젝트 폴더 구조
+
+```text
+📦open-market-service
+ ┣ 📂assets ➡️ 정적 리소스(폰트, 이미지)
+ ┣ 📂src
+ ┃ ┣ 📂components ➡️ 공용 컴포넌트(header, footer, modal)
+ ┃ ┣ 📂pages ➡️ 페이지별 CSS/JS
+ ┃ ┣ 📂services ➡️ 세션 및 인증 유틸(UserSession)
+ ┃ ┗ 📂styles ➡️ 공통 CSS(reset, variable, main)
+ ┣ 📜*.html ➡️ 라우트별 정적 페이지
+ ┣ 📜.gitignore
+ ┗ 📜README.md
+```
 
 <br>
 
@@ -37,7 +125,7 @@
 
 <br>
 
-### 요구사항 및 기능 명세
+## 4. 요구사항 및 기능 명세
 
 ```mermaid
 stateDiagram-v2
@@ -82,33 +170,7 @@ stateDiagram-v2
 ```
 <br>
 
-### 기술 스택
-
-- ![](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white) ![](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white)
-  - 모듈화된 공통 스타일: `reset.css`, `variables.css`, `main.css`
-- ![](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white)
-- REST API 연동: `https://api.wenivops.co.kr/services/open-market`
-
-<br>
-
-### 디렉토리 구조
-
-```text
-📦open-market-service
- ┣ 📂assets ➡️ 정적 리소스(폰트, 이미지)
- ┣ 📂src
- ┃ ┣ 📂components ➡️ 공용 컴포넌트(header, footer, modal)
- ┃ ┣ 📂pages ➡️ 페이지별 CSS/JS
- ┃ ┣ 📂services ➡️ 세션 및 인증 유틸(UserSession)
- ┃ ┗ 📂styles ➡️ 공통 CSS(reset, variable, main)
- ┣ 📜*.html ➡️ 라우트별 정적 페이지
- ┣ 📜.gitignore
- ┗ 📜README.md
-```
-
-<br>
-
-## 주요 기능 요약
+## 5. 주요 기능 요약
 
 - **인증/회원**
 
@@ -132,33 +194,14 @@ stateDiagram-v2
   - 모달(`src/components/modal.js` + `modal.html`): 모달 템플릿 지연 로드, 외부/ESC/버튼 이벤트 처리, 콜백 실행 지원
   - 푸터(`src/components/footer.js`): 공용 푸터 로드
 
-<br>
-
-### API 기본 정보
-
-- Base URL: `https://api.wenivops.co.kr/services/open-market`
-- 주요 엔드포인트 예시
-  - `GET /products` 목록, `GET /products/{id}` 상세
-  - `POST /cart/` 담기, `GET /cart/` 조회, `DELETE /cart/{id}/` 삭제
-  - `POST /accounts/login/` 로그인, `POST /accounts/{buyer|seller}/signup/` 회원가입
-  - `POST /accounts/validate-username/` 아이디 중복 확인, `POST /accounts/seller/validate-registration-number/` 사업자등록번호 검증
+- **접근성/성능**
+  - 이미지 `loading="lazy"` 적용, `onerror`로 대체 이미지 처리
+  - 배너 스와이퍼는 클론 슬라이드로 루프 구현 및 리사이즈 시 트랜지션 비활성 처리로 깜빡임 최소화
+  - 키보드 ESC/외부 클릭으로 모달 닫힘 지원, 스크린 리더 대체 텍스트 제공
 
 <br>
 
-### 인증/권한 테스트 팁
-
-- 판매자 전용 페이지(`make-product.html`, `seller-center.html`)는 로그인 및 역할 검사를 통과해야 접근 가능합니다.
-- 비로그인 사용자가 장바구니 또는 구매 액션을 시도하면 모달로 로그인 유도 후 로그인 페이지로 이동합니다.
-
-### 접근성/성능 고려 사항
-
-- 이미지 `loading="lazy"` 적용, `onerror`로 대체 이미지 처리
-- 배너 스와이퍼는 클론 슬라이드로 루프 구현 및 리사이즈 시 트랜지션 비활성 처리로 깜빡임 최소화
-- 키보드 ESC/외부 클릭으로 모달 닫힘 지원, 스크린 리더 대체 텍스트 제공
-
-<br>
-
-## 에러와 에러 해결
+## 6. 에러와 에러 해결
 
 ### 1. 글로벌 내비게이션바 (GNB)
 
@@ -265,7 +308,7 @@ window.addEventListener("resize", () => {
 
 <br> 
 
-## 프로젝트 회고 (한줄평)
+## 8. 프로젝트 회고 (한줄평)
 - 민주
   - 신경 쓸 게 너무 많다..
   - 분업시 공통 요소를 관리하기 어렵다..
@@ -274,7 +317,7 @@ window.addEventListener("resize", () => {
 
 <br>
 
-### 라이선스
+## 9. 라이선스
 
 이 레포지토리는 교육 목적의 팀 프로젝트 결과물로, 별도의 라이선스를 명시하지 않았습니다. 학습 및 포트폴리오 용도로 활용 가능합니다.
 
