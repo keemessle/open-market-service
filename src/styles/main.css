@@ -1,54 +1,3 @@
-/* font-face */
-/* Thin */
-@font-face {
-  font-family: "SpoqaHanSansNeo";
-  src: url("../../assets/fonts/SpoqaHanSansNeo-Thin.woff2") format("woff2"),
-    url("../../assets/fonts/SpoqaHanSansNeo-Thin.woff") format("woff");
-  font-weight: 100;
-  font-style: normal;
-  ascent-override: 100%;
-}
-
-/* Light */
-@font-face {
-  font-family: "SpoqaHanSansNeo";
-  src: url("../../assets/fonts/SpoqaHanSansNeo-Light.woff2") format("woff2"),
-    url("../../assets/fonts/SpoqaHanSansNeo-Light.woff") format("woff");
-  font-weight: 300;
-  font-style: normal;
-  ascent-override: 100%;
-}
-
-/* Regular */
-@font-face {
-  font-family: "SpoqaHanSansNeo";
-  src: url("../../assets/fonts/SpoqaHanSansNeo-Regular.woff2") format("woff2"),
-    url("../../assets/fonts/SpoqaHanSansNeo-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-  ascent-override: 100%;
-}
-
-/* Medium */
-@font-face {
-  font-family: "SpoqaHanSansNeo";
-  src: url("../../assets/fonts/SpoqaHanSansNeo-Medium.woff2") format("woff2"),
-    url("../../assets/fonts/SpoqaHanSansNeo-Medium.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  ascent-override: 100%;
-}
-
-/* Bold */
-@font-face {
-  font-family: "SpoqaHanSansNeo";
-  src: url("../../assets/fonts/SpoqaHanSansNeo-Bold.woff2") format("woff2"),
-    url("../../assets/fonts/SpoqaHanSansNeo-Bold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-  ascent-override: 100%;
-}
-
 /* 로드시 fadeIn 애니메이션 */
 @keyframes fadeIn {
   from {
@@ -71,9 +20,6 @@ html {
 }
 
 body {
-  font-family: "SpoqaHanSansNeo", system-ui, -apple-system, sans-serif;
-  font-weight: 400;
-
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
