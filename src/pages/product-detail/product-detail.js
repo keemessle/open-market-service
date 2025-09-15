@@ -58,7 +58,8 @@ async function getProductDetail() {
     const data = await res.json();
     createMeta(data);
 
-    $productImage.setAttribute("src", data.image);
+    const imageSrc = data.image.replace(/^http:/, "https:");
+    $productImage.setAttribute("src", imageSrc);
     $productBrand.innerText = data.seller.store_name;
     $productName.innerText = data.name;
     $productAmount.innerText = `${formatNumberWithComma(data.price)}`;
@@ -324,7 +325,7 @@ function createMeta(product) {
     />
     <meta
         property="og:image"
-        content="${product.image}"
+        content="${product.image.replace(/^http:/, "https:")}"
     />
 
     <meta
