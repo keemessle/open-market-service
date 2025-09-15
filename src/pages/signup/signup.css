@@ -356,7 +356,6 @@ strong {
 
 .biz-input-wrap {
   display: flex;
-  flex-wrap: wrap;
   gap: 1.2rem;
 }
 
@@ -477,6 +476,10 @@ strong {
   .phone-wrap {
     display: flex;
     gap: 0.8rem;
+  }
+
+  .biz-input-wrap {
+    flex-wrap: wrap;
   }
 
   .biz-check-btn {
