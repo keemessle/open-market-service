@@ -1,28 +1,15 @@
-/* header */
-header {
-  display: flex;
-  gap: 16px;
-  padding: 33px 100px;
-}
-
-.header-logo {
-  width: 80px;
-}
-
-h1 {
-  font-size: var(--fs-3xl);
-  font-weight: 500; /* font 적용 공통 스타일? */
-}
-
 /* main */
 main {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
+  display: flex;
+  gap: 80px;
+  margin: 0 100px 0;
 }
 
 /* 왼쪽 section */
 .side {
-  margin: 44px 100px;
+  box-sizing: border-box;
+  flex: 0 0 320px;
+  margin-top: 44px;
 }
 
 h2 {
@@ -38,9 +25,8 @@ h3 {
 }
 
 .notice-list ul {
-  display: inline-block;
+  display: block;
   width: 320px;
-  height: 346px;
   padding: 20px;
   background-color: #ffefe8;
   border-radius: 5px;
@@ -60,7 +46,8 @@ h3 {
 
 /* 오른쪽 section */
 .content {
-  margin: 130px 100px 136px 0;
+  margin: 130px 0;
+  flex: 1 1 0;
 }
 
 /* 공통 */

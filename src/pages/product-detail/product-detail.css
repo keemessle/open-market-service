@@ -1,11 +1,3 @@
-@font-face {
-  font-family: "SpokaHanSansNeo";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff")
-    format("woff");
-  font-weight: normal;
-  font-display: swap;
-}
-
 /* 기본 속성 끝 */
 
 .hide {
