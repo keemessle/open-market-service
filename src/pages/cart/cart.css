@@ -7,7 +7,7 @@
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .hidden {
@@ -368,17 +368,18 @@ section.cart-summary dl dd .cart-summary-tot-amount {
 section.cart-empty {
     text-align: center;
     padding: 80px 20px;
-    color: var(--gray-dark);
 }
 
 section.cart-empty p {
-    font-size: var(--fs-xl);
-    margin-bottom: 12px;
+    font-size: var(--fs-lg);
+    font-weight: bold;
+    margin-bottom: 17px;
 }
 
 section.cart-empty small {
-    font-size: var(--fs-md);
+    font-size: var(--fs-sm);
     display: inline;
+    color: var(--gray-dark);
 }
 
 /* 빈 장바구니 끝*/

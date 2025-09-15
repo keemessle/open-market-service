@@ -17,16 +17,19 @@ let accessToken;
 /* 공통 영역 끝 */
 
 // 변수 선언
-const url                     = new URL(location.href);
 const API_URL                 = "https://api.wenivops.co.kr/services/open-market";
 const CART_API_URL            = `${API_URL}/cart/`;
 
 const $cartListBody           = document.getElementById("cart-list-body");
 const $selectAll              = document.getElementById("select-all");
+
+const $cartSummary            = document.getElementById("cart-summary");
 const $cartTotProductAmount   = document.getElementById("cart-tot-product-amount");
 const $cartTotProductDiscount = document.getElementById("cart-tot-product-discount");
 const $cartTotMethodAmount    = document.getElementById("cart-tot-method-amount");
 const $cartTotAmount          = document.getElementById("cart-tot-amount");
+
+const $cartEmpty              = document.getElementById("cart-empty");
 
 let cartTotProductAmount      = 0;
 let cartTotProductDiscount    = 0;
@@ -56,6 +59,14 @@ async function getCartList() {
 
         if (!res.ok) throw new Error('오류 발생!', res.status);
         const data = await res.json();
+
+        if (data.count === 0) {
+            isCartEmpty(true);
+            return;
+        }
+        else {
+            isCartEmpty(false);
+        }
 
         createCartList(data["results"]);
         
@@ -407,6 +418,13 @@ function createCartList(results) {
             }
 
             calTotAmount();
+
+            if($cartListBody.querySelectorAll("tr[data-cart-item-id]").length === 0) {
+                isCartEmpty(true);
+            }
+            else {
+                isCartEmpty(false);
+            }
         })
 
         if (data.product.stock === 0) {
@@ -541,6 +559,23 @@ function calTotAmount() {
     //$cartTotProductDiscount    
     $cartTotMethodAmount.innerText   = formatNumberWithComma(cartTotMethodAmount);
     $cartTotAmount.innerText         = formatNumberWithComma(cartTotAmount);
+}
+
+/**
+ * 장바구니 목록 숨김 처리
+ * @param {Boolean} empty 장바구니에 상품이 있으면 true, 없으면 false
+ */
+function isCartEmpty(empty) {
+    if (empty) {
+        $cartListBody.classList.add("hide");
+        $cartSummary.classList.add("hide");
+        $cartEmpty.classList.remove("hide");
+    }
+    else {
+        $cartListBody.classList.remove("hide");
+        $cartSummary.classList.remove("hide");
+        $cartEmpty.classList.add("hide");
+    }
 }
 
 // 공통 함수

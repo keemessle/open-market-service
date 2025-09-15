@@ -11,7 +11,7 @@ export async function loadProductList(keyword=null) {
   $productList.className = "list-product";
 
   // 초기화
-  $sectionList.innerHTML = '';
+  $sectionList.querySelectorAll('ul').forEach(ul => ul.remove());
 
   // fetch
   try {
