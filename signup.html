@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>회원가입</title>
+    <title>회원가입 | 호두샵</title>
+    <link
+      rel="shortcut icon"
+      href="./assets/images/favicon.svg"
+      type="image/x-icon"
+    />
     <link rel="stylesheet" href="./src/styles/reset.css" />
     <link rel="stylesheet" href="./src/styles/variables.css" />
     <link rel="stylesheet" href="./src/pages/signup/signup.css" />
@@ -99,7 +104,7 @@
 
             <!-- 휴대폰번호 -->
             <fieldset class="form-group phone-num">
-              <legend>휴대폰번호</legend>
+              <legend>핸드폰번호</legend>
               <div class="phone-wrap">
                 <label for="phone1" class="sr-only">통신사 앞자리</label>
                 <select name="phone1" id="phone1">
@@ -107,7 +112,6 @@
                   <option value="011">011</option>
                   <option value="016">016</option>
                   <option value="017">017</option>
-                  <option value="070">070</option>
                 </select>
 
                 <label for="phone2" class="sr-only">중간번호</label>
@@ -150,7 +154,7 @@
               <!-- 스토어 이름 -->
               <fieldset class="form-group store-name">
                 <label for="store-name">스토어 이름</label>
-                <input type="text" id="store-name" name="shop-name" />
+                <input type="text" id="store-name" name="store-name" />
                 <p class="message" aria-live="polite"></p>
               </fieldset>
             </div>
