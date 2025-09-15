@@ -88,7 +88,7 @@ async function getProductDetail() {
         else {
             $productQuantity.value           = 1;
             $productTotQuantity.innerText    = 1;
-            $productTotAmount.innerText      = formatNumberWithComma(productAmount + productDeliveryFee);
+            $productTotAmount.innerText      = formatNumberWithComma(productAmount);
             $btnBuy.disabled                 = false;
             $btnCart.disabled                = false;
         }
@@ -149,7 +149,7 @@ $btnDec.addEventListener("click", function(e) {
 
     // 총 갯수 및 금액 계산
     $productTotQuantity.innerText = formatNumberWithComma(productQuantity);
-    $productTotAmount.innerText = formatNumberWithComma(productQuantity * productAmount + productDeliveryFee);
+    $productTotAmount.innerText = formatNumberWithComma(productQuantity * productAmount);
 });
 
 // 수량 증가 버튼 클릭
@@ -170,7 +170,7 @@ $btnAdd.addEventListener("click", function(e) {
 
     // 총 갯수 및 금액 계산
     $productTotQuantity.innerText = formatNumberWithComma(productQuantity);
-    $productTotAmount.innerText   = formatNumberWithComma(productQuantity * productAmount + productDeliveryFee);
+    $productTotAmount.innerText   = formatNumberWithComma(productQuantity * productAmount);
 });
 
 // 바로 구매 버튼 클릭
@@ -195,8 +195,6 @@ $btnCart.addEventListener("click", function(e) {
 
     // 장바구니 물건 넣기
     addCart();
-    // 임시페이지 연결
-    
 });
 
 // 탭 버튼 클릭
