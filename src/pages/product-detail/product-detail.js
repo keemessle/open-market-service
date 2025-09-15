@@ -247,7 +247,7 @@ function validateProductQuantity(quantity) {
  *
  */
 function callbackLoginModal() {
-    window.location.href = "../../../login.html";
+    window.location.href = "../../login.html";
 }
 
 /**
