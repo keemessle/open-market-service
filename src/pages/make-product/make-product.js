@@ -15,6 +15,7 @@ const $upload = document.querySelector(".upload");
 const $preview = document.querySelector(".img-preview");
 const $count = document.querySelector(".count");
 
+// ================== 인증 및 권한 체크 ==================
 const loginSession = new UserSession();
 
 if (!loginSession.isAuthed() || !loginSession.isSeller()) {
@@ -22,7 +23,7 @@ if (!loginSession.isAuthed() || !loginSession.isSeller()) {
   history.back();
 }
 
-// 유효성 검사
+// ================== 유효성 검사 함수 ==================
 function validateFields() {
   if (!$name.value.trim()) {
     alert("상품명을 입력해 주세요.");
@@ -85,6 +86,7 @@ function validateFields() {
   return true;
 }
 
+// ================== 상품 등록 API 호출 ==================
 async function updateProduct(formData) {
   const url = `${loginSession.baseUrl}/products/`;
 
@@ -107,9 +109,11 @@ async function updateProduct(formData) {
   }
 }
 
-// 이벤트
-// 상품 이미지
+// ================== 이벤트 리스너 ==================
+// 상품 이미지 업로드 버튼 클릭 시 실제 파일 input 클릭
 $upload.addEventListener("click", () => $realUpload.click());
+
+// 이미지 파일 선택 시 미리보기 표시
 $realUpload.addEventListener("change", () => {
   console.log($realUpload.files[0]);
 
@@ -118,17 +122,16 @@ $realUpload.addEventListener("change", () => {
   $preview.style.cssText = "width: 100%; height: 100%; border-radius: 0;";
 });
 
-// 상품명 글자 수
+// 상품명 글자 수 카운트
 $name.addEventListener("input", (e) => {
   $count.textContent = e.target.value.length;
 });
 
-// 모든 input[type="number"]에 toLocalString() 적용
+// 숫자 입력란
 document.querySelectorAll("input.num").forEach((input) => {
   input.addEventListener("input", (e) => {
-    const value = e.target.value.replace(/[^0-9]/g, ""); // 기존 콤마 제거
+    const value = e.target.value.replace(/[^0-9]/g, "");
     if (!value) {
-      // 숫자값이 아닌 경우, 빈 값으로 만들기
       e.target.value = "";
       return;
     }
@@ -138,7 +141,7 @@ document.querySelectorAll("input.num").forEach((input) => {
   });
 });
 
-// 제출
+// ================== 폼 제출(상품 등록) ==================
 $form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!validateFields()) return;
@@ -166,6 +169,7 @@ $form.addEventListener("submit", async (e) => {
   }
 });
 
+// ================== 헤더 생성 ==================
 window.addEventListener("DOMContentLoaded", () => {
   createHeader();
 });

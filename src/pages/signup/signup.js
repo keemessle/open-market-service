@@ -1,5 +1,5 @@
-// ================== DOM ==================
 const BASE_URL = "https://api.wenivops.co.kr/services/open-market";
+// ================== DOM ==================
 const $menuItems = document.querySelectorAll(".menu-item");
 const $signupForm = document.getElementById("signup-form");
 
@@ -22,10 +22,13 @@ const $signupBtn = document.querySelector(".signup-btn");
 const $agreeBox = document.getElementById("agree-box");
 
 // ================== 상태 관리 ==================
-let currentRole = "BUYER";
+let currentRole = "BUYER"; // 현재 회원가입 유형
+
+// 중복확인 상태 변수
 let isIdChecked = false;
 let validatedId = null;
 
+// 인증 상태 변수
 let isBizChecked = false;
 let validatedBiz = null;
 
@@ -41,7 +44,7 @@ const BUYER_FIELD_ORDER = [
   $passwordInput,
   $passwordConfirmInput,
   $nameInput,
-  $phone1, // 전화번호는 첫 번째 필드만 체크
+  $phone1,
 ];
 
 const SELLER_FIELD_ORDER = [
@@ -54,7 +57,7 @@ const SELLER_FIELD_ORDER = [
   $storeNameInput,
 ];
 
-// ================== 에러 메시지 상수 ==================
+// ================== 에러 메시지 ==================
 const VALIDATION_ERROR = {
   REQUIRED: "필수 정보입니다.",
   INVALID_ID: "ID는 20자 이내의 영어 대·소문자, 숫자만 가능합니다.",
@@ -75,14 +78,17 @@ const VALIDATION_ERROR = {
 };
 
 // ================== 검증 함수 ==================
+// 비밀번호 유효성 검사
 function isValidPassword(password) {
   return PASSWORD_PATTERN.test(password || "");
 }
 
+// 핸드폰 번호 3칸 모두 입력됐는지 검사
 function isPhoneFilled() {
   return $phone1.value && $phone2.value && $phone3.value;
 }
 
+// 특정 필드가 채워졌는지 검사 (핸드폰은 3칸 모두)
 function isFieldFilled($fieldElement) {
   if (!$fieldElement) return true;
 
@@ -93,29 +99,30 @@ function isFieldFilled($fieldElement) {
   return $fieldElement.value.trim() !== "";
 }
 
+// 현재 회원 유형에 따라 입력 순서 배열 반환
 function getCurrentFieldOrder() {
   return currentRole === "SELLER" ? SELLER_FIELD_ORDER : BUYER_FIELD_ORDER;
 }
 
+// 현재 필드 이전 필드들이 모두 입력됐는지 검사
 function checkPreviousFields($currentField) {
   const fieldOrder = getCurrentFieldOrder();
   const currentFieldIndex = fieldOrder.indexOf($currentField);
 
-  if (currentFieldIndex === -1) return true; // 현재 필드가 순서에 없으면 통과
+  if (currentFieldIndex === -1) return true;
 
   let allPrevFilled = true;
-  // 현재 필드보다 앞선 필드들 확인
   for (let i = 0; i < currentFieldIndex; i++) {
     const $previousField = fieldOrder[i];
     if (!isFieldFilled($previousField)) {
-      // 비어있는 이전 필드에 오류 메시지 표시
       showMessage($previousField, VALIDATION_ERROR.REQUIRED);
-      allPrevFilled = false; // return하지 않고 계속 진행
+      allPrevFilled = false;
     }
   }
   return allPrevFilled;
 }
 
+// 모든 입력/메시지 초기화
 function clearAll() {
   document.querySelectorAll(".form-group .message").forEach(($msg) => {
     $msg.textContent = "";
@@ -132,12 +139,12 @@ function clearAll() {
   updateCheckIcon(".recheck-img", false);
 }
 
+// 판매자 전용 입력란 표시/숨김
 function toggleSellerSection() {
   const show = currentRole === "SELLER";
   if ($sellerBox) $sellerBox.hidden = !show;
 
   if (!show) {
-    // BUYER로 전환 시 SELLER 상태/값 리셋
     isBizChecked = false;
     validatedBiz = null;
     if ($bizNumberInput) $bizNumberInput.value = "";
@@ -148,6 +155,7 @@ function toggleSellerSection() {
 }
 
 // ================== 버튼 활성화 ==================
+// 모든 입력값이 유효할 때만 가입 버튼 활성화
 function updateFormValidation() {
   const username = $idInput.value.trim();
   const pw = $passwordInput.value;
@@ -187,6 +195,7 @@ function updateFormValidation() {
 }
 
 // ================== 서버 통신 ==================
+// 아이디 중복 확인
 async function checkDuplicateId() {
   const username = $idInput.value.trim();
 
@@ -200,7 +209,6 @@ async function checkDuplicateId() {
 
   if (!USERNAME_PATTERN.test(username)) {
     showMessage($idInput, VALIDATION_ERROR.INVALID_ID);
-    $idInput.classList.add("input-error");
     isIdChecked = false;
     validatedId = null;
     updateFormValidation();
@@ -218,19 +226,15 @@ async function checkDuplicateId() {
     const data = await res.json();
 
     if (res.ok) {
-      // 200
       showMessage(
         $idInput,
         data.message || VALIDATION_ERROR.ID_AVAILABLE,
         "success"
       );
-      $idInput.classList.remove("input-error");
       isIdChecked = true;
       validatedId = username;
-      // console.log(isIdChecked, validatedId); // 확인
     } else {
       showMessage($idInput, data.error || VALIDATION_ERROR.ID_DUPLICATE);
-      $idInput.classList.add("input-error");
       isIdChecked = false;
       validatedId = null;
     }
@@ -244,6 +248,7 @@ async function checkDuplicateId() {
   }
 }
 
+// 사업자등록번호 인증
 async function checkBizNumber() {
   const bizNum = ($bizNumberInput?.value || "").trim();
 
@@ -256,7 +261,6 @@ async function checkBizNumber() {
   }
   if (!BIZ_NUMBER_PATTERN.test(bizNum)) {
     showMessage($bizNumberInput, VALIDATION_ERROR.INVALID_BIZ);
-    $bizNumberInput.classList.add("input-error");
     isBizChecked = false;
     validatedBiz = null;
     updateFormValidation();
@@ -275,13 +279,11 @@ async function checkBizNumber() {
     const data = await res.json();
 
     if (res.ok) {
-      // 200
       showMessage(
         $bizNumberInput,
         data.message || VALIDATION_ERROR.BIZ_AVAILABLE,
         "success"
       );
-      $bizNumberInput.classList.remove("input-error");
       isBizChecked = true;
       validatedBiz = bizNum;
     } else {
@@ -291,7 +293,6 @@ async function checkBizNumber() {
           ? VALIDATION_ERROR.BIZ_DUPLICATE
           : VALIDATION_ERROR.BIZ_NEED_AUTH);
       showMessage($bizNumberInput, errMsg);
-      $bizNumberInput.classList.add("input-error");
       isBizChecked = false;
       validatedBiz = null;
     }
@@ -305,6 +306,7 @@ async function checkBizNumber() {
   }
 }
 
+// 회원가입 요청
 async function createAccount(userData) {
   const url = `${BASE_URL}/accounts/${currentRole.toLowerCase()}/signup/`;
   const res = await fetch(url, {
@@ -328,7 +330,13 @@ async function createAccount(userData) {
 }
 
 // ================== 공통 유틸 함수 ==================
+// 메시지 출력 및 input-error 처리
 function showMessage($input, message, type = "error") {
+  // $input이 배열이면 각각 처리
+  if (Array.isArray($input)) {
+    $input.forEach((el) => showMessage(el, message, type));
+    return;
+  }
   if (!$input) return;
   const $msg = $input.closest(".form-group")?.querySelector(".message");
   if (!$msg) return;
@@ -349,10 +357,12 @@ function showMessage($input, message, type = "error") {
   }
 }
 
+// 메시지 및 input-error 제거
 function clearMessage($input) {
   showMessage($input, "");
 }
 
+// 체크 아이콘 on/off 변경
 function updateCheckIcon(selector, isActive) {
   const icon = document.querySelector(selector);
 
@@ -362,6 +372,7 @@ function updateCheckIcon(selector, isActive) {
   }
 }
 
+// 이름/스토어명 입력 처리
 function handleNameInput($input) {
   checkPreviousFields($input);
 
@@ -374,7 +385,7 @@ function handleNameInput($input) {
 }
 
 // ================== 이벤트 리스너 ==================
-// 탭 전환
+// 탭(구매/판매) 전환
 $menuItems.forEach((menuItem) => {
   menuItem.addEventListener("click", () => {
     const btn = menuItem.querySelector("button[data-role]");
@@ -393,6 +404,7 @@ $menuItems.forEach((menuItem) => {
   });
 });
 
+// form 전체 input 이벤트 위임 (실시간 검증)
 $signupForm.addEventListener("input", (e) => {
   const $el = e.target;
 
@@ -408,14 +420,11 @@ $signupForm.addEventListener("input", (e) => {
       isIdChecked = false;
       validatedId = null;
       showMessage($idInput, VALIDATION_ERROR.INVALID_ID);
-      $idInput.classList.add("input-error");
     } else if (username !== validatedId) {
       isIdChecked = false;
       showMessage($idInput, VALIDATION_ERROR.ID_NEED_CHECK);
-      $idInput.classList.remove("input-error");
     } else {
       showMessage($idInput, VALIDATION_ERROR.ID_AVAILABLE, "success");
-      $idInput.classList.remove("input-error");
     }
 
     updateFormValidation();
@@ -438,11 +447,11 @@ $signupForm.addEventListener("input", (e) => {
       showMessage($passwordInput, VALIDATION_ERROR.REQUIRED);
     } else if (!isValidPassword(password)) {
       showMessage($passwordInput, VALIDATION_ERROR.INVALID_PASSWORD);
-      $passwordInput.classList.add("input-error");
     } else {
       clearMessage($passwordInput);
     }
 
+    // 비밀번호 재확인 값이 있으면 즉시 검증
     if (passwordConfirm) {
       updateCheckIcon(".recheck-img", isPasswordMatch);
 
@@ -452,16 +461,13 @@ $signupForm.addEventListener("input", (e) => {
           VALIDATION_ERROR.PASSWORD_MATCH,
           "success"
         );
-        $passwordConfirmInput.classList.remove("input-error");
       } else {
         showMessage(
           $passwordConfirmInput,
           VALIDATION_ERROR.INVALID_PASSWORD_CONFIRM
         );
-        $passwordConfirmInput.classList.add("input-error");
       }
     } else {
-      // 재확인 input이 비어있으면 메시지/에러 제거
       clearMessage($passwordConfirmInput);
       updateCheckIcon(".recheck-img", false);
     }
@@ -469,7 +475,7 @@ $signupForm.addEventListener("input", (e) => {
     updateFormValidation();
   }
 
-  // 비밀번호 재확인
+  // 비밀번호 확인 입력
   else if ($el === $passwordConfirmInput) {
     checkPreviousFields($passwordConfirmInput);
 
@@ -490,46 +496,38 @@ $signupForm.addEventListener("input", (e) => {
         VALIDATION_ERROR.PASSWORD_MATCH,
         "success"
       );
-      $passwordConfirmInput.classList.remove("input-error");
     } else {
       showMessage(
         $passwordConfirmInput,
         VALIDATION_ERROR.INVALID_PASSWORD_CONFIRM
       );
-      $passwordConfirmInput.classList.add("input-error");
     }
 
     updateFormValidation();
   }
 
-  // 이름
+  // 이름 입력
   else if ($el === $nameInput) {
     handleNameInput($nameInput);
   }
 
-  // 핸드폰 번호
+  // 핸드폰 번호 입력
   else if ([$phone1, $phone2, $phone3].includes($el)) {
     checkPreviousFields($phone1);
 
     const phoneNum = `${$phone1.value}${$phone2.value}${$phone3.value}`;
 
     if (!isFieldFilled) {
-      showMessage($phone1, VALIDATION_ERROR.REQUIRED);
+      showMessage([$phone1, $phone2, $phone3], VALIDATION_ERROR.REQUIRED);
     } else if (!PHONE_PATTERN.test(phoneNum)) {
-      showMessage($phone1, VALIDATION_ERROR.INVALID_PHONE);
-      [$phone1, $phone2, $phone3].forEach((el) =>
-        el.classList.add("input-error")
-      );
+      showMessage([$phone1, $phone2, $phone3], VALIDATION_ERROR.INVALID_PHONE);
     } else {
-      showMessage($phone1, "", "success");
-      [$phone1, $phone2, $phone3].forEach((el) =>
-        el.classList.remove("input-error")
-      );
+      showMessage([$phone1, $phone2, $phone3], "", "success");
     }
     updateFormValidation();
   }
 
-  // 사업자 번호
+  // 사업자 번호 입력
   else if ($el === $bizNumberInput) {
     checkPreviousFields($bizNumberInput);
 
@@ -541,34 +539,32 @@ $signupForm.addEventListener("input", (e) => {
       validatedBiz = null;
     } else if (!BIZ_NUMBER_PATTERN.test(bizNum)) {
       showMessage($bizNumberInput, VALIDATION_ERROR.INVALID_BIZ);
-      $bizNumberInput.classList.add("input-error");
       isBizChecked = false;
       validatedBiz = null;
     } else if (bizNum !== validatedBiz) {
       showMessage($bizNumberInput, VALIDATION_ERROR.BIZ_NEED_AUTH);
-      $bizNumberInput.classList.add("input-error");
       isBizChecked = false;
       validatedBiz = null;
     } else {
       showMessage($bizNumberInput, VALIDATION_ERROR.BIZ_NEED_AUTH, "success");
-      $bizNumberInput.classList.remove("input-error");
     }
     updateFormValidation();
   }
 
-  // 스토어 이름
+  // 스토어 이름 입력
   else if ($el === $storeNameInput) {
     handleNameInput($storeNameInput);
   }
 });
 
+// 아이디 중복확인 버튼
 $idCheckBtn.addEventListener("click", checkDuplicateId);
+// 사업자등록번호 인증 버튼
 $bizCheckBtn.addEventListener("click", checkBizNumber);
-
-// 약관 동의
+// 약관 동의 체크박스
 $agreeBox.addEventListener("change", updateFormValidation);
 
-// 제출
+// ================== 폼 제출(회원가입) ==================
 $signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -588,6 +584,7 @@ $signupForm.addEventListener("submit", async (e) => {
     return;
   }
 
+  // 기본 회원가입 데이터 (구매자)
   const userData = {
     username,
     password,
@@ -595,6 +592,7 @@ $signupForm.addEventListener("submit", async (e) => {
     phone_number: phoneNum,
   };
 
+  // 판매자라면 사업자번호/스토어명 추가
   if (currentRole === "SELLER") {
     const bizNum = ($bizNumberInput.value || "").trim();
     const storeName = ($storeNameInput.value || "").trim();
@@ -630,7 +628,8 @@ $signupForm.addEventListener("submit", async (e) => {
   }
 });
 
-// 초기화
+// ================== 초기화 ==================
+// 페이지 로드 시 입력/상태 초기화
 document.addEventListener("DOMContentLoaded", () => {
   toggleSellerSection();
   clearAll();

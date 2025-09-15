@@ -1,19 +1,17 @@
 import { UserSession } from "../../services/UserSession.js";
 
+// ================== DOM ==================
 const $menuItems = document.querySelectorAll(".menu-item");
 const $loginForm = document.getElementById("login-form");
 const $loginBtn = document.querySelector(".login-btn");
 const $loginErr = document.querySelector(".message");
 const $idInput = document.getElementById("user-id");
 const $pwInput = document.getElementById("password");
-let currentRole = "BUYER"; // 기본값 -> 구매자
+let currentRole = "BUYER";
 
 const loginSession = new UserSession();
 
-function showMessage(message) {
-  $loginErr.textContent = message;
-}
-
+// ================== 서버 통신 ==================
 async function login(username, password) {
   const res = await fetch(`${loginSession.baseUrl}/accounts/login/`, {
     method: "POST",
@@ -34,7 +32,12 @@ async function login(username, password) {
   return data;
 }
 
-// Event
+// ================== 공통 유틸 함수 ==================
+function showMessage(message) {
+  $loginErr.textContent = message;
+}
+
+// ================== 이벤트 리스너 ==================
 $menuItems.forEach((menuItem) => {
   menuItem.addEventListener("click", (e) => {
     const btn = menuItem.querySelector("button[data-role]");
