@@ -18,7 +18,7 @@ let accessToken;
 
 // 변수 선언
 const url                    = new URL(location.href);
-const productId              = url.searchParams.get("id") ? url.searchParams.get("id") : 1;
+const productId              = url.searchParams.get("id");
 const API_URL                = "https://api.wenivops.co.kr/services/open-market";
 const DETAIL_API_URL         = `${API_URL}/products/${productId}`
 const CART_API_URL           = `${API_URL}/cart/`
