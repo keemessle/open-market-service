@@ -6,39 +6,39 @@
 
 ## 📑 목차
 
-1. [프로젝트 개요](#프로젝트-개요)  
+1. [프로젝트 개요](#1-프로젝트-개요)  
    - [목표](#목표)  
    - [기술 스택](#기술-스택)  
    - [팀 구성 및 역할](#팀-구성-및-역할)  
 
-2. [API 및 배포 환경](#api-및-배포-환경)  
+2. [API 및 배포 환경](#2-api-및-배포-환경)  
    - [배포 주소](#배포-주소)  
    - [테스트 계정](#테스트-계정)  
    - [API 기본 정보](#api-기본-정보)  
 
-3. [디렉토리 구조](#디렉토리-구조)  
-   - [프로젝트 폴더 구조](#디렉토리-구조)  
+3. [디렉토리 구조](#3-디렉토리-구조)  
+   - [프로젝트 폴더 구조](#프로젝트-폴더-구조)  
    - [페이지 구조](#페이지-구조)  
 
-4. [요구사항 및 기능 명세](#요구사항-및-기능-명세)  
+4. [요구사항 및 기능 명세](#4-요구사항-및-기능-명세)  
 
-5. [주요 기능 요약](#주요-기능-요약)  
+5. [주요 기능 요약](#5-주요-기능-요약)  
    - [인증/회원](#인증회원)  
    - [상품/구매 플로우](#상품구매-플로우)  
    - [판매자 기능](#판매자-기능)  
    - [공용 UIUX](#공용-uiux)  
    - [접근성/성능](#접근성-성능)  
 
-6. [에러와 에러 해결](#에러와-에러-해결)
-   - [글로벌 내비게이션바(GNB)](#글로벌-내비게이션바-gnb)  
-     - [로그인 상태별 액션 처리](#로그인-상태별-액션-처리)  
-     - [마이페이지 드롭다운 위치 조절](#마이페이지-드롭박스-위치-조절)  
-   - [판매자 센터](#판매자-센터)  
-     - [스크롤바 영역 문제](#스크롤바-영역-문제)  
+6. [에러와 에러 해결](#6-에러와-에러-해결)
+   - [글로벌 내비게이션바(GNB)](#1-글로벌-내비게이션바-gnb)  
+     - [로그인 상태별 액션 처리](#1-1-로그인-상태별-액션-처리)  
+     - [마이페이지 드롭다운 위치 조절](#1-2-마이페이지-드롭박스-위치-조절)  
+   - [판매자 센터](#2-판매자-센터)  
+     - [스크롤바 영역 문제](#2-1-스크롤바-영역-문제)  
 
-7. [프로젝트 회고 (한줄평)](#프로젝트-회고-한줄평)  
+7. [프로젝트 회고 (한줄평)](#7-프로젝트-회고-한줄평)  
 
-8. [라이선스](#라이선스)  
+8. [라이선스](#8-라이선스)  
 
 <br>
 
@@ -96,17 +96,68 @@
 
 ### 프로젝트 폴더 구조
 
-```text
-📦open-market-service
- ┣ 📂assets ➡️ 정적 리소스(폰트, 이미지)
- ┣ 📂src
- ┃ ┣ 📂components ➡️ 공용 컴포넌트(header, footer, modal)
- ┃ ┣ 📂pages ➡️ 페이지별 CSS/JS
- ┃ ┣ 📂services ➡️ 세션 및 인증 유틸(UserSession)
- ┃ ┗ 📂styles ➡️ 공통 CSS(reset, variable, main)
- ┣ 📜*.html ➡️ 라우트별 정적 페이지
- ┣ 📜.gitignore
- ┗ 📜README.md
+```
+📂
+├─ 404.html
+├─ cart.html
+├─ index.html
+├─ login.html
+├─ make-product.html
+├─ modal.html
+├─ product-detail.html
+├─ seller-center.html
+├─ signup.html
+│
+├─ assets (정적 리소스 - 폰트, 이미지)
+│   ├─ fonts
+│   └─ images
+│       └─ icons
+│
+└─ src
+    ├─ components (공용 컴포넌트)
+    │   ├─ footer.js
+    │   ├─ header.js
+    │   └─ modal.js
+    │
+    ├─ pages (페이지별 CSS/JS)
+    │   ├─ 404
+    │   │   └─ 404.css
+    │   │
+    │   ├─ cart
+    │   │   ├─ cart.css
+    │   │   └─ cart.js
+    │   │
+    │   ├─ index
+    │   │   ├─ index.css
+    │   │   └─ index.js
+    │   │
+    │   ├─ login
+    │   │   ├─ login.css
+    │   │   └─ login.js
+    │   │
+    │   ├─ make-product
+    │   │   ├─ make-product.css
+    │   │   └─ make-product.js
+    │   │
+    │   ├─ product-detail
+    │   │   ├─ product-detail.css
+    │   │   └─ product-detail.js
+    │   │
+    │   ├─ seller-center
+    │   │   ├─ seller-center.css
+    │   │   └─ seller-center.js
+    │   │
+    │   └─ signup
+    │       ├─ signup.css
+    │       └─ signup.js
+    │
+    ├─ services (세션 및 인증 유틸)
+    │   └─ UserSession.js
+    │
+    └─ styles (공통 CSS)
+        ├─ main.css
+        ├─ reset.css
+        └─ variables.css
 ```
 
 <br>
