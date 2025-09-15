@@ -34,7 +34,9 @@ let cartTotMethodAmount       = 0;
 let cartTotAmount             = 0;
 
 // API 호출
-// 장바구니 목록 호출
+/**
+ * 장바구니 조회 API
+ */
 async function getCartList() {
     if (userRole === "SELLER") {
             return alert("판매자는 이용하실 수 없습니다.");
@@ -62,9 +64,12 @@ async function getCartList() {
     }
 }
 
-// 디테일 필요한가
-
-// 장바구니 수량 수정
+/**
+ * 장바구니 수량 수정 API
+ * @param   {HTMLElement} 현재 row
+ * @param   {Boolean}     수량 증가시 true, 수량 감소시 false
+ * @returns {Boolean}     API 호출 성공 시 true, 실패 시 false 반환
+ */
 async function modifyCart($row, state) {
     const cartItemId           = parseInt($row.dataset.cartItemId);
     const $tempProductQuantity = $row.querySelector("[id^='product-quantity']");            
@@ -101,7 +106,11 @@ async function modifyCart($row, state) {
     }    
 }
 
-// 장바구니 상품 삭제
+/**
+ * 장바구니 상품 삭제 API
+ * @param   {HTMLElement} 현재 row
+ * @returns {Boolean}     API 호출 성공 시 true, 실패 시 false 반환
+ */
 async function deleteCart($row) {
     const cartItemId    = parseInt($row.dataset.cartItemId);
     let cartData        = new Object();    
@@ -132,10 +141,7 @@ async function deleteCart($row) {
     }    
 }
 
-// 전부삭제 필요한가
-
 // 이벤트
-// API 호출
 // 장바구니 전체 조회 API
 window.addEventListener("DOMContentLoaded", getCartList);
 
@@ -478,7 +484,8 @@ function validateProductQuantity(row, quantity, productStock) {
 
 /**
  * 개별 주문하기 버튼 클릭 시, 구매목록을 로컬스토리지에 추가하고, 구매하기 페이지로 이동한다.
- * @param {Number} productId, @param {Number} productQuantity
+ * @param {Number} productId
+ * @param {Number} productQuantity
  */
 function addBuy(productId, productQuantity) {
     // 로컬스토리지 구매목록 초기화
@@ -503,7 +510,7 @@ function addBuy(productId, productQuantity) {
 function calTotAmount() {
     // 계산 값 초기화
     cartTotProductAmount             = 0;
-    // 할인금액 값은 보이지 않아서 우선 제외
+    // 할인금액 값은 차후 적용
     // cartTotProductDiscount = 0;    
     cartTotMethodAmount              = 0;
     cartTotAmount                    = 0;
@@ -516,7 +523,7 @@ function calTotAmount() {
         let rowChkBox                = row.querySelector("input[type='checkbox']")
         if(rowChkBox && rowChkBox.checked) {
             rowTotProductAmount      = onlyNumber(row.querySelector("[id^='product-tot-amount']").value);
-            // 할인금액 값은 보이지 않아서 우선 제외
+            // 할인금액 값은 차후 적용
             // const rowProductDiscount = row.querySelector("[id^='']");
             rowMethodAmount          = onlyNumber(row.querySelector("[id^='product-method-amount']").innerText);
             
@@ -527,7 +534,7 @@ function calTotAmount() {
 
     cartTotAmount                    = cartTotProductAmount - cartTotProductDiscount + cartTotMethodAmount;
     $cartTotProductAmount.innerText  = formatNumberWithComma(cartTotProductAmount);
-    // 할인금액 값은 보이지 않아서 우선 제외
+    // 할인금액 값은 차후 적용
     //$cartTotProductDiscount    
     $cartTotMethodAmount.innerText   = formatNumberWithComma(cartTotMethodAmount);
     $cartTotAmount.innerText         = formatNumberWithComma(cartTotAmount);
