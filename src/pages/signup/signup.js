@@ -607,11 +607,12 @@ $signupForm.addEventListener("submit", async (e) => {
     userData.store_name = storeName;
   }
 
+  console.log(userData);
+
   $signupBtn.disabled = true;
 
   try {
     const result = await createAccount(userData);
-    console.log(result);
     alert("회원가입 완료!");
     setTimeout(() => (location.href = "./login.html"), 800);
   } catch (err) {

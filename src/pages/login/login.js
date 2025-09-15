@@ -88,7 +88,11 @@ $loginForm.addEventListener("submit", async (e) => {
     alert("로그인 성공!");
 
     // 이전 화면으로 돌아가기
-    if (document.referrer && !document.referrer.includes("/login")) {
+    if (
+      document.referrer &&
+      !document.referrer.includes("login.html") &&
+      !document.referrer.includes("signup.html")
+    ) {
       location.replace(document.referrer);
     } else {
       location.replace("./index.html");
