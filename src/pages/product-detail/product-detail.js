@@ -330,7 +330,9 @@ function createMeta(product) {
 
     <meta
         property="og:url"
-        content="${window.location.href}"
+        content="https://keemessle.github.io/open-market-service/product-detail.html?id=${
+          product.id
+        }"
     />
     <meta property="og:site_name" content="호두샵" />
 
