@@ -234,6 +234,8 @@ stateDiagram-v2
 - **인증/회원**
 
   - 로그인(`src/pages/login/login.js`): 역할 탭(구매자/판매자) 선택 후 로그인, 결과의 `user_type` 검증, 성공 시 세션 저장 및 리다이렉트
+    <img width="955" height="425" alt="스크린샷 2025-09-16 오전 11 58 28" src="https://github.com/user-attachments/assets/17b4f9f5-09b5-407b-83f9-8b7fa5846bdf" />
+
   - 회원가입(`src/pages/signup/signup.js`): 아이디 중복확인, 비밀번호 규칙/재확인, 휴대폰 유효성, 약관 동의; 판매자 탭에서 사업자등록번호 인증 및 스토어명 입력 후 가입
   - 세션 관리(`src/services/UserSession.js`): 토큰/유저정보 저장, 만료 검증, 자동 토큰 재발급 및 만료 시 로그아웃 처리
 
