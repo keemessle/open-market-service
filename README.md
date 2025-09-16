@@ -267,7 +267,7 @@ stateDiagram-v2
 
 #### 1-1. 로그인 상태별 액션 처리
 
-- **문제:** 로그인 상태에 따라 액션 리스트와 기능이 달라야 함
+- **문제:** 로그인 상태와 역할에 따라 액션 리스트와 기능이 달라야 함
 
   ![상태별 GNB](https://github.com/user-attachments/assets/abbde7b9-8e1d-4f6a-9abf-93abecf218b9)
 
