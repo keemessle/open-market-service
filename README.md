@@ -87,7 +87,7 @@
   - Base URL: `https://api.wenivops.co.kr/services/open-market`
   - 주요 엔드포인트 예시
     - `GET /products` 목록, `GET /products/{id}` 상세
-    - `POST /cart/` 담기, `GET /cart/` 조회, `DELETE /cart/{id}/` 삭제
+    - `POST /cart/` 담기, `GET /cart/` 조회, `PUT /cart/{id}/` 수정, `DELETE /cart/{id}/` 삭제
     - `POST /accounts/login/` 로그인, `POST /accounts/{buyer|seller}/signup/` 회원가입
     - `POST /accounts/validate-username/` 아이디 중복 확인, `POST /accounts/seller/validate-registration-number/` 사업자등록번호 검증
 
@@ -241,7 +241,7 @@ stateDiagram-v2
 
   - 메인 목록(`src/pages/index/index.js`): 상품 리스트 최신순 렌더링, 이미지 에러 대비, 커스텀 배너 스와이퍼/페이지네이션/반응형 리사이즈 처리
   - 상세 페이지(`src/pages/product-detail/product-detail.js`): 상세 정보/수량 증감/총액 계산/품절 처리/판매자 접근 시 버튼 비활성; 로그인 필요 시 공용 모달로 로그인 유도; 장바구니 담기 API 연동
-  - 장바구니(`src/pages/cart/cart.js`): 서버 장바구니 목록 렌더링, 수량 증감에 따른 합계 업데이트(개별 행), 전체선택/해제, 개별 주문하기, 장바구니 삭제 API 연동
+  - 장바구니(`src/pages/cart/cart.js`): 서버 장바구니 목록 렌더링, 수량 증감에 따른 합계 업데이트, 전체선택/해제, 개별/전체 주문하기, 상품 수량 변경, 장바구니 삭제 API 연동
 
 - **판매자 기능**
 
@@ -249,7 +249,7 @@ stateDiagram-v2
   - 대시보드(`src/pages/seller-center/seller-center.js`): 판매자 이름 기반 상품 목록 조회, 재고 상태 UI, 탭 인터랙션, 삭제 시 공용 모달 사용
 
 - **공용 UI/UX**
-  - 헤더/GNB(`src/components/header.js`): 로그인 상태/역할에 따라 액션 버튼 동적 구성(장바구니/마이페이지/판매자 센터), 비로그인 장바구니 접근 시 모달 안내, 드롭다운 위치 보정
+  - 헤더/GNB(`src/components/header.js`): 로그인 상태/역할에 따라 액션 버튼 동적 구성(장바구니/마이페이지/판매자 센터), 비로그인 장바구니 접근 시 모달 안내, 드롭다운 위치 보정, 상품 검색 기능
   - 모달(`src/components/modal.js` + `modal.html`): 모달 템플릿 지연 로드, 외부/ESC/버튼 이벤트 처리, 콜백 실행 지원
   - 푸터(`src/components/footer.js`): 공용 푸터 로드
 
