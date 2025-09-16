@@ -268,6 +268,8 @@ stateDiagram-v2
 
 - **문제:** 로그인 상태에 따라 액션 리스트와 기능이 달라야 함
 
+  ![상태별 GNB](https://github.com/user-attachments/assets/abbde7b9-8e1d-4f6a-9abf-93abecf218b9)
+
 - **해결:**
   - 상태별 액션 배열 생성 후 조건에 맞게 로드
   - 로그인 상태에 따라 각 기능(장바구니, 마이페이지 드롭다운, 로그아웃, 검색어 초기화)을 나누어 호출
