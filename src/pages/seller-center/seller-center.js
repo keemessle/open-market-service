@@ -4,42 +4,44 @@ import { UserSession } from "../../services/UserSession.js";
 import { showModal } from "../../components/modal.js";
 
 // 로그인 정보
-const loginSession = new UserSession();
+const BASE_URL = "https://api.wenivops.co.kr/services/open-market/";
+const userSession = new UserSession();
+let accessToken;
 
-if (!loginSession.isAuthed() && !loginSession.isSeller()) {
+if (!userSession.isAuthed() && !userSession.isSeller()) {
   window.location.href = "./index.html";
 }
 
-const sellerInfo = JSON.parse(loginSession.storage.omkt_user);
+const sellerInfo = JSON.parse(userSession.storage.omkt_user);
 const sellerName = sellerInfo.name;
 
 // 판매중인 상품
 async function loadeSellerProduct() {
-  const BASE_URL = "https://api.wenivops.co.kr/services/open-market/";
+  try {
+    const response = await fetch(BASE_URL + sellerName + "/products");
+    if (!response.ok) throw new Error(response.status);
+    const data = await response.json();
 
-  const response = await fetch(BASE_URL + sellerName + "/products");
-  if (!response.ok) throw new Error(response.status);
-  const data = await response.json();
+    // DOM
+    const $sellerName = document.getElementById("seller-name");
+    const $listOnsale = document.getElementById("list-onsale");
+    const $countOnsale = document.getElementById("count-onsale");
+    $sellerName.innerText = sellerName;
 
-  // DOM
-  const $sellerName = document.getElementById("seller-name");
-  const $listOnsale = document.getElementById("list-onsale");
-  const $countOnsale = document.getElementById("count-onsale");
-  $sellerName.innerText = sellerName;
-
-  if (data["results"].length === 0) {
-    $listOnsale.classList.add("item-none");
-    $listOnsale.innerText = "판매중인 상품이 없습니다.";
-  }
-  $countOnsale.innerText = `(${data["results"].length})`;
-
-  data["results"].forEach((product) => {
-    const li = document.createElement("li");
-    li.className = "table-item";
-    if (product.stock === 0) {
-      li.classList.add("stock-none");
+    if (data["results"].length === 0) {
+      $listOnsale.classList.add("item-none");
+      $listOnsale.innerText = "판매중인 상품이 없습니다.";
     }
-    li.innerHTML = `
+    $countOnsale.innerText = `(${data["results"].length})`;
+
+    data["results"].forEach((product) => {
+      const li = document.createElement("li");
+      li.className = "table-item";
+      li.dataset.id = product.id;
+      if (product.stock === 0) {
+        li.classList.add("stock-none");
+      }
+      li.innerHTML = `
                 <div class="item-col has-img">
                   <img src="${product.image}" alt="${product.info}" />
                   <div class="item-title-wrap">
@@ -62,8 +64,11 @@ async function loadeSellerProduct() {
                   class="item-col btn btn-s btn-white btn-delete" 
                 >삭제</button>
     `;
-    $listOnsale.append(li);
-  });
+      $listOnsale.append(li);
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 const badgeDateList = [
@@ -118,6 +123,7 @@ function deleteItem() {
     if (!deleteBtn) return;
 
     const deleteTarget = deleteBtn.closest(".table-item");
+    const targetId = deleteTarget.dataset.id;
     const targetName = deleteTarget.querySelector(".item-title").innerText;
 
     const notice = `
@@ -125,9 +131,37 @@ function deleteItem() {
     `;
 
     showModal(e, notice, async () => {
-      deleteTarget.remove();
+      deleteSellerProduct(targetId, targetName);
     });
   });
+}
+
+async function deleteSellerProduct(targetId, targetName) {
+  accessToken = await userSession.refreshAccessToken();
+
+  if (+targetId >= 1 && +targetId <= 5) {
+    alert("해당 상품은 삭제할 수 없습니다.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}products/${targetId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      showModal(null, `${targetName} 상품을 삭제할 수 없습니다.`);
+      throw new Error("삭제 실패: " + response.status);
+    }
+    showModal(null, `${targetName} 상품이 삭제되었습니다.`, () => {
+      window.location.reload();
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 // 문의/리뷰 패널 임시 리스트 생성
